@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Zoupeng Smart Living | Global Smart Home Mall",
+  title: "ZhouPeng Smart Living | Global Smart Home Mall",
   description:
     "Modern smart home mall for custom doors, wall systems, cabinets, kitchens, hardware, and whole-home orders.",
   icons: {

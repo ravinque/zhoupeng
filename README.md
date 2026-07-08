@@ -1,6 +1,6 @@
-# Zoupeng Smart Home Mall
+# ZhouPeng Smart Home Mall
 
-Modern smart home storefront for Fujian Zoupeng Industrial Co., Ltd. It uses
+Modern smart home storefront for Fujian ZhouPeng Industrial Co., Ltd. It uses
 public material from `fjzpsy.com` and a premium custom-home shopping flow
 inspired by `oppoliahome.com`.
 

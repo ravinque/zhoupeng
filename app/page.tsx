@@ -137,7 +137,7 @@ const regions = {
 const starterMessages: ChatMessage[] = [
   {
     role: "agent",
-    text: "Hi, this is Zoupeng Smart Living. Share your project type, country, and floor plan size for a fast quote.",
+    text: "Hi, this is ZhouPeng Smart Living. Share your project type, country, and floor plan size for a fast quote.",
   },
 ];
 
@@ -221,10 +221,10 @@ export default function Home() {
   return (
     <main className="site-shell" dir={dir}>
       <header className="topbar">
-        <a className="brand" href="#home" aria-label="Zoupeng Smart Living home">
+        <a className="brand" href="#home" aria-label="ZhouPeng Smart Living home">
           <img src={asset("/zp/logo.png")} alt="" />
           <span>
-            <strong>Zoupeng</strong>
+            <strong>ZhouPeng</strong>
             <small>Smart Living</small>
           </span>
         </a>
@@ -267,7 +267,7 @@ export default function Home() {
           <p className="eyebrow">Fujian custom smart home manufacturer</p>
           <h1>Whole-home smart systems for villas, showrooms, and premium projects.</h1>
           <p>
-            Built from Zoupeng door, wall, cabinet, kitchen, hardware, and supporting
+            Built from ZhouPeng door, wall, cabinet, kitchen, hardware, and supporting
             systems. The buying flow is modeled after global custom-home brands, with
             direct consultation, catalogue-style products, and fast quotation.
           </p>
@@ -333,7 +333,7 @@ export default function Home() {
       <section className="feature-split" id="company">
         <div className="split-copy">
           <p className="eyebrow">Company Homepage</p>
-          <h2>Fujian Zoupeng Industrial integrates R&D, design, production, and operation service.</h2>
+          <h2>Fujian ZhouPeng Industrial integrates R&D, design, production, and operation service.</h2>
           <p>
             The manufacturing base is located in Shanghang County, Fujian, with a
             standard factory area of more than 20,000 sqm and a 1,500 sqm office
@@ -356,7 +356,7 @@ export default function Home() {
           </div>
         </div>
         <div className="factory-card">
-          <img src={asset("/zp/factory.jpeg")} alt="Zoupeng production and equipment image" />
+          <img src={asset("/zp/factory.jpeg")} alt="ZhouPeng production and equipment image" />
           <div>
             <span>Equipment brands</span>
             <strong>Jidong, Nanxing, Cangao, Moke, Baitian</strong>
@@ -487,7 +487,7 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <span>Fujian Zoupeng Industrial Co., Ltd.</span>
+        <span>Fujian ZhouPeng Industrial Co., Ltd.</span>
         <span>Global smart home mall concept based on public company materials.</span>
       </footer>
 
@@ -529,7 +529,7 @@ export default function Home() {
           <div className="service-head">
             <div>
               <p className="eyebrow">Online Service</p>
-              <h2>Zoupeng sales desk</h2>
+              <h2>ZhouPeng sales desk</h2>
             </div>
             <button onClick={() => setIsServiceOpen(false)} type="button">
               Close
