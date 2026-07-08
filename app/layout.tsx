@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ZhouPeng 智能家居商城 | Global Smart Home Mall",
+  title: "洲鹏智能家居商城 | ZhouPeng Global Smart Home Mall",
   description:
-    "ZhouPeng smart home mall for doors, wall systems, cabinets, kitchens, hardware, whole-home orders, and customer service.",
+    "洲鹏智能家居商城，覆盖门、墙、柜、橱、五金、整屋配套、联系下单和客户服务。",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

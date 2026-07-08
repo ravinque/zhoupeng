@@ -228,9 +228,9 @@ const copy = {
     account: "账户",
     serviceTop: "联系客服",
     heroEyebrow: "福建定制智能家居制造商",
-    heroTitle: "面向别墅、展厅和高端项目的整屋智能家居系统。",
+    heroTitle: "智能整屋系统，面向别墅与高端项目。",
     heroText:
-      "ZhouPeng 覆盖门、墙、柜、橱、五金与整屋配套系统。你可以浏览产品、加入询价单、登录保存项目，并直接联系在线客服下单。",
+      "洲鹏覆盖门、墙、柜、橱、五金与整屋配套系统。你可以浏览产品、加入询价单、登录保存项目，并直接联系在线客服下单。",
     startOrder: "开始下单",
     contactService: "联系客服",
     projectRegion: "项目地区",
@@ -241,7 +241,7 @@ const copy = {
     productsTitle: "六大系统，一次完成整屋智能家居询价。",
     add: "加入",
     companyEyebrow: "公司主页",
-    companyTitle: "福建 ZhouPeng 实业集研发、设计、生产、运营和售后服务为一体。",
+    companyTitle: "福建洲鹏实业集研发、设计、生产、运营和售后服务为一体。",
     companyText:
       "生产基地位于福建省上杭县，拥有 20,000 平方米以上标准厂房和 1,500 平方米办公楼。团队配置技术研发、设计和售后工程师，服务定制家居项目。",
     engineers: "技术工程师",
@@ -283,12 +283,12 @@ const copy = {
     signedIn: "已登录：",
     close: "关闭",
     onlineService: "在线客服",
-    serviceDesk: "ZhouPeng 客服中心",
+    serviceDesk: "洲鹏客服中心",
     villaQuote: "别墅报价",
     dealerPrice: "经销报价",
     chatPlaceholder: "请输入你的项目问题...",
     send: "发送",
-    starterMessage: "你好，这里是 ZhouPeng 在线客服。请告诉我项目类型、国家地区和户型面积，我会协助你下单报价。",
+    starterMessage: "你好，这里是洲鹏在线客服。请告诉我项目类型、国家地区和户型面积，我会协助你下单报价。",
     agentReply: "已收到。请在询价表里补充户型图、房间照片、面积和目标国家，客服会整理 BOM 和报价。",
     quickVillaText: "我需要别墅整屋智能家居报价。",
     quickDealerText: "我想了解经销商价格和产品目录。",
@@ -300,7 +300,7 @@ const copy = {
     account: "Account",
     serviceTop: "Service",
     heroEyebrow: "Fujian custom smart home manufacturer",
-    heroTitle: "Whole-home smart systems for villas, showrooms, and premium projects.",
+    heroTitle: "Smart whole-home systems for premium projects.",
     heroText:
       "ZhouPeng covers door, wall, cabinet, kitchen, hardware, and whole-home supporting systems. Browse products, add them to a quote, sign in, and contact service to order.",
     startOrder: "Start an order",
@@ -373,7 +373,7 @@ const copy = {
     account: "الحساب",
     serviceTop: "خدمة العملاء",
     heroEyebrow: "مصنع منازل ذكية مخصصة في فوجيان",
-    heroTitle: "أنظمة منزل ذكي كاملة للفلل والمعارض والمشاريع الراقية.",
+    heroTitle: "أنظمة منزل ذكي للفلل والمشاريع الراقية.",
     heroText:
       "تغطي ZhouPeng الأبواب والجدران والخزائن والمطابخ والملحقات وخدمات المنزل بالكامل. تصفح المنتجات وأضفها لطلب عرض وتواصل مع الخدمة.",
     startOrder: "ابدأ الطلب",
@@ -532,11 +532,15 @@ export default function Home() {
   return (
     <main className="site-shell" dir={dir} lang={language === "zh" ? "zh-CN" : language}>
       <header className="topbar">
-        <a className="brand" href="#home" aria-label="ZhouPeng Smart Living home">
+        <a
+          className="brand"
+          href="#home"
+          aria-label={language === "zh" ? "洲鹏智能家居首页" : "ZhouPeng Smart Living home"}
+        >
           <img src={asset("/zp/logo.png")} alt="" />
           <span>
-            <strong>ZhouPeng</strong>
-            <small>Smart Living</small>
+            <strong>{language === "zh" ? "洲鹏" : "ZhouPeng"}</strong>
+            <small>{language === "zh" ? "智能家居" : "Smart Living"}</small>
           </span>
         </a>
         <nav className="nav-links" aria-label="Primary navigation">
@@ -676,7 +680,10 @@ export default function Home() {
           </div>
         </div>
         <div className="factory-card">
-          <img src={asset("/zp/factory.jpeg")} alt="ZhouPeng production and equipment image" />
+          <img
+            src={asset("/zp/factory.jpeg")}
+            alt={language === "zh" ? "洲鹏生产设备图片" : "ZhouPeng production and equipment image"}
+          />
           <div>
             <span>{t.equipment}</span>
             <strong>Jidong, Nanxing, Cangao, Moke, Baitian</strong>
@@ -805,7 +812,7 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <span>Fujian ZhouPeng Industrial Co., Ltd.</span>
+        <span>{language === "zh" ? "福建洲鹏实业有限公司" : "Fujian ZhouPeng Industrial Co., Ltd."}</span>
         <span>{t.footer}</span>
       </footer>
 
