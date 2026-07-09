@@ -238,8 +238,10 @@ const copy = {
     productionBase: "生产基地",
     standardPlant: "标准厂房",
     productsEyebrow: "产品中心",
-    productsTitle: "六大系统，一次完成整屋智能家居询价。",
+    productsTitle: "六大系统，组合整屋智能家居方案。",
     add: "加入",
+    added: "已加入",
+    addedNotice: "已加入询价单。",
     companyEyebrow: "公司主页",
     companyTitle: "福建洲鹏实业集研发、设计、生产、运营和售后服务为一体。",
     companyText:
@@ -275,6 +277,12 @@ const copy = {
       "地址：中国福建省上杭县蛟洋工业园区华强小区丽家坪工业区 2-1、2-2 号",
     openDesk: "打开在线客服",
     footer: "基于公开企业材料搭建的全球智能家居商城。",
+    footerIntro: "福建洲鹏实业有限公司专注门、墙、柜、橱、五金及配套系统，服务定制家居与整屋项目。",
+    footerContactTitle: "联系我们",
+    footerNavTitle: "快捷导航",
+    footerProductsTitle: "产品中心",
+    footerCopyright: "版权所有 © 福建洲鹏实业有限公司",
+    footerSite: "网址：www.fjzpsy.com",
     loginSystem: "登录系统",
     loginTitle: "登录后保存项目询价。",
     loginText: "这是 GitHub Pages 上的前端演示登录。输入任意邮箱和密码即可保存本地会话。",
@@ -310,8 +318,10 @@ const copy = {
     productionBase: "Production base",
     standardPlant: "Standard plant",
     productsEyebrow: "Products Center",
-    productsTitle: "Six product systems for one coordinated smart home order.",
+    productsTitle: "Six systems for one smart home order.",
     add: "Add",
+    added: "Added",
+    addedNotice: " added to the quote.",
     companyEyebrow: "Company Homepage",
     companyTitle: "Fujian ZhouPeng Industrial integrates R&D, design, production, operation, and service.",
     companyText:
@@ -347,6 +357,12 @@ const copy = {
     address: "Address: Lijiaping Industrial Zone, Shanghang County, Fujian Province, China.",
     openDesk: "Open service desk",
     footer: "Global smart home mall concept based on public company materials.",
+    footerIntro: "Fujian ZhouPeng Industrial focuses on door, wall, cabinet, kitchen, hardware, and supporting systems for custom home projects.",
+    footerContactTitle: "Contact us",
+    footerNavTitle: "Quick links",
+    footerProductsTitle: "Product center",
+    footerCopyright: "Copyright © Fujian ZhouPeng Industrial Co., Ltd.",
+    footerSite: "Website: www.fjzpsy.com",
     loginSystem: "Login System",
     loginTitle: "Access project orders.",
     loginText: "Demo front-end login for GitHub Pages. Use any email and password to save a local session.",
@@ -383,8 +399,10 @@ const copy = {
     productionBase: "قاعدة إنتاج",
     standardPlant: "مصنع قياسي",
     productsEyebrow: "مركز المنتجات",
-    productsTitle: "ستة أنظمة منتجات لطلب منزل ذكي متكامل.",
+    productsTitle: "ستة أنظمة لطلب منزل ذكي متكامل.",
     add: "إضافة",
+    added: "تمت الإضافة",
+    addedNotice: " تمت إضافته إلى طلب العرض.",
     companyEyebrow: "صفحة الشركة",
     companyTitle: "تجمع Fujian ZhouPeng Industrial بين البحث والتصميم والإنتاج والتشغيل والخدمة.",
     companyText:
@@ -419,6 +437,12 @@ const copy = {
     address: "العنوان: منطقة Lijiaping الصناعية، شانغهانغ، فوجيان، الصين.",
     openDesk: "افتح خدمة العملاء",
     footer: "متجر منزل ذكي عالمي مبني على مواد الشركة العامة.",
+    footerIntro: "تركز Fujian ZhouPeng Industrial على الأبواب والجدران والخزائن والمطابخ والملحقات وخدمات المشاريع المخصصة.",
+    footerContactTitle: "تواصل معنا",
+    footerNavTitle: "روابط سريعة",
+    footerProductsTitle: "مركز المنتجات",
+    footerCopyright: "حقوق النشر © Fujian ZhouPeng Industrial Co., Ltd.",
+    footerSite: "الموقع: www.fjzpsy.com",
     loginSystem: "نظام الدخول",
     loginTitle: "الوصول إلى طلبات المشروع.",
     loginText: "تسجيل دخول تجريبي لصفحات GitHub. استخدم أي بريد وكلمة مرور لحفظ الجلسة محليا.",
@@ -441,9 +465,39 @@ const copy = {
 
 const languageOptions: Array<{ key: Lang; label: string }> = [
   { key: "zh", label: "中文" },
-  { key: "en", label: "EN" },
-  { key: "ar", label: "عربي" },
+  { key: "en", label: "English" },
+  { key: "ar", label: "العربية" },
 ];
+
+const getAgentReply = (text: string, language: Lang) => {
+  const lower = text.toLowerCase();
+  const isShort = text.replace(/\s/g, "").length < 5 || /^\d+$/.test(text.trim());
+
+  if (language === "zh") {
+    if (isShort) return "我需要更多项目信息。请补充国家/城市、户型面积、产品系统和预算区间，我再帮你整理报价。";
+    if (/经销|代理|dealer|catalog|目录/.test(lower)) return "可以。经销合作请留下公司名称、目标市场和预计展厅面积，客服会发送产品目录和经销报价。";
+    if (/价格|报价|预算|quote|price|多少钱/.test(lower)) return "报价会按产品系统、尺寸、材料和目的地计算。你可以先加入产品到询价单，再提交电话或 WhatsApp。";
+    if (/图纸|户型|尺寸|plan|drawing|size/.test(lower)) return "请准备户型图、现场照片和关键尺寸。客服会据此整理 BOM、初步方案和交付建议。";
+    if (/电话|邮箱|联系|whatsapp|contact/.test(lower)) return "可以直接电话 0597-3992099，或发送邮件到 cathy@shhf2008.com。";
+    return "已收到。客服会根据你的描述整理产品清单、项目范围和下一步资料需求。";
+  }
+
+  if (language === "ar") {
+    if (isShort) return "نحتاج تفاصيل أكثر: الدولة والمدينة والمساحة والأنظمة المطلوبة والميزانية التقريبية.";
+    if (/dealer|catalog|وكيل|كتالوج/.test(lower)) return "للتعاون مع الوكلاء، يرجى إرسال اسم الشركة والسوق المستهدف ومساحة المعرض لنوفر الكتالوج والسعر.";
+    if (/quote|price|budget|سعر|عرض|ميزانية/.test(lower)) return "يعتمد العرض على الأنظمة والمقاسات والمواد ومدينة التسليم. أضف المنتجات ثم أرسل بيانات التواصل.";
+    if (/plan|drawing|size|مخطط|مقاس/.test(lower)) return "يرجى تجهيز المخطط والصور والمقاسات الأساسية لنرتب قائمة المواد والتوصية الأولية.";
+    if (/contact|phone|email|whatsapp|تواصل|هاتف/.test(lower)) return "يمكنك الاتصال على 0597-3992099 أو إرسال بريد إلى cathy@shhf2008.com.";
+    return "تم الاستلام. سيقوم فريق الخدمة بتحديد نطاق المشروع والمواد المطلوبة والخطوة التالية.";
+  }
+
+  if (isShort) return "Please share more detail: country, city, floor area, product systems, and budget range.";
+  if (/dealer|catalog|distributor|partner/.test(lower)) return "For dealer cooperation, share your company name, target market, and showroom size. We can prepare catalogues and dealer pricing.";
+  if (/quote|price|budget|cost/.test(lower)) return "Pricing depends on product systems, dimensions, materials, and destination. Add products to the quote and submit your contact details.";
+  if (/plan|drawing|size|dimension|floor/.test(lower)) return "Please prepare floor plans, room photos, and key dimensions so the service team can build a BOM and first proposal.";
+  if (/contact|phone|email|whatsapp/.test(lower)) return "You can call 0597-3992099 or email cathy@shhf2008.com directly.";
+  return "Received. The service team will review your project scope and outline the next information needed.";
+};
 
 export default function Home() {
   const [language, setLanguage] = useState<Lang>("zh");
@@ -482,6 +536,7 @@ export default function Home() {
       current.some((item) => item.id === product.id) ? current : [...current, product],
     );
     setSelected(product);
+    setQuoteStatus(`${product.title[language]}${t.addedNotice}`);
   };
 
   const removeFromQuote = (id: string) => {
@@ -519,7 +574,7 @@ export default function Home() {
     setMessages((current) => [
       ...current,
       { role: "customer", text: cleanText },
-      { role: "agent", text: t.agentReply },
+      { role: "agent", text: getAgentReply(cleanText, language) },
     ]);
     setChatText("");
   };
@@ -551,30 +606,18 @@ export default function Home() {
           <a href="#contact">{t.nav[4]}</a>
         </nav>
         <div className="top-actions">
-          <div className="region-switch" aria-label="Region switcher">
-            {(["west", "middleEast"] as Region[]).map((key) => (
-              <button
-                className={region === key ? "active" : ""}
-                key={key}
-                onClick={() => setRegion(key)}
-                type="button"
-              >
-                {regions[key].short}
-              </button>
-            ))}
-          </div>
-          <div className="language-switch" aria-label={t.language}>
+          <select
+            aria-label={t.language}
+            className="language-select"
+            value={language}
+            onChange={(event) => switchLanguage(event.target.value as Lang)}
+          >
             {languageOptions.map((option) => (
-              <button
-                className={language === option.key ? "active" : ""}
-                key={option.key}
-                onClick={() => switchLanguage(option.key)}
-                type="button"
-              >
+              <option key={option.key} value={option.key}>
                 {option.label}
-              </button>
+              </option>
             ))}
-          </div>
+          </select>
           <button className="icon-button service-top" onClick={() => setIsServiceOpen(true)} type="button">
             {t.serviceTop}
           </button>
@@ -633,13 +676,16 @@ export default function Home() {
         </div>
         <div className="product-grid">
           {products.map((product) => (
-            <article className="product-card" key={product.id}>
+            <article
+              className={`product-card ${quote.some((item) => item.id === product.id) ? "in-quote" : ""}`}
+              key={product.id}
+            >
               <button className="image-button" onClick={() => setSelected(product)} type="button">
                 <img src={asset(product.image)} alt={`${product.title[language]} preview`} />
                 <span>{product.badge[language]}</span>
               </button>
               <div className="product-body">
-                <small>{product.cn}</small>
+                <small>{product.zone[language]}</small>
                 <h3>{product.title[language]}</h3>
                 <p>{product.summary[language]}</p>
                 <ul>
@@ -649,8 +695,13 @@ export default function Home() {
                 </ul>
                 <div className="product-foot">
                   <strong>{displayPrice(product)}</strong>
-                  <button onClick={() => addToQuote(product)} type="button">
-                    {t.add}
+                  <button
+                    className={quote.some((item) => item.id === product.id) ? "added" : ""}
+                    onClick={() => addToQuote(product)}
+                    type="button"
+                    aria-pressed={quote.some((item) => item.id === product.id)}
+                  >
+                    {quote.some((item) => item.id === product.id) ? t.added : t.add}
                   </button>
                 </div>
               </div>
@@ -713,7 +764,7 @@ export default function Home() {
           <p className="eyebrow">{t.selectedSolution}</p>
           <img src={asset(selected.image)} alt={`${selected.title[language]} selected preview`} />
           <div>
-            <span>{selected.cn}</span>
+            <span>{selected.zone[language]}</span>
             <h2>{selected.title[language]}</h2>
             <p>{selected.summary[language]}</p>
             <strong>{displayPrice(selected)}</strong>
@@ -751,6 +802,20 @@ export default function Home() {
             </strong>
           </div>
           <div className="form-grid">
+            <label className="wide-field">
+              {t.projectRegion}
+              <select
+                name="region"
+                value={region}
+                onChange={(event) => setRegion(event.target.value as Region)}
+              >
+                {(["west", "middleEast"] as Region[]).map((key) => (
+                  <option key={key} value={key}>
+                    {regions[key].name[language]} · {regions[key].currency}
+                  </option>
+                ))}
+              </select>
+            </label>
             <label>
               {t.name}
               <input name="name" required placeholder={t.name} />
@@ -811,9 +876,42 @@ export default function Home() {
         </button>
       </section>
 
-      <footer className="footer">
-        <span>{language === "zh" ? "福建洲鹏实业有限公司" : "Fujian ZhouPeng Industrial Co., Ltd."}</span>
-        <span>{t.footer}</span>
+      <footer className="site-footer">
+        <div className="footer-grid">
+          <section>
+            <h2>{language === "zh" ? "福建洲鹏实业有限公司" : "Fujian ZhouPeng Industrial Co., Ltd."}</h2>
+            <p>{t.footerIntro}</p>
+          </section>
+          <section>
+            <h3>{t.footerContactTitle}</h3>
+            <a href="tel:05973992099">0597-3992099</a>
+            <a href="mailto:cathy@shhf2008.com">cathy@shhf2008.com</a>
+            <span>
+              {language === "zh"
+                ? "福建省上杭县李家坪工业区"
+                : "Lijiaping Industrial Zone, Shanghang County, Fujian, China"}
+            </span>
+          </section>
+          <section>
+            <h3>{t.footerNavTitle}</h3>
+            <a href="#home">{language === "zh" ? "首页" : language === "ar" ? "الرئيسية" : "Home"}</a>
+            <a href="#company">{t.nav[1]}</a>
+            <a href="#products">{t.nav[0]}</a>
+            <a href="#contact">{t.nav[4]}</a>
+          </section>
+          <section>
+            <h3>{t.footerProductsTitle}</h3>
+            {products.map((product) => (
+              <a href="#products" key={product.id}>
+                {language === "zh" ? product.cn : product.title[language]}
+              </a>
+            ))}
+          </section>
+        </div>
+        <div className="footer-bottom">
+          <span>{t.footerCopyright}</span>
+          <span>{t.footerSite}</span>
+        </div>
       </footer>
 
       <button className="service-float" onClick={() => setIsServiceOpen(true)} type="button">
