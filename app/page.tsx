@@ -23,6 +23,98 @@ type ChatMessage = {
   role: "agent" | "customer";
   text: string;
 };
+type Copy = {
+  nav: string[];
+  language: string;
+  login: string;
+  account: string;
+  serviceTop: string;
+  heroEyebrow: string;
+  heroTitle: string;
+  heroText: string;
+  startOrder: string;
+  contactService: string;
+  projectRegion: string;
+  founded: string;
+  productionBase: string;
+  productionBaseValue: string;
+  standardPlant: string;
+  standardPlantValue: string;
+  productsEyebrow: string;
+  productsTitle: string;
+  add: string;
+  added: string;
+  addedNotice: string;
+  companyEyebrow: string;
+  companyTitle: string;
+  companyText: string;
+  engineers: string;
+  afterSales: string;
+  systems: string;
+  equipment: string;
+  regionEyebrow: string;
+  regionTitle: string;
+  regionCardText: string;
+  selectedSolution: string;
+  orderEyebrow: string;
+  orderTitle: string;
+  emptyQuote: string;
+  total: string;
+  custom: string;
+  name: string;
+  email: string;
+  country: string;
+  phone: string;
+  projectType: string;
+  budget: string;
+  notes: string;
+  notesPlaceholder: string;
+  submitOrder: string;
+  saved: string;
+  contactEyebrow: string;
+  contactTitle: string;
+  phoneLabel: string;
+  emailLabel: string;
+  address: string;
+  openDesk: string;
+  footer: string;
+  footerIntro: string;
+  footerContactTitle: string;
+  footerNavTitle: string;
+  footerProductsTitle: string;
+  footerCopyright: string;
+  footerSite: string;
+  loginSystem: string;
+  loginTitle: string;
+  loginText: string;
+  password: string;
+  signIn: string;
+  signedIn: string;
+  close: string;
+  onlineService: string;
+  serviceDesk: string;
+  villaQuote: string;
+  dealerPrice: string;
+  chatPlaceholder: string;
+  send: string;
+  starterMessage: string;
+  agentReply: string;
+  quickVillaText: string;
+  quickDealerText: string;
+  brandHome: string;
+  brandSubline: string;
+  primaryNavLabel: string;
+  heroImageAlt: string;
+  companyImageAlt: string;
+  highlightsLabel: string;
+  remove: string;
+  removeLabel: string;
+  home: string;
+  requiredFieldsError: string;
+  invalidEmailError: string;
+  passwordRequiredError: string;
+  quoteRequiredError: string;
+};
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const asset = (path: string) => `${basePath}${path}`;
@@ -220,7 +312,7 @@ const regions: Record<
   },
 };
 
-const copy = {
+const copy: Record<Lang, Copy> = {
   zh: {
     nav: ["产品", "公司主页", "地区系统", "联系下单", "联系方式"],
     language: "语言",
@@ -236,7 +328,9 @@ const copy = {
     projectRegion: "项目地区",
     founded: "成立",
     productionBase: "生产基地",
+    productionBaseValue: "70 亩",
     standardPlant: "标准厂房",
+    standardPlantValue: "20,000+㎡",
     productsEyebrow: "产品中心",
     productsTitle: "六大系统，组合整屋智能家居方案。",
     add: "加入",
@@ -300,6 +394,19 @@ const copy = {
     agentReply: "已收到。请在询价表里补充户型图、房间照片、面积和目标国家，客服会整理 BOM 和报价。",
     quickVillaText: "我需要别墅整屋智能家居报价。",
     quickDealerText: "我想了解经销商价格和产品目录。",
+    brandHome: "洲鹏智能家居首页",
+    brandSubline: "智能家居",
+    primaryNavLabel: "主导航",
+    heroImageAlt: "现代智能家居客厅与一体化柜体",
+    companyImageAlt: "洲鹏生产设备图片",
+    highlightsLabel: "企业数据",
+    remove: "移除",
+    removeLabel: "移除",
+    home: "首页",
+    requiredFieldsError: "请填写邮箱和密码。",
+    invalidEmailError: "请输入有效的邮箱地址。",
+    passwordRequiredError: "请输入密码。",
+    quoteRequiredError: "请填写姓名、邮箱、国家 / 地区和电话。",
   },
   en: {
     nav: ["Products", "Company", "Regions", "Order", "Contact"],
@@ -316,7 +423,9 @@ const copy = {
     projectRegion: "Project region",
     founded: "Founded",
     productionBase: "Production base",
+    productionBaseValue: "70 mu",
     standardPlant: "Standard plant",
+    standardPlantValue: "20,000+ sqm",
     productsEyebrow: "Products Center",
     productsTitle: "Six systems for one smart home order.",
     add: "Add",
@@ -381,6 +490,19 @@ const copy = {
       "Received. Please attach room photos, floor plan size, and target country in the quote form for a precise BOM.",
     quickVillaText: "I need a villa whole-home quote.",
     quickDealerText: "I want dealer pricing and catalogues.",
+    brandHome: "ZhouPeng Smart Living home",
+    brandSubline: "Smart Living",
+    primaryNavLabel: "Primary navigation",
+    heroImageAlt: "Modern smart home living room with integrated cabinetry",
+    companyImageAlt: "ZhouPeng production and equipment image",
+    highlightsLabel: "Company highlights",
+    remove: "Remove",
+    removeLabel: "Remove",
+    home: "Home",
+    requiredFieldsError: "Please fill in email and password.",
+    invalidEmailError: "Please enter a valid email address.",
+    passwordRequiredError: "Please enter your password.",
+    quoteRequiredError: "Please fill in name, email, country, and phone.",
   },
   ar: {
     nav: ["المنتجات", "الشركة", "المناطق", "الطلب", "التواصل"],
@@ -397,7 +519,9 @@ const copy = {
     projectRegion: "منطقة المشروع",
     founded: "تأسست",
     productionBase: "قاعدة إنتاج",
+    productionBaseValue: "70 مو",
     standardPlant: "مصنع قياسي",
+    standardPlantValue: "أكثر من 20,000 م²",
     productsEyebrow: "مركز المنتجات",
     productsTitle: "ستة أنظمة لطلب منزل ذكي متكامل.",
     add: "إضافة",
@@ -460,8 +584,21 @@ const copy = {
     agentReply: "تم الاستلام. يرجى إضافة الصور والمخطط والمساحة والدولة في نموذج العرض لتجهيز قائمة المواد.",
     quickVillaText: "أحتاج عرضا لمنزل فيلا كامل.",
     quickDealerText: "أريد أسعار الوكلاء والكتالوجات.",
+    brandHome: "الصفحة الرئيسية لـ ZhouPeng Smart Living",
+    brandSubline: "حياة ذكية",
+    primaryNavLabel: "التنقل الرئيسي",
+    heroImageAlt: "غرفة معيشة منزل ذكي حديثة مع خزائن مدمجة",
+    companyImageAlt: "صورة معدات إنتاج ZhouPeng",
+    highlightsLabel: "بيانات الشركة",
+    remove: "حذف",
+    removeLabel: "حذف",
+    home: "الرئيسية",
+    requiredFieldsError: "يرجى إدخال البريد الإلكتروني وكلمة المرور.",
+    invalidEmailError: "يرجى إدخال بريد إلكتروني صحيح.",
+    passwordRequiredError: "يرجى إدخال كلمة المرور.",
+    quoteRequiredError: "يرجى إدخال الاسم والبريد الإلكتروني والدولة ورقم الهاتف.",
   },
-} satisfies Record<Lang, Record<string, string | string[]>>;
+};
 
 const languageOptions: Array<{ key: Lang; label: string }> = [
   { key: "zh", label: "中文" },
@@ -499,6 +636,8 @@ const getAgentReply = (text: string, language: Lang) => {
   return "Received. The service team will review your project scope and outline the next information needed.";
 };
 
+const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
 export default function Home() {
   const [language, setLanguage] = useState<Lang>("zh");
   const [region, setRegion] = useState<Region>("west");
@@ -510,6 +649,8 @@ export default function Home() {
     typeof window === "undefined" ? "" : window.localStorage.getItem("zp-session-email") ?? "",
   );
   const [quoteStatus, setQuoteStatus] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const [quoteError, setQuoteError] = useState("");
   const [chatText, setChatText] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "agent", text: copy.zh.starterMessage },
@@ -546,15 +687,47 @@ export default function Home() {
   const submitLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const email = String(data.get("email") || "guest@zhoupeng-home.com");
+    const email = String(data.get("email") || "").trim();
+    const password = String(data.get("password") || "");
+
+    if (!email && !password) {
+      setLoginError(t.requiredFieldsError);
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setLoginError(t.invalidEmailError);
+      return;
+    }
+    if (!password) {
+      setLoginError(t.passwordRequiredError);
+      return;
+    }
+
     window.localStorage.setItem("zp-session-email", email);
     setSessionEmail(email);
+    setLoginError("");
     setIsLoginOpen(false);
   };
 
   const submitQuote = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.currentTarget).entries());
+    const name = String(data.name || "").trim();
+    const email = String(data.email || "").trim();
+    const country = String(data.country || "").trim();
+    const phone = String(data.phone || "").trim();
+
+    if (!name || !email || !country || !phone) {
+      setQuoteError(t.quoteRequiredError);
+      setQuoteStatus("");
+      return;
+    }
+    if (!isValidEmail(email)) {
+      setQuoteError(t.invalidEmailError);
+      setQuoteStatus("");
+      return;
+    }
+
     window.localStorage.setItem(
       "zp-last-quote",
       JSON.stringify({
@@ -565,6 +738,7 @@ export default function Home() {
         ...data,
       }),
     );
+    setQuoteError("");
     setQuoteStatus(t.saved);
   };
 
@@ -581,6 +755,9 @@ export default function Home() {
 
   const switchLanguage = (nextLanguage: Lang) => {
     setLanguage(nextLanguage);
+    setLoginError("");
+    setQuoteError("");
+    setQuoteStatus("");
     setMessages([{ role: "agent", text: copy[nextLanguage].starterMessage }]);
   };
 
@@ -590,15 +767,15 @@ export default function Home() {
         <a
           className="brand"
           href="#home"
-          aria-label={language === "zh" ? "洲鹏智能家居首页" : "ZhouPeng Smart Living home"}
+          aria-label={t.brandHome}
         >
           <img src={asset("/zp/logo.png")} alt="" />
           <span>
             <strong>{language === "zh" ? "洲鹏" : "ZhouPeng"}</strong>
-            <small>{language === "zh" ? "智能家居" : "Smart Living"}</small>
+            <small>{t.brandSubline}</small>
           </span>
         </a>
-        <nav className="nav-links" aria-label="Primary navigation">
+        <nav className="nav-links" aria-label={t.primaryNavLabel}>
           <a href="#products">{t.nav[0]}</a>
           <a href="#company">{t.nav[1]}</a>
           <a href="#solutions">{t.nav[2]}</a>
@@ -629,7 +806,7 @@ export default function Home() {
 
       <section className="hero" id="home">
         <div className="hero-image">
-          <img src={asset("/zp/hero.jpg")} alt="Modern smart home living room with integrated cabinetry" />
+          <img src={asset("/zp/hero.jpg")} alt={t.heroImageAlt} />
           <div className="hero-chip">
             <span>{t.projectRegion}</span>
             <strong>{regionData.name[language]}</strong>
@@ -651,17 +828,17 @@ export default function Home() {
               0597-3992099
             </a>
           </div>
-          <div className="proof-strip" aria-label="Company highlights">
+          <div className="proof-strip" aria-label={t.highlightsLabel}>
             <span>
               <strong>2012</strong>
               {t.founded}
             </span>
             <span>
-              <strong>70 mu</strong>
+              <strong>{t.productionBaseValue}</strong>
               {t.productionBase}
             </span>
             <span>
-              <strong>20,000+ sqm</strong>
+              <strong>{t.standardPlantValue}</strong>
               {t.standardPlant}
             </span>
           </div>
@@ -733,7 +910,7 @@ export default function Home() {
         <div className="factory-card">
           <img
             src={asset("/zp/factory.jpeg")}
-            alt={language === "zh" ? "洲鹏生产设备图片" : "ZhouPeng production and equipment image"}
+            alt={t.companyImageAlt}
           />
           <div>
             <span>{t.equipment}</span>
@@ -770,7 +947,7 @@ export default function Home() {
             <strong>{displayPrice(selected)}</strong>
           </div>
         </div>
-        <form className="quote-panel" onSubmit={submitQuote}>
+        <form className="quote-panel" onSubmit={submitQuote} noValidate>
           <div className="panel-heading">
             <p className="eyebrow">{t.orderEyebrow}</p>
             <h2>{t.orderTitle}</h2>
@@ -787,9 +964,9 @@ export default function Home() {
                   <button
                     onClick={() => removeFromQuote(item.id)}
                     type="button"
-                    aria-label={`Remove ${item.title[language]}`}
+                    aria-label={`${t.removeLabel} ${item.title[language]}`}
                   >
-                    {language === "zh" ? "移除" : language === "ar" ? "حذف" : "Remove"}
+                    {t.remove}
                   </button>
                 </div>
               ))
@@ -818,19 +995,19 @@ export default function Home() {
             </label>
             <label>
               {t.name}
-              <input name="name" required placeholder={t.name} />
+              <input name="name" placeholder={t.name} />
             </label>
             <label>
               {t.email}
-              <input name="email" required type="email" placeholder="name@company.com" />
+              <input name="email" inputMode="email" placeholder="name@company.com" />
             </label>
             <label>
               {t.country}
-              <input name="country" defaultValue={regionData.formCountry[language]} required />
+              <input name="country" defaultValue={regionData.formCountry[language]} />
             </label>
             <label>
               {t.phone}
-              <input name="phone" required placeholder="+86 / +1 / +971 / +966" />
+              <input name="phone" placeholder="+86 / +1 / +971 / +966" />
             </label>
             <label>
               {t.projectType}
@@ -854,6 +1031,7 @@ export default function Home() {
             {t.notes}
             <textarea name="notes" placeholder={t.notesPlaceholder} />
           </label>
+          {quoteError ? <p className="error-message" role="alert">{quoteError}</p> : null}
           <button className="button primary full" type="submit">
             {t.submitOrder}
           </button>
@@ -876,42 +1054,8 @@ export default function Home() {
         </button>
       </section>
 
-      <footer className="site-footer">
-        <div className="footer-grid">
-          <section>
-            <h2>{language === "zh" ? "福建洲鹏实业有限公司" : "Fujian ZhouPeng Industrial Co., Ltd."}</h2>
-            <p>{t.footerIntro}</p>
-          </section>
-          <section>
-            <h3>{t.footerContactTitle}</h3>
-            <a href="tel:05973992099">0597-3992099</a>
-            <a href="mailto:cathy@shhf2008.com">cathy@shhf2008.com</a>
-            <span>
-              {language === "zh"
-                ? "福建省上杭县李家坪工业区"
-                : "Lijiaping Industrial Zone, Shanghang County, Fujian, China"}
-            </span>
-          </section>
-          <section>
-            <h3>{t.footerNavTitle}</h3>
-            <a href="#home">{language === "zh" ? "首页" : language === "ar" ? "الرئيسية" : "Home"}</a>
-            <a href="#company">{t.nav[1]}</a>
-            <a href="#products">{t.nav[0]}</a>
-            <a href="#contact">{t.nav[4]}</a>
-          </section>
-          <section>
-            <h3>{t.footerProductsTitle}</h3>
-            {products.map((product) => (
-              <a href="#products" key={product.id}>
-                {language === "zh" ? product.cn : product.title[language]}
-              </a>
-            ))}
-          </section>
-        </div>
-        <div className="footer-bottom">
-          <span>{t.footerCopyright}</span>
-          <span>{t.footerSite}</span>
-        </div>
+      <footer className="site-footer" id="site-footer">
+        <span>版权所有 © 2026 福建洲鹏实业有限公司</span>
       </footer>
 
       <button className="service-float" onClick={() => setIsServiceOpen(true)} type="button">
@@ -927,15 +1071,16 @@ export default function Home() {
             <p className="eyebrow">{t.loginSystem}</p>
             <h2>{t.loginTitle}</h2>
             <p className="muted">{t.loginText}</p>
-            <form onSubmit={submitLogin}>
+            <form onSubmit={submitLogin} noValidate>
               <label>
                 {t.email}
-                <input name="email" required type="email" placeholder="buyer@example.com" />
+                <input name="email" inputMode="email" placeholder="buyer@example.com" />
               </label>
               <label>
                 {t.password}
-                <input name="password" required type="password" placeholder="******" />
+                <input name="password" type="password" placeholder="******" />
               </label>
+              {loginError ? <p className="error-message" role="alert">{loginError}</p> : null}
               <button className="button primary full" type="submit">
                 {t.signIn}
               </button>
