@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 
 type Lang = "zh" | "en" | "ar";
 type Region = "west" | "middleEast";
@@ -126,9 +126,9 @@ const products: Product[] = [
     cn: "门系统",
     zone: { zh: "入户门、室内门", en: "Entry & room doors", ar: "أبواب المداخل والغرف" },
     summary: {
-      zh: "平框门、隐藏铰链、磁吸锁、静音密封与智能门锁预留，适合别墅和精装项目。",
-      en: "Flat-frame doors with concealed hinges, magnetic locks, acoustic seals, and access-ready hardware.",
-      ar: "أبواب بإطار مسطح ومفصلات مخفية وأقفال مغناطيسية وتجهيزات للدخول الذكي.",
+      zh: "平框门、隐藏铰链、磁吸锁和静音密封一体配置，可预留智能门锁与门禁模块。",
+      en: "Flush doors with concealed hinges, magnetic locks, acoustic seals, and smart access preparation.",
+      ar: "أبواب مستوية بمفصلات مخفية وأقفال مغناطيسية وعزل صوتي وتجهيز للدخول الذكي.",
     },
     image: "/zp/home-01.jpg",
     specs: {
@@ -146,9 +146,9 @@ const products: Product[] = [
     cn: "墙系统",
     zone: { zh: "客厅、书房、走廊", en: "Living room, office, villa corridors", ar: "المجلس والمكتب والممرات" },
     summary: {
-      zh: "墙板可集成灯带、开关、影音收纳、传感器和隐藏走线，让整屋控制更干净。",
-      en: "Wall panels designed for lighting rails, switches, media storage, sensors, and invisible cable routing.",
-      ar: "ألواح جدارية للإضاءة والمفاتيح والتخزين والحساسات وتمديد الأسلاك المخفية.",
+      zh: "墙板、灯带、开关位、影音收纳和弱电走线统一规划，适合客厅、走廊和展厅。",
+      en: "Wall panels coordinated with light strips, switch positions, media storage, and low-voltage routing.",
+      ar: "ألواح جدارية منسقة مع الإضاءة ومواقع المفاتيح والتخزين وتمديدات الجهد المنخفض.",
     },
     image: "/zp/home-02.jpg",
     specs: {
@@ -166,9 +166,9 @@ const products: Product[] = [
     cn: "柜系统",
     zone: { zh: "衣柜、储物、衣帽间", en: "Wardrobe, storage, cloakroom", ar: "الخزائن وغرف الملابس" },
     summary: {
-      zh: "定制柜体集成 LED 场景灯、充电抽屉、通风模块和灵活收纳规划。",
-      en: "Custom cabinets with LED scenes, charging drawers, ventilation, and flexible storage planning.",
-      ar: "خزائن مخصصة مع إضاءة ذكية وأدراج شحن وتهوية وتنظيم مرن.",
+      zh: "衣柜、储物柜和衣帽间可集成灯光、充电、通风与分区收纳，按空间尺寸定制。",
+      en: "Wardrobes and storage suites with lighting, charging, ventilation, and made-to-measure organization.",
+      ar: "خزائن وغرف ملابس مع إضاءة وشحن وتهوية وتنظيم مخصص حسب المقاس.",
     },
     image: "/zp/cabinet.jpg",
     specs: {
@@ -186,9 +186,9 @@ const products: Product[] = [
     cn: "橱系统",
     zone: { zh: "厨房、中岛、餐厨区", en: "Kitchen and island areas", ar: "المطبخ والجزيرة" },
     summary: {
-      zh: "橱柜、家电高柜、水槽区、灯光场景一体化，适合海外别墅和展厅项目。",
-      en: "Clean-line kitchen cabinetry with appliance towers, water-safe materials, and connected lighting scenes.",
-      ar: "خزائن مطبخ أنيقة مع أبراج أجهزة ومواد مقاومة للماء وإضاءة متصلة.",
+      zh: "橱柜、中岛、家电高柜与水槽区统一设计，兼顾灯光、台面和海外安装文件。",
+      en: "Kitchen cabinets, islands, appliance towers, and sink zones planned with lighting and installation files.",
+      ar: "خزائن وجزر مطبخ وأبراج أجهزة ومنطقة حوض مع إضاءة وملفات تركيب.",
     },
     image: "/zp/kitchen.jpg",
     specs: {
@@ -206,9 +206,9 @@ const products: Product[] = [
     cn: "五金系统",
     zone: { zh: "铰链、滑轨、锁具、控制模块", en: "Hinges, rails, locks, control modules", ar: "مفصلات وسكك وأقفال ووحدات تحكم" },
     summary: {
-      zh: "软关闭五金、隐藏滑轨、智能锁、电源排和场景开关，按区域打包出货。",
-      en: "Hardware packs for soft-close motion, hidden rails, smart locks, power strips, and scene switches.",
-      ar: "حزم ملحقات للغلق الهادئ والسكك المخفية والأقفال الذكية ومفاتيح المشاهد.",
+      zh: "铰链、滑轨、锁具、电源排和场景开关按项目区域配套，减少现场二次采购。",
+      en: "Hinges, slides, locks, power strips, and scene switches packed by room and project zone.",
+      ar: "مفصلات وسكك وأقفال ومقابس ومفاتيح مشاهد مجهزة حسب الغرفة ومنطقة المشروع.",
     },
     image: "/zp/kitchen-detail-01.jpg",
     specs: {
@@ -226,9 +226,9 @@ const products: Product[] = [
     cn: "配套系统",
     zone: { zh: "灯光、展示、售后、安装文件", en: "Lighting, display, after-sales package", ar: "إضاءة وعرض وخدمة ما بعد البيع" },
     summary: {
-      zh: "提供设计、安装图纸、BOM 清单、远程验收和海外售后配套，方便直接下单。",
-      en: "Design, installation documents, remote acceptance, and after-sales packs for overseas projects.",
-      ar: "تصميم ومستندات تركيب وقائمة مواد وقبول عن بعد وخدمة للمشاريع الخارجية.",
+      zh: "提供方案深化、安装图、BOM 清单、远程验收和售后资料，帮助项目顺利落地。",
+      en: "Design detailing, installation drawings, BOM packages, remote acceptance, and service documents.",
+      ar: "تفصيل التصميم ورسومات التركيب وقائمة المواد والقبول عن بعد ووثائق الخدمة.",
     },
     image: "/zp/kitchen-detail-02.jpg",
     specs: {
@@ -314,16 +314,16 @@ const regions: Record<
 
 const copy: Record<Lang, Copy> = {
   zh: {
-    nav: ["产品", "公司主页", "地区系统", "联系下单", "联系方式"],
+    nav: ["产品", "公司", "地区方案", "询价下单", "联系"],
     language: "语言",
     login: "登录",
     account: "账户",
     serviceTop: "联系客服",
-    heroEyebrow: "福建定制智能家居制造商",
-    heroTitle: "智能整屋系统，面向别墅与高端项目。",
+    heroEyebrow: "福建洲鹏定制家居制造商",
+    heroTitle: "整屋智能家居系统，服务别墅与高端项目。",
     heroText:
-      "洲鹏覆盖门、墙、柜、橱、五金与整屋配套系统。你可以浏览产品、加入询价单、登录保存项目，并直接联系在线客服下单。",
-    startOrder: "开始下单",
+      "洲鹏提供门墙柜橱、五金和整屋配套的定制方案。你可以在线浏览产品、加入询价单、保存项目，并直接联系客服确认下单。",
+    startOrder: "发起询价",
     contactService: "联系客服",
     projectRegion: "项目地区",
     founded: "成立",
@@ -332,25 +332,25 @@ const copy: Record<Lang, Copy> = {
     standardPlant: "标准厂房",
     standardPlantValue: "20,000+㎡",
     productsEyebrow: "产品中心",
-    productsTitle: "六大系统，组合整屋智能家居方案。",
-    add: "加入",
+    productsTitle: "六大产品系统，组成完整整屋方案。",
+    add: "加入询价",
     added: "已加入",
     addedNotice: "已加入询价单。",
-    companyEyebrow: "公司主页",
-    companyTitle: "福建洲鹏实业集研发、设计、生产、运营和售后服务为一体。",
+    companyEyebrow: "公司实力",
+    companyTitle: "从研发设计到生产交付，一体化承接定制家居项目。",
     companyText:
-      "生产基地位于福建省上杭县，拥有 20,000 平方米以上标准厂房和 1,500 平方米办公楼。团队配置技术研发、设计和售后工程师，服务定制家居项目。",
+      "洲鹏生产基地位于福建省上杭县，配置标准厂房、办公研发空间和售后团队，可围绕门、墙、柜、橱、五金与配套系统提供项目化服务。",
     engineers: "技术工程师",
     afterSales: "售后工程师",
     systems: "产品系统",
     equipment: "设备品牌",
     regionEyebrow: "地区系统",
-    regionTitle: "同一套商城，适配欧美和中东两种市场。",
-    regionCardText: "产品选择、报价币种、文档、插头和客服流程都会根据地区切换。",
+    regionTitle: "面向欧美与中东项目，自动匹配地区方案。",
+    regionCardText: "报价币种、规格文件、电气适配和客服流程会随项目地区调整。",
     selectedSolution: "已选方案",
-    orderEyebrow: "联系客服下单",
-    orderTitle: "提交项目询价。",
-    emptyQuote: "从产品中心加入产品，或直接提交整屋咨询。",
+    orderEyebrow: "项目询价",
+    orderTitle: "提交项目需求，客服整理报价。",
+    emptyQuote: "先从产品中心加入系统，也可以直接提交整屋需求。",
     total: "预估起始总价",
     custom: "定制报价",
     name: "姓名",
@@ -361,10 +361,10 @@ const copy: Record<Lang, Copy> = {
     budget: "预算",
     notes: "项目备注",
     notesPlaceholder: "房间数量、材料偏好、户型图状态、目标交付城市等...",
-    submitOrder: "提交下单咨询",
+    submitOrder: "提交询价",
     saved: "询价已保存。客服会在 48 小时内联系你。",
     contactEyebrow: "客户服务",
-    contactTitle: "下单前可以直接联系客服。",
+    contactTitle: "项目确认前，先和客服对齐需求。",
     phoneLabel: "电话",
     emailLabel: "邮箱",
     address:
@@ -378,22 +378,22 @@ const copy: Record<Lang, Copy> = {
     footerCopyright: "版权所有 © 福建洲鹏实业有限公司",
     footerSite: "网址：www.fjzpsy.com",
     loginSystem: "登录系统",
-    loginTitle: "登录后保存项目询价。",
-    loginText: "这是 GitHub Pages 上的前端演示登录。输入任意邮箱和密码即可保存本地会话。",
+    loginTitle: "登录后保存项目与询价单。",
+    loginText: "当前为前端演示登录。输入邮箱和密码后，系统会在本机保存你的项目会话。",
     password: "密码",
     signIn: "登录 / 注册",
     signedIn: "已登录：",
     close: "关闭",
     onlineService: "在线客服",
-    serviceDesk: "洲鹏客服中心",
+    serviceDesk: "洲鹏在线客服",
     villaQuote: "别墅报价",
     dealerPrice: "经销报价",
-    chatPlaceholder: "请输入你的项目问题...",
+    chatPlaceholder: "请输入项目类型、城市、面积或预算...",
     send: "发送",
-    starterMessage: "你好，这里是洲鹏在线客服。请告诉我项目类型、国家地区和户型面积，我会协助你下单报价。",
-    agentReply: "已收到。请在询价表里补充户型图、房间照片、面积和目标国家，客服会整理 BOM 和报价。",
-    quickVillaText: "我需要别墅整屋智能家居报价。",
-    quickDealerText: "我想了解经销商价格和产品目录。",
+    starterMessage: "你好，这里是洲鹏在线客服。请告诉我项目类型、所在城市和面积，我会协助你整理询价。",
+    agentReply: "已收到。请补充户型图、现场照片、面积和目标国家，客服会据此整理 BOM 与报价。",
+    quickVillaText: "我需要别墅整屋方案报价。",
+    quickDealerText: "我想了解经销政策和产品目录。",
     brandHome: "洲鹏智能家居首页",
     brandSubline: "智能家居",
     primaryNavLabel: "主导航",
@@ -409,16 +409,16 @@ const copy: Record<Lang, Copy> = {
     quoteRequiredError: "请填写姓名、邮箱、国家 / 地区和电话。",
   },
   en: {
-    nav: ["Products", "Company", "Regions", "Order", "Contact"],
+    nav: ["Products", "Company", "Regional Plans", "Get Quote", "Contact"],
     language: "Language",
     login: "Login",
     account: "Account",
     serviceTop: "Service",
-    heroEyebrow: "Fujian custom smart home manufacturer",
-    heroTitle: "Smart whole-home systems for premium projects.",
+    heroEyebrow: "Fujian ZhouPeng custom home manufacturer",
+    heroTitle: "Whole-home smart living systems for premium projects.",
     heroText:
-      "ZhouPeng covers door, wall, cabinet, kitchen, hardware, and whole-home supporting systems. Browse products, add them to a quote, sign in, and contact service to order.",
-    startOrder: "Start an order",
+      "ZhouPeng supplies coordinated doors, wall panels, cabinets, kitchens, hardware, and project support. Browse systems, build a quote list, save the project, and contact service to confirm the order.",
+    startOrder: "Request a quote",
     contactService: "Contact service",
     projectRegion: "Project region",
     founded: "Founded",
@@ -426,26 +426,26 @@ const copy: Record<Lang, Copy> = {
     productionBaseValue: "70 mu",
     standardPlant: "Standard plant",
     standardPlantValue: "20,000+ sqm",
-    productsEyebrow: "Products Center",
-    productsTitle: "Six systems for one smart home order.",
-    add: "Add",
+    productsEyebrow: "Product Systems",
+    productsTitle: "Six coordinated systems for one whole-home package.",
+    add: "Add to quote",
     added: "Added",
     addedNotice: " added to the quote.",
-    companyEyebrow: "Company Homepage",
-    companyTitle: "Fujian ZhouPeng Industrial integrates R&D, design, production, operation, and service.",
+    companyEyebrow: "Company",
+    companyTitle: "Integrated R&D, design, production, delivery, and after-sales support.",
     companyText:
-      "The manufacturing base is located in Shanghang County, Fujian, with more than 20,000 sqm of standard plant and a 1,500 sqm office building. The team includes technical R&D, design, and after-sales groups for custom home projects.",
+      "ZhouPeng's manufacturing base in Shanghang, Fujian supports project work across doors, wall panels, cabinets, kitchens, hardware, and supporting systems, with dedicated design and service teams.",
     engineers: "Technical engineers",
     afterSales: "After-sales engineers",
     systems: "Product systems",
     equipment: "Equipment brands",
-    regionEyebrow: "Regional System",
-    regionTitle: "One interface, two market modes.",
+    regionEyebrow: "Regional Plans",
+    regionTitle: "Prepared for Europe, North America, and GCC projects.",
     regionCardText:
-      "Product selections, quote currency, documents, plugs, and service flow adjust to this region.",
+      "Quote currency, specification files, electrical coordination, and service steps adjust by region.",
     selectedSolution: "Selected Solution",
-    orderEyebrow: "Contact & Order",
-    orderTitle: "Request a project quote.",
+    orderEyebrow: "Project Quote",
+    orderTitle: "Send your project brief for a sales quote.",
     emptyQuote: "Add products from the catalogue, or submit for a whole-home consultation.",
     total: "Estimated starting total",
     custom: "Custom",
@@ -457,10 +457,10 @@ const copy: Record<Lang, Copy> = {
     budget: "Budget",
     notes: "Project notes",
     notesPlaceholder: "Room count, preferred material, floor plan status, target delivery city...",
-    submitOrder: "Submit order request",
+    submitOrder: "Submit quote request",
     saved: "Quote request saved. Customer service will respond within 48 hours.",
     contactEyebrow: "Customer Service",
-    contactTitle: "Talk to sales before you order.",
+    contactTitle: "Align the project details with sales before ordering.",
     phoneLabel: "Phone",
     emailLabel: "Email",
     address: "Address: Lijiaping Industrial Zone, Shanghang County, Fujian Province, China.",
@@ -473,19 +473,19 @@ const copy: Record<Lang, Copy> = {
     footerCopyright: "Copyright © Fujian ZhouPeng Industrial Co., Ltd.",
     footerSite: "Website: www.fjzpsy.com",
     loginSystem: "Login System",
-    loginTitle: "Access project orders.",
-    loginText: "Demo front-end login for GitHub Pages. Use any email and password to save a local session.",
+    loginTitle: "Save your project and quote list.",
+    loginText: "This is a front-end demo login. Use an email and password to save the session on this device.",
     password: "Password",
     signIn: "Sign in / register",
     signedIn: "Signed in as ",
     close: "Close",
     onlineService: "Online Service",
-    serviceDesk: "ZhouPeng sales desk",
+    serviceDesk: "ZhouPeng service desk",
     villaQuote: "Villa quote",
     dealerPrice: "Dealer price",
-    chatPlaceholder: "Type your project question...",
+    chatPlaceholder: "Project type, city, area, or budget...",
     send: "Send",
-    starterMessage: "Hi, this is ZhouPeng Smart Living. Share your project type, country, and floor plan size for a fast quote.",
+    starterMessage: "Hi, this is ZhouPeng service. Share the project type, city, and floor area so we can prepare the quote path.",
     agentReply:
       "Received. Please attach room photos, floor plan size, and target country in the quote form for a precise BOM.",
     quickVillaText: "I need a villa whole-home quote.",
@@ -505,16 +505,16 @@ const copy: Record<Lang, Copy> = {
     quoteRequiredError: "Please fill in name, email, country, and phone.",
   },
   ar: {
-    nav: ["المنتجات", "الشركة", "المناطق", "الطلب", "التواصل"],
+    nav: ["المنتجات", "الشركة", "خطط المناطق", "طلب عرض", "التواصل"],
     language: "اللغة",
     login: "دخول",
     account: "الحساب",
     serviceTop: "خدمة العملاء",
     heroEyebrow: "مصنع منازل ذكية مخصصة في فوجيان",
-    heroTitle: "أنظمة منزل ذكي للفلل والمشاريع الراقية.",
+    heroTitle: "أنظمة منزل ذكي متكاملة للفلل والمشاريع الراقية.",
     heroText:
-      "تغطي ZhouPeng الأبواب والجدران والخزائن والمطابخ والملحقات وخدمات المنزل بالكامل. تصفح المنتجات وأضفها لطلب عرض وتواصل مع الخدمة.",
-    startOrder: "ابدأ الطلب",
+      "تقدم ZhouPeng الأبواب والجدران والخزائن والمطابخ والملحقات وخدمات المشروع ضمن حزمة واحدة. تصفح الأنظمة، أنشئ قائمة عرض، ثم تواصل مع الخدمة لتأكيد الطلب.",
+    startOrder: "اطلب عرضا",
     contactService: "تواصل مع الخدمة",
     projectRegion: "منطقة المشروع",
     founded: "تأسست",
@@ -523,24 +523,24 @@ const copy: Record<Lang, Copy> = {
     standardPlant: "مصنع قياسي",
     standardPlantValue: "أكثر من 20,000 م²",
     productsEyebrow: "مركز المنتجات",
-    productsTitle: "ستة أنظمة لطلب منزل ذكي متكامل.",
+    productsTitle: "ستة أنظمة منسقة لحزمة منزل كاملة.",
     add: "إضافة",
     added: "تمت الإضافة",
     addedNotice: " تمت إضافته إلى طلب العرض.",
     companyEyebrow: "صفحة الشركة",
-    companyTitle: "تجمع Fujian ZhouPeng Industrial بين البحث والتصميم والإنتاج والتشغيل والخدمة.",
+    companyTitle: "بحث وتصميم وإنتاج وتسليم وخدمة ما بعد البيع ضمن مسار واحد.",
     companyText:
-      "تقع قاعدة التصنيع في شانغهانغ، فوجيان، مع أكثر من 20,000 متر مربع من المصانع ومبنى مكاتب 1,500 متر مربع، وفريق للبحث والتصميم وخدمة ما بعد البيع.",
+      "تدعم قاعدة ZhouPeng في شانغهانغ، فوجيان مشاريع الأبواب والجدران والخزائن والمطابخ والملحقات، مع فرق تصميم وخدمة للمشاريع المخصصة.",
     engineers: "مهندسون تقنيون",
     afterSales: "مهندسو خدمة",
     systems: "أنظمة منتجات",
     equipment: "علامات المعدات",
     regionEyebrow: "نظام المناطق",
-    regionTitle: "واجهة واحدة وسوقان.",
-    regionCardText: "تتغير المنتجات والعملة والوثائق والمقابس ومسار الخدمة حسب المنطقة.",
+    regionTitle: "تجهيز للمشاريع في أوروبا وأمريكا ودول الخليج.",
+    regionCardText: "تتغير العملة وملفات المواصفات والتنسيق الكهربائي وخطوات الخدمة حسب المنطقة.",
     selectedSolution: "الحل المختار",
-    orderEyebrow: "تواصل واطلب",
-    orderTitle: "اطلب عرض سعر للمشروع.",
+    orderEyebrow: "عرض المشروع",
+    orderTitle: "أرسل بيانات المشروع ليجهز فريق المبيعات العرض.",
     emptyQuote: "أضف منتجات من الكتالوج أو أرسل استشارة للمنزل بالكامل.",
     total: "الإجمالي المبدئي",
     custom: "مخصص",
@@ -555,7 +555,7 @@ const copy: Record<Lang, Copy> = {
     submitOrder: "إرسال طلب العرض",
     saved: "تم حفظ طلب العرض. ستتواصل خدمة العملاء خلال 48 ساعة.",
     contactEyebrow: "خدمة العملاء",
-    contactTitle: "تواصل مع المبيعات قبل الطلب.",
+    contactTitle: "نسق تفاصيل المشروع مع المبيعات قبل تأكيد الطلب.",
     phoneLabel: "الهاتف",
     emailLabel: "البريد",
     address: "العنوان: منطقة Lijiaping الصناعية، شانغهانغ، فوجيان، الصين.",
@@ -568,8 +568,8 @@ const copy: Record<Lang, Copy> = {
     footerCopyright: "حقوق النشر © Fujian ZhouPeng Industrial Co., Ltd.",
     footerSite: "الموقع: www.fjzpsy.com",
     loginSystem: "نظام الدخول",
-    loginTitle: "الوصول إلى طلبات المشروع.",
-    loginText: "تسجيل دخول تجريبي لصفحات GitHub. استخدم أي بريد وكلمة مرور لحفظ الجلسة محليا.",
+    loginTitle: "احفظ المشروع وقائمة العرض.",
+    loginText: "هذا تسجيل دخول تجريبي أمامي. استخدم بريدا وكلمة مرور لحفظ الجلسة على هذا الجهاز.",
     password: "كلمة المرور",
     signIn: "دخول / تسجيل",
     signedIn: "تم الدخول باسم ",
@@ -578,9 +578,9 @@ const copy: Record<Lang, Copy> = {
     serviceDesk: "مركز خدمة ZhouPeng",
     villaQuote: "عرض فيلا",
     dealerPrice: "سعر الوكيل",
-    chatPlaceholder: "اكتب سؤالك عن المشروع...",
+    chatPlaceholder: "نوع المشروع، المدينة، المساحة، أو الميزانية...",
     send: "إرسال",
-    starterMessage: "مرحبا، هذه خدمة ZhouPeng. شارك نوع المشروع والدولة ومساحة المخطط لعرض سريع.",
+    starterMessage: "مرحبا، هذه خدمة ZhouPeng. شارك نوع المشروع والمدينة والمساحة لنجهز مسار العرض.",
     agentReply: "تم الاستلام. يرجى إضافة الصور والمخطط والمساحة والدولة في نموذج العرض لتجهيز قائمة المواد.",
     quickVillaText: "أحتاج عرضا لمنزل فيلا كامل.",
     quickDealerText: "أريد أسعار الوكلاء والكتالوجات.",
@@ -605,6 +605,9 @@ const languageOptions: Array<{ key: Lang; label: string }> = [
   { key: "en", label: "English" },
   { key: "ar", label: "العربية" },
 ];
+
+const isLang = (value: string | null): value is Lang =>
+  value === "zh" || value === "en" || value === "ar";
 
 const getAgentReply = (text: string, language: Lang) => {
   const lower = text.toLowerCase();
@@ -655,6 +658,7 @@ export default function Home() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "agent", text: copy.zh.starterMessage },
   ]);
+  const [isHydrated, setIsHydrated] = useState(false);
 
   const t = copy[language];
   const regionData = regions[region];
@@ -671,6 +675,20 @@ export default function Home() {
     },
     [region, regionData.pricePrefix],
   );
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const savedLanguage = window.localStorage.getItem("zp-language");
+      if (isLang(savedLanguage)) {
+        setLanguage(savedLanguage);
+        if (savedLanguage === "ar") setRegion("middleEast");
+        setMessages([{ role: "agent", text: copy[savedLanguage].starterMessage }]);
+      }
+      setIsHydrated(true);
+    }, 0);
+
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const addToQuote = (product: Product) => {
     setQuote((current) =>
@@ -755,6 +773,8 @@ export default function Home() {
 
   const switchLanguage = (nextLanguage: Lang) => {
     setLanguage(nextLanguage);
+    window.localStorage.setItem("zp-language", nextLanguage);
+    if (nextLanguage === "ar") setRegion("middleEast");
     setLoginError("");
     setQuoteError("");
     setQuoteStatus("");
@@ -788,6 +808,7 @@ export default function Home() {
             className="language-select"
             value={language}
             onChange={(event) => switchLanguage(event.target.value as Lang)}
+            disabled={!isHydrated}
           >
             {languageOptions.map((option) => (
               <option key={option.key} value={option.key}>

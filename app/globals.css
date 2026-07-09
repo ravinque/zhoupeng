@@ -147,6 +147,11 @@ img {
   background-repeat: no-repeat;
 }
 
+.language-select:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .icon-button {
   min-height: 38px;
   min-width: 58px;
