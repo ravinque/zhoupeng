@@ -375,7 +375,7 @@ const copy: Record<Lang, Copy> = {
     footerContactTitle: "联系我们",
     footerNavTitle: "快捷导航",
     footerProductsTitle: "产品中心",
-    footerCopyright: "版权所有 © 福建洲鹏实业有限公司",
+    footerCopyright: "版权所有 © 2026 福建洲鹏实业有限公司",
     footerSite: "网址：www.fjzpsy.com",
     loginSystem: "登录系统",
     loginTitle: "登录后保存项目与询价单。",
@@ -470,7 +470,7 @@ const copy: Record<Lang, Copy> = {
     footerContactTitle: "Contact us",
     footerNavTitle: "Quick links",
     footerProductsTitle: "Product center",
-    footerCopyright: "Copyright © Fujian ZhouPeng Industrial Co., Ltd.",
+    footerCopyright: "Copyright © 2026 Fujian ZhouPeng Industrial Co., Ltd.",
     footerSite: "Website: www.fjzpsy.com",
     loginSystem: "Login System",
     loginTitle: "Save your project and quote list.",
@@ -565,7 +565,7 @@ const copy: Record<Lang, Copy> = {
     footerContactTitle: "تواصل معنا",
     footerNavTitle: "روابط سريعة",
     footerProductsTitle: "مركز المنتجات",
-    footerCopyright: "حقوق النشر © Fujian ZhouPeng Industrial Co., Ltd.",
+    footerCopyright: "جميع الحقوق محفوظة © 2026 شركة فوجيان تشو بنغ الصناعية المحدودة",
     footerSite: "الموقع: www.fjzpsy.com",
     loginSystem: "نظام الدخول",
     loginTitle: "احفظ المشروع وقائمة العرض.",
@@ -618,7 +618,7 @@ const getAgentReply = (text: string, language: Lang) => {
     if (/经销|代理|dealer|catalog|目录/.test(lower)) return "可以。经销合作请留下公司名称、目标市场和预计展厅面积，客服会发送产品目录和经销报价。";
     if (/价格|报价|预算|quote|price|多少钱/.test(lower)) return "报价会按产品系统、尺寸、材料和目的地计算。你可以先加入产品到询价单，再提交电话或 WhatsApp。";
     if (/图纸|户型|尺寸|plan|drawing|size/.test(lower)) return "请准备户型图、现场照片和关键尺寸。客服会据此整理 BOM、初步方案和交付建议。";
-    if (/电话|邮箱|联系|whatsapp|contact/.test(lower)) return "可以直接电话 0597-3992099，或发送邮件到 cathy@shhf2008.com。";
+    if (/电话|邮箱|联系|whatsapp|contact/.test(lower)) return "可以直接电话 \u200e0597-3992099\u200e，或发送邮件到 \u200ecathy@shhf2008.com\u200e。";
     return "已收到。客服会根据你的描述整理产品清单、项目范围和下一步资料需求。";
   }
 
@@ -627,7 +627,7 @@ const getAgentReply = (text: string, language: Lang) => {
     if (/dealer|catalog|وكيل|كتالوج/.test(lower)) return "للتعاون مع الوكلاء، يرجى إرسال اسم الشركة والسوق المستهدف ومساحة المعرض لنوفر الكتالوج والسعر.";
     if (/quote|price|budget|سعر|عرض|ميزانية/.test(lower)) return "يعتمد العرض على الأنظمة والمقاسات والمواد ومدينة التسليم. أضف المنتجات ثم أرسل بيانات التواصل.";
     if (/plan|drawing|size|مخطط|مقاس/.test(lower)) return "يرجى تجهيز المخطط والصور والمقاسات الأساسية لنرتب قائمة المواد والتوصية الأولية.";
-    if (/contact|phone|email|whatsapp|تواصل|هاتف/.test(lower)) return "يمكنك الاتصال على 0597-3992099 أو إرسال بريد إلى cathy@shhf2008.com.";
+    if (/contact|phone|email|whatsapp|تواصل|هاتف/.test(lower)) return "يمكنك الاتصال على \u200e0597-3992099\u200e أو إرسال بريد إلى \u200ecathy@shhf2008.com\u200e.";
     return "تم الاستلام. سيقوم فريق الخدمة بتحديد نطاق المشروع والمواد المطلوبة والخطوة التالية.";
   }
 
@@ -635,7 +635,7 @@ const getAgentReply = (text: string, language: Lang) => {
   if (/dealer|catalog|distributor|partner/.test(lower)) return "For dealer cooperation, share your company name, target market, and showroom size. We can prepare catalogues and dealer pricing.";
   if (/quote|price|budget|cost/.test(lower)) return "Pricing depends on product systems, dimensions, materials, and destination. Add products to the quote and submit your contact details.";
   if (/plan|drawing|size|dimension|floor/.test(lower)) return "Please prepare floor plans, room photos, and key dimensions so the service team can build a BOM and first proposal.";
-  if (/contact|phone|email|whatsapp/.test(lower)) return "You can call 0597-3992099 or email cathy@shhf2008.com directly.";
+  if (/contact|phone|email|whatsapp/.test(lower)) return "You can call \u200e0597-3992099\u200e or email \u200ecathy@shhf2008.com\u200e directly.";
   return "Received. The service team will review your project scope and outline the next information needed.";
 };
 
@@ -846,7 +846,7 @@ export default function Home() {
               {t.contactService}
             </button>
             <a className="button secondary" href="tel:05973992099">
-              0597-3992099
+              <bdi dir="ltr">0597-3992099</bdi>
             </a>
           </div>
           <div className="proof-strip" aria-label={t.highlightsLabel}>
@@ -1065,8 +1065,8 @@ export default function Home() {
           <p className="eyebrow">{t.contactEyebrow}</p>
           <h2>{t.contactTitle}</h2>
           <p>
-            {t.phoneLabel}: <a href="tel:05973992099">0597-3992099</a> · {t.emailLabel}:{" "}
-            <a href="mailto:cathy@shhf2008.com">cathy@shhf2008.com</a>
+            {t.phoneLabel}: <a href="tel:05973992099"><bdi dir="ltr">0597-3992099</bdi></a> · {t.emailLabel}:{" "}
+            <a href="mailto:cathy@shhf2008.com"><bdi dir="ltr">cathy@shhf2008.com</bdi></a>
           </p>
           <p>{t.address}</p>
         </div>
@@ -1076,7 +1076,7 @@ export default function Home() {
       </section>
 
       <footer className="site-footer" id="site-footer">
-        <span>版权所有 © 2026 福建洲鹏实业有限公司</span>
+        <span>{t.footerCopyright}</span>
       </footer>
 
       <button className="service-float" onClick={() => setIsServiceOpen(true)} type="button">
@@ -1123,8 +1123,8 @@ export default function Home() {
             </button>
           </div>
           <div className="service-contact">
-            <a href="tel:05973992099">0597-3992099</a>
-            <a href="mailto:cathy@shhf2008.com">cathy@shhf2008.com</a>
+            <a href="tel:05973992099"><bdi dir="ltr">0597-3992099</bdi></a>
+            <a href="mailto:cathy@shhf2008.com"><bdi dir="ltr">cathy@shhf2008.com</bdi></a>
           </div>
           <div className="message-list">
             {messages.map((message, index) => (
