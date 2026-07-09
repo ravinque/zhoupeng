@@ -45,6 +45,12 @@ type Copy = {
   add: string;
   added: string;
   addedNotice: string;
+  viewDetails: string;
+  productDetails: string;
+  detailFeatures: string;
+  detailAdd: string;
+  detailQuote: string;
+  backList: string;
   companyEyebrow: string;
   companyTitle: string;
   companyText: string;
@@ -336,6 +342,12 @@ const copy: Record<Lang, Copy> = {
     add: "加入询价",
     added: "已加入",
     addedNotice: "已加入询价单。",
+    viewDetails: "查看详情",
+    productDetails: "产品详情",
+    detailFeatures: "方案配置",
+    detailAdd: "加入询价单",
+    detailQuote: "去询价下单",
+    backList: "返回列表",
     companyEyebrow: "公司实力",
     companyTitle: "从研发设计到生产交付，一体化承接定制家居项目。",
     companyText:
@@ -431,6 +443,12 @@ const copy: Record<Lang, Copy> = {
     add: "Add to quote",
     added: "Added",
     addedNotice: " added to the quote.",
+    viewDetails: "View details",
+    productDetails: "Product details",
+    detailFeatures: "Package features",
+    detailAdd: "Add to quote",
+    detailQuote: "Go to quote",
+    backList: "Back to list",
     companyEyebrow: "Company",
     companyTitle: "Integrated R&D, design, production, delivery, and after-sales support.",
     companyText:
@@ -527,6 +545,12 @@ const copy: Record<Lang, Copy> = {
     add: "إضافة",
     added: "تمت الإضافة",
     addedNotice: " تمت إضافته إلى طلب العرض.",
+    viewDetails: "عرض التفاصيل",
+    productDetails: "تفاصيل المنتج",
+    detailFeatures: "مكونات الحزمة",
+    detailAdd: "إضافة إلى العرض",
+    detailQuote: "انتقل إلى العرض",
+    backList: "العودة إلى القائمة",
     companyEyebrow: "صفحة الشركة",
     companyTitle: "بحث وتصميم وإنتاج وتسليم وخدمة ما بعد البيع ضمن مسار واحد.",
     companyText:
@@ -646,6 +670,7 @@ export default function Home() {
   const [region, setRegion] = useState<Region>("west");
   const [quote, setQuote] = useState<Product[]>([]);
   const [selected, setSelected] = useState(products[3]);
+  const [detailProduct, setDetailProduct] = useState<Product | null>(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
   const [sessionEmail, setSessionEmail] = useState(() =>
@@ -696,6 +721,11 @@ export default function Home() {
     );
     setSelected(product);
     setQuoteStatus(`${product.title[language]}${t.addedNotice}`);
+  };
+
+  const openProductDetails = (product: Product) => {
+    setSelected(product);
+    setDetailProduct(product);
   };
 
   const removeFromQuote = (id: string) => {
@@ -878,19 +908,31 @@ export default function Home() {
               className={`product-card ${quote.some((item) => item.id === product.id) ? "in-quote" : ""}`}
               key={product.id}
             >
-              <button className="image-button" onClick={() => setSelected(product)} type="button">
+              <button
+                className="image-button"
+                onClick={() => openProductDetails(product)}
+                type="button"
+                aria-label={`${t.viewDetails} ${product.title[language]}`}
+              >
                 <img src={asset(product.image)} alt={`${product.title[language]} preview`} />
                 <span>{product.badge[language]}</span>
               </button>
               <div className="product-body">
                 <small>{product.zone[language]}</small>
-                <h3>{product.title[language]}</h3>
+                <h3>
+                  <button className="title-button" onClick={() => openProductDetails(product)} type="button">
+                    {product.title[language]}
+                  </button>
+                </h3>
                 <p>{product.summary[language]}</p>
                 <ul>
                   {product.specs[language].map((spec) => (
                     <li key={spec}>{spec}</li>
                   ))}
                 </ul>
+                <button className="detail-link" onClick={() => openProductDetails(product)} type="button">
+                  {t.viewDetails}
+                </button>
                 <div className="product-foot">
                   <strong>{displayPrice(product)}</strong>
                   <button
@@ -1107,6 +1149,58 @@ export default function Home() {
               </button>
             </form>
             {sessionEmail ? <p className="success-message">{t.signedIn}{sessionEmail}</p> : null}
+          </section>
+        </div>
+      ) : null}
+
+      {detailProduct ? (
+        <div className="modal-backdrop" role="presentation">
+          <section
+            className="product-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-label={`${t.productDetails} ${detailProduct.title[language]}`}
+          >
+            <button className="modal-close" onClick={() => setDetailProduct(null)} type="button">
+              {t.close}
+            </button>
+            <div className="product-modal-media">
+              <img src={asset(detailProduct.image)} alt={`${detailProduct.title[language]} detail`} />
+              <span>{detailProduct.badge[language]}</span>
+            </div>
+            <div className="product-modal-copy">
+              <p className="eyebrow">{t.productDetails}</p>
+              <h2>{detailProduct.title[language]}</h2>
+              <p className="modal-zone">{detailProduct.zone[language]}</p>
+              <p>{detailProduct.summary[language]}</p>
+              <div className="detail-price">
+                <span>{t.total}</span>
+                <strong>{displayPrice(detailProduct)}</strong>
+              </div>
+              <div className="detail-specs">
+                <h3>{t.detailFeatures}</h3>
+                <ul>
+                  {detailProduct.specs[language].map((spec) => (
+                    <li key={spec}>{spec}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="detail-actions">
+                <button
+                  className="button primary"
+                  onClick={() => addToQuote(detailProduct)}
+                  type="button"
+                >
+                  {quote.some((item) => item.id === detailProduct.id) ? t.added : t.detailAdd}
+                </button>
+                <a className="button secondary" href="#quote" onClick={() => setDetailProduct(null)}>
+                  {t.detailQuote}
+                </a>
+                <button className="button secondary" onClick={() => setDetailProduct(null)} type="button">
+                  {t.backList}
+                </button>
+              </div>
+            </div>
           </section>
         </div>
       ) : null}
