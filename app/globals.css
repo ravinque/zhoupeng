@@ -1144,7 +1144,7 @@ select:focus {
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 12px;
   max-width: var(--content-max);
@@ -1153,19 +1153,7 @@ select:focus {
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 0.86rem;
   opacity: 0.65;
-}
-
-.footer-powered {
-  color: inherit;
-  text-decoration: none;
-  opacity: 0.9;
-  transition: opacity 0.2s ease;
-}
-
-.footer-powered:hover {
-  opacity: 1;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-align: center;
 }
 
 .float-actions {

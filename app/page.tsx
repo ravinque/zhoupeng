@@ -690,7 +690,6 @@ export default function Home() {
             </a>
           </p>
           <p>{t.address}</p>
-          <p>{t.footerSite}</p>
           <div className="contact-actions">
             <a className="button whatsapp" href={whatsAppLink} rel="noopener noreferrer" target="_blank">
               {t.whatsApp}
@@ -750,23 +749,11 @@ export default function Home() {
                 {t.whatsApp}
               </a>
               <span>{t.address}</span>
-              <a href="https://www.fjzpsy.com" rel="noopener noreferrer" target="_blank">
-                www.fjzpsy.com
-              </a>
             </nav>
           </div>
         </div>
         <div className="footer-bottom">
           <span>{t.footerCopyright}</span>
-          <span>{t.footerSite}</span>
-          <a
-            className="footer-powered"
-            href="https://lapus.cn"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {t.footerPoweredBy}
-          </a>
         </div>
       </footer>
 

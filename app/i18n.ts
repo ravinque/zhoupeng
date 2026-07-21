@@ -81,8 +81,6 @@ export type Copy = {
   footerNavTitle: string;
   footerProductsTitle: string;
   footerCopyright: string;
-  footerSite: string;
-  footerPoweredBy: string;
   loginSystem: string;
   loginTitle: string;
   loginText: string;
@@ -441,8 +439,6 @@ export const copy: Record<Lang, Copy> = {
     footerNavTitle: "快捷导航",
     footerProductsTitle: "产品中心",
     footerCopyright: "版权所有 © 2026 福建洲鹏实业有限公司",
-    footerSite: "网址：www.fjzpsy.com",
-    footerPoweredBy: "Powered by @lapus.cn",
     loginSystem: "登录系统",
     loginTitle: "登录后保存项目与询价单。",
     loginText: "当前为前端演示登录。输入邮箱和密码后，系统会在本机保存你的项目会话。",
@@ -640,8 +636,6 @@ export const copy: Record<Lang, Copy> = {
     footerNavTitle: "Quick links",
     footerProductsTitle: "Product center",
     footerCopyright: "Copyright © 2026 Fujian ZhouPeng Industrial Co., Ltd.",
-    footerSite: "Website: www.fjzpsy.com",
-    footerPoweredBy: "Powered by @lapus.cn",
     loginSystem: "Login System",
     loginTitle: "Save your project and quote list.",
     loginText: "This is a front-end demo login. Use an email and password to save the session on this device.",
@@ -839,8 +833,6 @@ export const copy: Record<Lang, Copy> = {
     footerNavTitle: "روابط سريعة",
     footerProductsTitle: "مركز المنتجات",
     footerCopyright: "جميع الحقوق محفوظة © 2026 شركة فوجيان تشو بنغ الصناعية المحدودة",
-    footerSite: "الموقع: www.fjzpsy.com",
-    footerPoweredBy: "Powered by @lapus.cn",
     loginSystem: "نظام الدخول",
     loginTitle: "احفظ المشروع وقائمة العرض.",
     loginText: "هذا تسجيل دخول تجريبي أمامي. استخدم بريدا وكلمة مرور لحفظ الجلسة على هذا الجهاز.",
