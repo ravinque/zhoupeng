@@ -24,7 +24,7 @@ import {
   pageTitle,
   getAgentReply,
 } from "./i18n";
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
 type AdvantageTab = "equipment" | "software" | "tech";
 
@@ -64,6 +64,8 @@ export default function Home() {
   ]);
   const [isHydrated, setIsHydrated] = useState(false);
   const [advantageTab, setAdvantageTab] = useState<AdvantageTab>("equipment");
+  const [heroNeedsTap, setHeroNeedsTap] = useState(false);
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const t = copy[language];
   const regionData = regions[region];
@@ -107,6 +109,58 @@ export default function Home() {
     }
   }, [language]);
 
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+
+    video.defaultMuted = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "true");
+
+    let cancelled = false;
+
+    const tryPlay = async () => {
+      try {
+        await video.play();
+        if (!cancelled) setHeroNeedsTap(false);
+      } catch {
+        if (!cancelled) setHeroNeedsTap(true);
+      }
+    };
+
+    const onReady = () => {
+      void tryPlay();
+    };
+
+    if (video.readyState >= 2) {
+      void tryPlay();
+    } else {
+      video.addEventListener("loadeddata", onReady);
+      video.addEventListener("canplay", onReady);
+    }
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") void tryPlay();
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
+    return () => {
+      cancelled = true;
+      video.removeEventListener("loadeddata", onReady);
+      video.removeEventListener("canplay", onReady);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, []);
+
+  const playHeroVideo = () => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+    video.muted = true;
+    void video.play().then(() => setHeroNeedsTap(false)).catch(() => setHeroNeedsTap(true));
+  };
   const addToQuote = (product: Product) => {
     setQuote((current) =>
       current.some((item) => item.id === product.id) ? current : [...current, product],
@@ -286,11 +340,25 @@ export default function Home() {
       </header>
 
       <section className="hero-bleed fade-up" id="home">
-        <div className="hero-media" aria-hidden="true">
-          <video autoPlay loop muted playsInline poster={asset("/zp/hero.jpg")}>
+        <div className="hero-media" aria-hidden={heroNeedsTap ? undefined : true}>
+          <video
+            ref={heroVideoRef}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            poster={asset("/zp/posters/factory-01.jpg")}
+            onPlaying={() => setHeroNeedsTap(false)}
+          >
             <source src={asset("/zp/videos/factory-01.mp4")} type="video/mp4" />
           </video>
           <div className="hero-scrim" />
+          {heroNeedsTap ? (
+            <button className="hero-play" onClick={playHeroVideo} type="button">
+              {t.playHeroVideo}
+            </button>
+          ) : null}
         </div>
         <div className="hero-inner">
           <span className="hero-brand">{brandMark(language)}</span>

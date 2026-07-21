@@ -148,6 +148,7 @@ export type Copy = {
   factoryVideoTitles: string[];
   factoryVideoTexts: string[];
   exploreCategory: string;
+  playHeroVideo: string;
   whatsAppInquiry: string;
   emailSubjectGeneral: string;
   emailBodyGeneral: string;
@@ -529,6 +530,7 @@ export const copy: Record<Lang, Copy> = {
       "出厂前质检与包装流程。",
     ],
     exploreCategory: "探索该系统",
+    playHeroVideo: "播放工厂视频",
     whatsAppInquiry: "您好，我想咨询洲鹏定制家居方案，请协助报价。",
     emailSubjectGeneral: "洲鹏定制家居咨询",
     emailBodyGeneral:
@@ -727,6 +729,7 @@ export const copy: Record<Lang, Copy> = {
       "Pre-shipment inspection and packing.",
     ],
     exploreCategory: "Explore system",
+    playHeroVideo: "Play factory video",
     whatsAppInquiry: "Hello, I would like to inquire about ZhouPeng custom home solutions. Please assist with a quote.",
     emailSubjectGeneral: "ZhouPeng custom home inquiry",
     emailBodyGeneral:
@@ -923,6 +926,7 @@ export const copy: Record<Lang, Copy> = {
       "فحص قبل الشحن والتعبئة.",
     ],
     exploreCategory: "استكشف النظام",
+    playHeroVideo: "تشغيل فيديو المصنع",
     whatsAppInquiry: "مرحبا، أود الاستفسار عن حلول ZhouPeng للمنازل المخصصة. يرجى المساعدة في تقديم عرض.",
     emailSubjectGeneral: "استفسار ZhouPeng للمنازل المخصصة",
     emailBodyGeneral:
