@@ -72,7 +72,7 @@ h4 {
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--text-body);
+  color: inherit;
 }
 
 .site-shell {
@@ -300,7 +300,12 @@ h4 {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(20, 20, 20, 0.45) 0%, rgba(20, 20, 20, 0.2) 45%, rgba(20, 20, 20, 0.55) 100%);
+    linear-gradient(
+      180deg,
+      rgba(12, 12, 12, 0.55) 0%,
+      rgba(12, 12, 12, 0.35) 40%,
+      rgba(12, 12, 12, 0.72) 100%
+    );
 }
 
 .hero-inner {
@@ -311,6 +316,7 @@ h4 {
   margin: 0 auto;
   padding: clamp(72px, 10vw, 120px) var(--side-pad);
   text-align: center;
+  color: #fff;
 }
 
 .hero-brand {
@@ -318,28 +324,33 @@ h4 {
   margin-bottom: 18px;
   font-family: var(--font-body);
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent-copper);
+  color: #f0c4a8;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.45);
   opacity: 1;
 }
 
 .hero-bleed h1 {
   margin: 0;
+  color: #fff;
   font-size: clamp(2.2rem, 5.5vw, 3.75rem);
   line-height: 1.12;
   font-weight: 600;
   letter-spacing: 0.02em;
   text-wrap: balance;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.45);
 }
 
 .hero-lead {
   max-width: 640px;
   margin: 22px auto 0;
+  color: #fff;
   font-size: clamp(1rem, 1.6vw, 1.2rem);
   line-height: 1.7;
-  opacity: 0.92;
+  opacity: 0.95;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.5);
 }
 
 .hero-actions {
@@ -484,6 +495,12 @@ h4 {
   color: #fff;
 }
 
+.section-block.dark h2,
+.section-block.dark h3,
+.section-block.dark h4 {
+  color: #fff;
+}
+
 .section-heading {
   max-width: 780px;
   margin-bottom: clamp(36px, 5vw, 56px);
@@ -504,15 +521,20 @@ h4 {
 }
 
 .section-block.dark .eyebrow {
-  color: rgba(255, 255, 255, 0.65);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .section-heading h2 {
   margin: 0;
+  color: var(--text-body);
   font-size: clamp(2rem, 4vw, 3.2rem);
   line-height: 1.12;
   letter-spacing: 0.025em;
   text-wrap: balance;
+}
+
+.section-block.dark .section-heading h2 {
+  color: #fff;
 }
 
 .section-heading p:not(.eyebrow) {
@@ -1231,6 +1253,8 @@ select:focus {
   height: 44px;
   object-fit: contain;
   border-radius: 8px;
+  background: #fff;
+  padding: 2px;
 }
 
 .footer-brand-lockup strong {
@@ -1244,16 +1268,18 @@ select:focus {
   max-width: 320px;
   line-height: 1.7;
   font-size: 0.92rem;
-  opacity: 0.78;
+  color: rgba(255, 255, 255, 0.82);
+  opacity: 1;
 }
 
 .footer-col h4 {
   margin: 0 0 16px;
-  font-size: 0.82rem;
+  color: #fff;
+  font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  opacity: 0.55;
+  opacity: 0.95;
 }
 
 .footer-col nav,
@@ -1265,13 +1291,17 @@ select:focus {
   list-style: none;
 }
 
-.footer-col a {
+.footer-col a,
+.footer-whatsapp-link {
+  color: rgba(255, 255, 255, 0.82);
   font-size: 0.92rem;
-  opacity: 0.85;
-  transition: opacity 0.2s ease;
+  opacity: 1;
+  transition: color 0.2s ease;
 }
 
-.footer-col a:hover {
+.footer-col a:hover,
+.footer-whatsapp-link:hover {
+  color: var(--accent-copper);
   opacity: 1;
 }
 
@@ -1280,16 +1310,17 @@ select:focus {
   border: 0;
   padding: 0;
   background: transparent;
-  color: inherit;
+  color: rgba(255, 255, 255, 0.82);
   font: inherit;
   font-size: 0.92rem;
   text-align: inherit;
   cursor: pointer;
-  opacity: 0.85;
-  transition: opacity 0.2s ease;
+  opacity: 1;
+  transition: color 0.2s ease;
 }
 
 .footer-whatsapp-link:hover {
+  color: var(--accent-copper);
   opacity: 1;
 }
 
@@ -1304,7 +1335,8 @@ select:focus {
   padding-top: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   font-size: 0.86rem;
-  opacity: 0.65;
+  color: rgba(255, 255, 255, 0.78);
+  opacity: 1;
 }
 
 .site-credit {
@@ -1436,10 +1468,31 @@ select:focus {
 .contact-actions .float-btn {
   box-shadow: none;
   background: transparent;
+  border-color: rgba(51, 51, 51, 0.28);
+  color: var(--text-body);
 }
 
-.contact-actions .float-btn:hover {
-  background: rgba(218, 154, 125, 0.08);
+.contact-actions .float-btn.whatsapp,
+.contact-actions .float-btn.service,
+.contact-actions .float-btn.mail,
+.contact-actions .float-btn.phone {
+  border-color: rgba(51, 51, 51, 0.28);
+  background: transparent;
+  color: var(--text-body);
+}
+
+.contact-actions .float-btn svg {
+  fill: currentColor;
+}
+
+.contact-actions .float-btn:hover,
+.contact-actions .float-btn.whatsapp:hover,
+.contact-actions .float-btn.service:hover,
+.contact-actions .float-btn.mail:hover,
+.contact-actions .float-btn.phone:hover {
+  border-color: var(--accent-copper);
+  color: var(--accent-copper);
+  background: rgba(218, 154, 125, 0.06);
 }
 
 .contact-actions .float-btn.whatsapp:hover {
