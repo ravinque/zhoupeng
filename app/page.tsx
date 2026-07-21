@@ -945,7 +945,7 @@ export default function Home() {
               {t.close}
             </button>
             <div className="product-modal-media">
-              <img src={asset(detailProduct.image)} alt={`${detailProduct.title[language]} detail`} />
+              <img src={asset(detailProduct.image)} alt={`${detailProduct.title[language]} — ${t.productDetails}`} />
               <span>{detailProduct.badge[language]}</span>
             </div>
             <div className="product-modal-copy">
