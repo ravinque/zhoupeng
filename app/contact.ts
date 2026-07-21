@@ -4,9 +4,6 @@ export const CONTACT_PHONE = "0597-3992099";
 export const CONTACT_PHONE_TEL = "05973992099";
 export const SITE_URL = "www.fjzpsy.com";
 
-export const whatsappUrl = (text: string) =>
-  `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(text)}`;
-
 export const mailtoUrl = (subject: string, body: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
@@ -40,7 +37,7 @@ export type QuoteMailPayload = {
 
 export const buildQuoteMailBody = (payload: QuoteMailPayload) => {
   const l = payload.labels || {
-    heading: "ZhouPeng / 洲鹏 Quote Request",
+    heading: "Fujian ZhouPeng Industrial / 福建洲鹏实业 Quote Request",
     name: "Name",
     email: "Email",
     country: "Country",

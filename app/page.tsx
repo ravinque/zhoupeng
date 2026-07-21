@@ -7,7 +7,6 @@ import {
   CONTACT_PHONE,
   CONTACT_PHONE_TEL,
   mailtoUrl,
-  whatsappUrl,
 } from "./contact";
 import {
   type Lang,
@@ -36,6 +35,30 @@ type ChatMessage = {
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const asset = (path: string) => `${basePath}${path}`;
 
+const IconWhatsApp = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.96.52 3.8 1.44 5.4L2 22l4.92-1.55a9.9 9.9 0 0 0 5.12 1.4h.01c5.46 0 9.89-4.4 9.89-9.82C21.94 6.4 17.5 2 12.04 2zm5.76 13.99c-.24.68-1.4 1.24-1.94 1.32-.5.07-1.14.1-1.84-.12-.42-.13-.97-.32-1.67-.62-2.94-1.27-4.86-4.23-5.01-4.42-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37h.57c.18 0 .42-.05.66.5.24.58.82 2 .89 2.14.07.15.12.32.02.51-.1.2-.15.32-.3.5-.15.17-.31.38-.45.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.32 2.36 1.47.3.15.47.12.64-.07.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.34.08.13.08.74-.16 1.42z" />
+  </svg>
+);
+
+const IconMail = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+  </svg>
+);
+
+const IconHeadset = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 3a4 4 0 0 0-4 4v1H7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1v1a4 4 0 0 0 8 0v-1h1a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3h-1V7a4 4 0 0 0-4-4zm-2 5V7a2 2 0 1 1 4 0v1h-4zm-3 3h2v4H7a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm10 0a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2v-4h2zm-6 7a2 2 0 0 1-1.73-1h3.46A2 2 0 0 1 12 18z" />
+  </svg>
+);
+
+const IconPhone = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z" />
+  </svg>
+);
+
 const factoryVideos = [
   { src: "/zp/videos/factory-01.mp4", poster: "/zp/posters/factory-01.jpg" },
   { src: "/zp/videos/factory-02.mp4", poster: "/zp/posters/factory-02.jpg" },
@@ -52,6 +75,7 @@ export default function Home() {
   const [detailProduct, setDetailProduct] = useState<Product | null>(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isServiceOpen, setIsServiceOpen] = useState(false);
+  const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [sessionEmail, setSessionEmail] = useState(() =>
     typeof window === "undefined" ? "" : window.localStorage.getItem("zp-session-email") ?? "",
   );
@@ -59,8 +83,12 @@ export default function Home() {
   const [loginError, setLoginError] = useState("");
   const [quoteError, setQuoteError] = useState("");
   const [chatText, setChatText] = useState("");
+  const [waChatText, setWaChatText] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     { role: "agent", text: copy.zh.starterMessage },
+  ]);
+  const [waMessages, setWaMessages] = useState<ChatMessage[]>([
+    { role: "agent", text: copy.zh.whatsAppStarter },
   ]);
   const [isHydrated, setIsHydrated] = useState(false);
   const [advantageTab, setAdvantageTab] = useState<AdvantageTab>("equipment");
@@ -70,7 +98,6 @@ export default function Home() {
   const t = copy[language];
   const regionData = regions[region];
   const dir = language === "ar" ? "rtl" : "ltr";
-  const whatsAppLink = whatsappUrl(t.whatsAppInquiry);
   const generalMailLink = mailtoUrl(t.emailSubjectGeneral, t.emailBodyGeneral);
   const quoteTotal = quote.reduce(
     (sum, item) => sum + (region === "middleEast" ? item.priceMe : item.priceWest),
@@ -94,6 +121,7 @@ export default function Home() {
         setLanguage(savedLanguage);
         if (savedLanguage === "ar") setRegion("middleEast");
         setMessages([{ role: "agent", text: copy[savedLanguage].starterMessage }]);
+        setWaMessages([{ role: "agent", text: copy[savedLanguage].whatsAppStarter }]);
       }
       setIsHydrated(true);
     }, 0);
@@ -285,6 +313,22 @@ export default function Home() {
     setChatText("");
   };
 
+  const openWhatsAppChat = () => {
+    setIsServiceOpen(false);
+    setIsWhatsAppOpen(true);
+  };
+
+  const sendWhatsAppChat = (text = waChatText) => {
+    const cleanText = text.trim();
+    if (!cleanText) return;
+    setWaMessages((current) => [
+      ...current,
+      { role: "customer", text: cleanText },
+      { role: "agent", text: getAgentReply(cleanText, language) },
+    ]);
+    setWaChatText("");
+  };
+
   const switchLanguage = (nextLanguage: Lang) => {
     setLanguage(nextLanguage);
     window.localStorage.setItem("zp-language", nextLanguage);
@@ -293,6 +337,7 @@ export default function Home() {
     setQuoteError("");
     setQuoteStatus("");
     setMessages([{ role: "agent", text: copy[nextLanguage].starterMessage }]);
+    setWaMessages([{ role: "agent", text: copy[nextLanguage].whatsAppStarter }]);
   };
 
   return (
@@ -303,7 +348,11 @@ export default function Home() {
           href="#home"
           aria-label={t.brandHome}
         >
-          <img src={asset("/zp/logo.png")} alt={brandName(language)} />
+          <img className="brand-mark" src={asset("/zp/brand-mark.png")} alt="" />
+          <span>
+            <strong>{brandName(language)}</strong>
+            <small>{t.brandSubline}</small>
+          </span>
         </a>
         <nav className="nav-links" aria-label={t.primaryNavLabel}>
           <a href="#products">{t.nav[0]}</a>
@@ -364,9 +413,10 @@ export default function Home() {
             <a className="button primary" href="#quote">
               {t.startOrder}
             </a>
-            <a className="button whatsapp" href={whatsAppLink} rel="noopener noreferrer" target="_blank">
+            <button className="button whatsapp" onClick={openWhatsAppChat} type="button">
+              <IconWhatsApp />
               {t.whatsApp}
-            </a>
+            </button>
             <a className="button email" href={generalMailLink}>
               {t.emailUs}
             </a>
@@ -755,36 +805,20 @@ export default function Home() {
           </p>
           <p>{t.address}</p>
           <div className="contact-actions">
-            <a className="button whatsapp icon-circle-btn" href={whatsAppLink} rel="noopener noreferrer" target="_blank">
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.96.52 3.8 1.44 5.4L2 22l4.92-1.55a9.9 9.9 0 0 0 5.12 1.4h.01c5.46 0 9.89-4.4 9.89-9.82C21.94 6.4 17.5 2 12.04 2zm5.76 13.99c-.24.68-1.4 1.24-1.94 1.32-.5.07-1.14.1-1.84-.12-.42-.13-.97-.32-1.67-.62-2.94-1.27-4.86-4.23-5.01-4.42-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37h.57c.18 0 .42-.05.66.5.24.58.82 2 .89 2.14.07.15.12.32.02.51-.1.2-.15.32-.3.5-.15.17-.31.38-.45.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.32 2.36 1.47.3.15.47.12.64-.07.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.34.08.13.08.74-.16 1.42z" />
-                </svg>
-              </span>
+            <button className="float-btn whatsapp" onClick={openWhatsAppChat} type="button">
+              <IconWhatsApp />
               {t.whatsApp}
-            </a>
-            <a className="button dark icon-circle-btn" href={generalMailLink}>
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-                </svg>
-              </span>
+            </button>
+            <a className="float-btn mail" href={generalMailLink}>
+              <IconMail />
               {t.emailUs}
             </a>
-            <button className="button secondary icon-circle-btn" onClick={() => setIsServiceOpen(true)} type="button">
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M12 3a4 4 0 0 0-4 4v1H7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1v1a4 4 0 0 0 8 0v-1h1a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3h-1V7a4 4 0 0 0-4-4zm-2 5V7a2 2 0 1 1 4 0v1h-4zm-3 3h2v4H7a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm10 0a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2v-4h2zm-6 7a2 2 0 0 1-1.73-1h3.46A2 2 0 0 1 12 18z" />
-                </svg>
-              </span>
+            <button className="float-btn service" onClick={() => setIsServiceOpen(true)} type="button">
+              <IconHeadset />
               {t.openDesk}
             </button>
-            <a className="button secondary icon-circle-btn" href={`tel:${CONTACT_PHONE_TEL}`}>
-              <span className="icon-circle" aria-hidden="true">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.2 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8z" />
-                </svg>
-              </span>
+            <a className="float-btn phone" href={`tel:${CONTACT_PHONE_TEL}`}>
+              <IconPhone />
               <bdi dir="ltr">{CONTACT_PHONE}</bdi>
             </a>
           </div>
@@ -794,7 +828,10 @@ export default function Home() {
       <footer className="site-footer" id="site-footer">
         <div className="footer-grid">
           <div className="footer-brand">
-            <img src={asset("/zp/logo.png")} alt="" />
+            <div className="footer-brand-lockup">
+              <img src={asset("/zp/brand-mark.png")} alt="" />
+              <strong>{brandName(language)}</strong>
+            </div>
             <p>{t.footerIntro}</p>
           </div>
           <div className="footer-col">
@@ -829,9 +866,9 @@ export default function Home() {
               <a href={generalMailLink}>
                 <bdi dir="ltr">cathy@shhf2008.com</bdi>
               </a>
-              <a href={whatsAppLink} rel="noopener noreferrer" target="_blank">
+              <button className="footer-whatsapp-link" onClick={openWhatsAppChat} type="button">
                 {t.whatsApp}
-              </a>
+              </button>
               <span>{t.address}</span>
             </nav>
           </div>
@@ -853,26 +890,17 @@ export default function Home() {
       </div>
 
       <div className="float-actions" dir="ltr">
-        <a
+        <button
           className="float-btn whatsapp"
-          href={whatsAppLink}
-          rel="noopener noreferrer"
-          target="_blank"
+          onClick={openWhatsAppChat}
+          type="button"
           aria-label={t.whatsApp}
         >
-          <span className="icon-circle" aria-hidden="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.96.52 3.8 1.44 5.4L2 22l4.92-1.55a9.9 9.9 0 0 0 5.12 1.4h.01c5.46 0 9.89-4.4 9.89-9.82C21.94 6.4 17.5 2 12.04 2zm5.76 13.99c-.24.68-1.4 1.24-1.94 1.32-.5.07-1.14.1-1.84-.12-.42-.13-.97-.32-1.67-.62-2.94-1.27-4.86-4.23-5.01-4.42-.15-.2-1.2-1.6-1.2-3.05 0-1.45.76-2.16 1.03-2.46.27-.3.59-.37.79-.37h.57c.18 0 .42-.05.66.5.24.58.82 2 .89 2.14.07.15.12.32.02.51-.1.2-.15.32-.3.5-.15.17-.31.38-.45.51-.15.15-.3.31-.13.6.17.3.76 1.25 1.63 2.03 1.12 1 2.07 1.32 2.36 1.47.3.15.47.12.64-.07.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.72.81 2.02.96.3.15.5.22.57.34.08.13.08.74-.16 1.42z" />
-            </svg>
-          </span>
+          <IconWhatsApp />
           {t.whatsApp}
-        </a>
+        </button>
         <button className="float-btn service" onClick={() => setIsServiceOpen(true)} type="button">
-          <span className="icon-circle" aria-hidden="true">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3a4 4 0 0 0-4 4v1H7a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1v1a4 4 0 0 0 8 0v-1h1a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3h-1V7a4 4 0 0 0-4-4zm-2 5V7a2 2 0 1 1 4 0v1h-4zm-3 3h2v4H7a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1zm10 0a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2v-4h2zm-6 7a2 2 0 0 1-1.73-1h3.46A2 2 0 0 1 12 18z" />
-            </svg>
-          </span>
+          <IconHeadset />
           {t.contactService}
         </button>
       </div>
@@ -976,9 +1004,9 @@ export default function Home() {
               <bdi dir="ltr">cathy@shhf2008.com</bdi>
             </a>
             <div className="service-contact-actions">
-              <a className="wa" href={whatsAppLink} rel="noopener noreferrer" target="_blank">
+              <button className="wa" onClick={openWhatsAppChat} type="button">
                 {t.whatsApp}
-              </a>
+              </button>
               <a className="mail" href={generalMailLink}>
                 {t.emailUs}
               </a>
@@ -1008,6 +1036,49 @@ export default function Home() {
             <input
               value={chatText}
               onChange={(event) => setChatText(event.target.value)}
+              placeholder={t.chatPlaceholder}
+            />
+            <button type="submit">{t.send}</button>
+          </form>
+        </aside>
+      ) : null}
+
+      {isWhatsAppOpen ? (
+        <aside className="service-desk whatsapp-desk" aria-label={t.whatsAppDesk}>
+          <div className="service-head whatsapp-head">
+            <div>
+              <p className="eyebrow">{t.whatsApp}</p>
+              <h2>{t.whatsAppDesk}</h2>
+            </div>
+            <button onClick={() => setIsWhatsAppOpen(false)} type="button">
+              {t.close}
+            </button>
+          </div>
+          <p className="whatsapp-hint">{t.whatsAppHint}</p>
+          <div className="message-list">
+            {waMessages.map((message, index) => (
+              <p className={message.role} key={`wa-${message.role}-${index}`}>
+                {message.text}
+              </p>
+            ))}
+          </div>
+          <div className="quick-replies">
+            <button onClick={() => sendWhatsAppChat(t.quickVillaText)} type="button">
+              {t.villaQuote}
+            </button>
+            <button onClick={() => sendWhatsAppChat(t.quickDealerText)} type="button">
+              {t.dealerPrice}
+            </button>
+          </div>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              sendWhatsAppChat();
+            }}
+          >
+            <input
+              value={waChatText}
+              onChange={(event) => setWaChatText(event.target.value)}
               placeholder={t.chatPlaceholder}
             />
             <button type="submit">{t.send}</button>

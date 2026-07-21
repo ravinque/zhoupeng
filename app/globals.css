@@ -16,6 +16,8 @@
   --content-max: 1440px;
   --shadow: 0 24px 64px rgba(20, 20, 20, 0.12);
   --brand-navy: #20155f;
+  --btn-radius: 2px;
+  --btn-height: 44px;
   --font-display: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "微软雅黑", system-ui, sans-serif;
   --font-body: system-ui, "Microsoft YaHei", "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Noto Sans Arabic", arial, sans-serif;
 }
@@ -115,13 +117,37 @@ h4 {
 .brand {
   display: inline-flex;
   align-items: center;
+  gap: 12px;
   min-width: max-content;
 }
 
-.brand img {
-  width: 148px;
-  height: 72px;
+.brand-mark,
+.brand img.brand-mark {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.brand span {
+  display: grid;
+  gap: 2px;
+}
+
+.brand strong {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+}
+
+.brand small {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
 }
 
 .nav-links {
@@ -153,25 +179,31 @@ h4 {
 }
 
 .language-select {
-  min-height: 40px;
-  min-width: 130px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--paper);
-  color: #444;
-  padding: 0 36px 0 14px;
+  min-height: var(--btn-height);
+  min-width: 118px;
+  border: 1px solid rgba(20, 20, 20, 0.22);
+  border-radius: var(--btn-radius);
+  background: transparent;
+  color: var(--charcoal);
+  padding: 0 34px 0 14px;
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 400;
+  font-size: 0.88rem;
+  font-weight: 500;
   appearance: none;
   background-image:
-    linear-gradient(45deg, transparent 50%, var(--brand-navy) 50%),
-    linear-gradient(135deg, var(--brand-navy) 50%, transparent 50%);
+    linear-gradient(45deg, transparent 50%, var(--charcoal) 50%),
+    linear-gradient(135deg, var(--charcoal) 50%, transparent 50%);
   background-position:
-    calc(100% - 18px) 16px,
-    calc(100% - 12px) 16px;
+    calc(100% - 16px) 18px,
+    calc(100% - 10px) 18px;
   background-size: 5px 5px;
   background-repeat: no-repeat;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.language-select:hover {
+  border-color: var(--brand-navy);
+  color: var(--brand-navy);
 }
 
 .language-select:disabled {
@@ -180,35 +212,40 @@ h4 {
 }
 
 [dir="rtl"] .language-select {
-  padding: 0 14px 0 36px;
+  padding: 0 14px 0 34px;
   background-position:
-    12px 16px,
-    18px 16px;
+    10px 18px,
+    16px 18px;
 }
 
 .icon-button {
-  min-height: 40px;
-  border: 0;
-  border-radius: 999px;
-  padding: 0 16px;
-  font-size: 0.8rem;
-  font-weight: 700;
+  min-height: var(--btn-height);
+  border: 1px solid rgba(20, 20, 20, 0.22);
+  border-radius: var(--btn-radius);
+  padding: 0 18px;
+  background: transparent;
+  color: var(--charcoal);
+  font-size: 0.88rem;
+  font-weight: 500;
   white-space: nowrap;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
 
-.icon-button:hover {
-  transform: translateY(-1px);
+.icon-button:hover,
+.service-top:hover {
+  border-color: var(--brand-navy);
+  color: var(--brand-navy);
+  background: rgba(32, 21, 95, 0.04);
 }
 
 .icon-button:not(.service-top) {
-  background: var(--charcoal);
-  color: #fff;
+  background: transparent;
+  color: var(--charcoal);
 }
 
 .service-top {
-  background: var(--forest);
-  color: #fff;
+  background: transparent;
+  color: var(--charcoal);
 }
 
 .hero-bleed {
@@ -311,45 +348,72 @@ h4 {
 
 .button {
   display: inline-flex;
-  min-height: 48px;
+  min-height: var(--btn-height);
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 0;
-  border-radius: 4px;
-  padding: 0 24px;
-  font-weight: 700;
+  border: 1px solid rgba(20, 20, 20, 0.28);
+  border-radius: var(--btn-radius);
+  padding: 0 22px;
+  background: transparent;
+  color: var(--charcoal);
+  font-family: var(--font-body);
+  font-weight: 500;
   font-size: 0.9rem;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .button:hover {
-  transform: translateY(-2px);
+  border-color: var(--brand-navy);
+  color: var(--brand-navy);
+  background: rgba(32, 21, 95, 0.04);
+  transform: translateY(-1px);
 }
 
 .button.primary {
-  background: var(--forest);
+  border-color: var(--brand-navy);
+  background: var(--brand-navy);
   color: #fff;
-  box-shadow: 0 12px 32px rgba(31, 79, 67, 0.35);
+  box-shadow: none;
+}
+
+.button.primary:hover {
+  border-color: #160f45;
+  background: #160f45;
+  color: #fff;
 }
 
 .button.secondary {
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  backdrop-filter: blur(8px);
+  border: 1px solid rgba(20, 20, 20, 0.28);
+  background: transparent;
+  color: var(--charcoal);
+  backdrop-filter: none;
 }
 
 .button.whatsapp {
-  background: var(--whatsapp);
-  color: #fff;
-  box-shadow: 0 12px 32px rgba(37, 211, 102, 0.3);
+  border-color: var(--whatsapp);
+  background: transparent;
+  color: #128c7e;
+  box-shadow: none;
+}
+
+.button.whatsapp:hover {
+  border-color: #128c7e;
+  background: rgba(37, 211, 102, 0.08);
+  color: #0b6b5f;
 }
 
 .button.email {
-  background: var(--paper);
-  color: var(--charcoal);
+  border-color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+  color: #fff;
+}
+
+.button.email:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
 .button.full {
@@ -357,7 +421,43 @@ h4 {
 }
 
 .button.dark {
-  background: var(--charcoal);
+  border-color: var(--charcoal);
+  background: transparent;
+  color: var(--charcoal);
+}
+
+.button.dark:hover {
+  border-color: var(--brand-navy);
+  color: var(--brand-navy);
+  background: rgba(32, 21, 95, 0.04);
+}
+
+/* Hero sits on dark media — outline buttons stay light */
+.hero-actions .button.primary {
+  border-color: #fff;
+  background: #fff;
+  color: var(--brand-navy);
+}
+
+.hero-actions .button.primary:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--brand-navy);
+}
+
+.hero-actions .button.whatsapp {
+  border-color: rgba(255, 255, 255, 0.75);
+  color: #fff;
+}
+
+.hero-actions .button.whatsapp:hover {
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.hero-actions .button.email {
+  border-color: rgba(255, 255, 255, 0.75);
   color: #fff;
 }
 
@@ -1086,14 +1186,8 @@ select:focus {
 .contact-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 12px;
   margin-top: 20px;
-}
-
-.contact-actions .button.secondary {
-  border-color: var(--line);
-  background: var(--paper);
-  color: var(--charcoal);
 }
 
 .site-footer {
@@ -1110,12 +1204,24 @@ select:focus {
   margin: 0 auto;
 }
 
-.footer-brand img {
-  width: 88px;
+.footer-brand-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.footer-brand-lockup img {
+  width: 44px;
   height: 44px;
   object-fit: contain;
-  margin-bottom: 16px;
-  filter: brightness(0) invert(1);
+  border-radius: 8px;
+}
+
+.footer-brand-lockup strong {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
 }
 
 .footer-brand p {
@@ -1151,6 +1257,24 @@ select:focus {
 }
 
 .footer-col a:hover {
+  opacity: 1;
+}
+
+.footer-whatsapp-link {
+  display: inline;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.92rem;
+  text-align: inherit;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.footer-whatsapp-link:hover {
   opacity: 1;
 }
 
@@ -1224,74 +1348,87 @@ select:focus {
   justify-items: start;
 }
 
-/* Circular solid icon badges — one style for all contact/float actions */
-.icon-circle-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.icon-circle-btn .icon-circle,
-.float-btn .icon-circle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  background: var(--icon-circle);
-}
-
-.icon-circle-btn .icon-circle svg,
-.float-btn .icon-circle svg {
-  width: 14px;
-  height: 14px;
-  fill: #fff;
-}
-
-.float-btn .icon-circle {
-  width: 34px;
-  height: 34px;
-  background: rgba(255, 255, 255, 0.22);
-}
-
-.float-btn .icon-circle svg {
-  width: 18px;
-  height: 18px;
-}
-
+/* Shared outline buttons — contact row + floating FABs */
 .float-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   text-align: center;
-  min-height: 48px;
-  border: 0;
-  border-radius: 999px;
-  padding: 6px 18px 6px 8px;
-  font-weight: 700;
-  font-size: 0.84rem;
+  min-height: var(--btn-height);
+  border: 1px solid rgba(20, 20, 20, 0.28);
+  border-radius: var(--btn-radius);
+  padding: 0 18px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 0.88rem;
   line-height: 1;
-  box-shadow: var(--shadow);
-  transition: transform 0.2s ease;
-  color: #fff;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(20, 20, 20, 0.08);
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  color: var(--charcoal);
+}
+
+.float-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  fill: currentColor;
 }
 
 .float-btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
+  border-color: var(--brand-navy);
+  color: var(--brand-navy);
+  background: #fff;
 }
 
 .float-btn.whatsapp {
-  background: var(--whatsapp);
-  color: #fff;
+  border-color: rgba(18, 140, 126, 0.55);
+  background: rgba(255, 255, 255, 0.92);
+  color: #128c7e;
 }
 
-.float-btn.service {
-  background: var(--icon-circle);
-  color: #fff;
+.float-btn.whatsapp:hover {
+  border-color: #128c7e;
+  color: #0b6b5f;
+  background: #fff;
+}
+
+.float-btn.service,
+.float-btn.phone,
+.float-btn.mail {
+  border-color: rgba(32, 21, 95, 0.35);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--brand-navy);
+}
+
+.float-btn.service:hover,
+.float-btn.phone:hover,
+.float-btn.mail:hover {
+  border-color: var(--brand-navy);
+  color: var(--brand-navy);
+  background: #fff;
+}
+
+.button.whatsapp svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.contact-actions .float-btn {
+  box-shadow: none;
+  background: transparent;
+}
+
+.contact-actions .float-btn:hover {
+  background: rgba(32, 21, 95, 0.04);
+}
+
+.contact-actions .float-btn.whatsapp:hover {
+  background: rgba(37, 211, 102, 0.08);
 }
 
 .modal-backdrop {
@@ -1470,23 +1607,48 @@ select:focus {
   margin-top: 4px;
 }
 
-.service-contact-actions a {
+.service-contact-actions a,
+.service-contact-actions button {
   display: inline-flex;
   align-items: center;
   min-height: 36px;
-  border-radius: 4px;
+  border-radius: var(--btn-radius);
   padding: 0 12px;
   font-size: 0.78rem;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
 }
 
 .service-contact-actions .wa {
-  background: var(--whatsapp);
-  color: #fff;
+  border: 1px solid rgba(18, 140, 126, 0.55);
+  color: #128c7e;
 }
 
 .service-contact-actions .mail {
-  border: 1px solid var(--line);
-  background: var(--paper);
+  border: 1px solid rgba(20, 20, 20, 0.28);
+  color: var(--charcoal);
+}
+
+.whatsapp-desk {
+  grid-template-rows: auto auto 1fr auto auto;
+  border-color: rgba(37, 211, 102, 0.35);
+}
+
+.whatsapp-head .eyebrow,
+.whatsapp-head h2 {
+  color: #128c7e;
+}
+
+.whatsapp-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+.whatsapp-desk .message-list .customer {
+  background: #dcf8c6;
 }
 
 .message-list {
@@ -1569,9 +1731,14 @@ select:focus {
     padding: 12px 16px;
   }
 
-  .brand img {
-    width: 128px;
-    height: 62px;
+  .brand-mark,
+  .brand img.brand-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .brand strong {
+    font-size: 0.95rem;
   }
 
   .hero-bleed {
@@ -1650,7 +1817,7 @@ select:focus {
   }
 
   .hero-actions .button,
-  .contact-actions .button {
+  .contact-actions .float-btn {
     width: 100%;
   }
 

@@ -1,4 +1,4 @@
-# 洲鹏 / ZhouPeng Smart Home Mall
+# 福建洲鹏实业 / Fujian ZhouPeng Industrial Storefront
 
 Modern smart home storefront for 福建洲鹏实业有限公司 / Fujian ZhouPeng Industrial Co., Ltd. It uses
 public material from `fjzpsy.com` and a premium custom-home shopping flow
