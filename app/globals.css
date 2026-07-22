@@ -1431,15 +1431,15 @@ html[lang="zh-CN"] .footer-contact-label::after {
   gap: 8px;
   background: #f3f3f3;
   color: #666;
-  padding: 14px 16px;
+  padding: 10px 16px;
   font-size: 0.78rem;
   line-height: 1.5;
   border-top: 1px solid #e5e5e5;
 }
 
-/* Keep final footer content clear of fixed WhatsApp / service buttons */
+/* One-line clearance under the credit bar */
 .page-end-spacer {
-  height: calc(96px + env(safe-area-inset-bottom, 0px));
+  height: 1.25em;
   background: #f3f3f3;
   pointer-events: none;
 }
@@ -1964,13 +1964,16 @@ html[lang="zh-CN"] .footer-contact-label::after {
   .nav-links {
     grid-column: 1 / -1;
     order: 3;
+    justify-content: center;
     gap: 14px;
     padding-top: 2px;
     font-size: 0.88rem;
+    overflow-x: auto;
   }
 
   .nav-links a {
     padding: 4px 0;
+    flex-shrink: 0;
   }
 
   .hero-bleed {
@@ -2073,12 +2076,12 @@ html[lang="zh-CN"] .footer-contact-label::after {
   .site-credit {
     background: #ececec;
     color: #666;
-    padding: 14px 16px 8px;
+    padding: 10px 16px;
     font-size: 0.75rem;
   }
 
   .page-end-spacer {
-    height: calc(110px + env(safe-area-inset-bottom, 0px));
+    height: 1.25em;
     background: #ececec;
   }
 
