@@ -4,6 +4,7 @@
 
 import {
   buildQuoteMailBody,
+  CONTACT_EMAIL,
   CONTACT_PHONE,
   CONTACT_PHONE_TEL,
   mailtoUrl,
@@ -100,6 +101,7 @@ export default function Home() {
   const t = copy[language];
   const regionData = regions[region];
   const dir = language === "ar" ? "rtl" : "ltr";
+  const contactEmail = CONTACT_EMAIL;
   const generalMailLink = mailtoUrl(t.emailSubjectGeneral, t.emailBodyGeneral);
   const quoteTotal = quote.reduce(
     (sum, item) => sum + (region === "middleEast" ? item.priceMe : item.priceWest),
@@ -875,7 +877,7 @@ export default function Home() {
             </a>{" "}
             · {t.emailLabel}:{" "}
             <a href={generalMailLink}>
-              <bdi dir="ltr">cathy@shhf2008.com</bdi>
+              <bdi dir="ltr">{contactEmail}</bdi>
             </a>
           </p>
           <p>{t.address}</p>
@@ -944,7 +946,7 @@ export default function Home() {
               <li>
                 <span className="footer-contact-label">{t.emailLabel}</span>
                 <a href={generalMailLink}>
-                  <bdi dir="ltr">cathy@shhf2008.com</bdi>
+                  <bdi dir="ltr">{contactEmail}</bdi>
                 </a>
               </li>
               <li>
@@ -1089,7 +1091,7 @@ export default function Home() {
               <bdi dir="ltr">{CONTACT_PHONE}</bdi>
             </a>
             <a href={generalMailLink}>
-              <bdi dir="ltr">cathy@shhf2008.com</bdi>
+              <bdi dir="ltr">{contactEmail}</bdi>
             </a>
             <div className="service-contact-actions">
               <button className="wa" onClick={openWhatsAppChat} type="button">

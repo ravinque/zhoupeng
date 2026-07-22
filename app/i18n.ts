@@ -467,7 +467,7 @@ export const copy: Record<Lang, Copy> = {
     chatPlaceholder: "请输入项目类型、城市、面积或预算...",
     send: "发送",
     starterMessage: "你好，这里是福建洲鹏实业在线客服。请告诉我项目类型、所在城市和面积，我会协助你整理询价。",
-    agentReply: "已收到。请补充户型图、现场照片、面积和目标国家，客服会据此整理 BOM 与报价。可以直接电话 0597-3992099，或发送邮件到 cathy@shhf2008.com，也可以 WhatsApp 联系。",
+    agentReply: "已收到。请补充户型图、现场照片、面积和目标国家，客服会据此整理 BOM 与报价。可以直接电话 0597-3992099，或发送邮件到 sales@zhoupengindustry.com，也可以 WhatsApp 联系。",
     quickVillaText: "我需要别墅整屋方案报价。",
     quickDealerText: "我想了解经销政策和产品目录。",
     brandHome: "福建洲鹏实业首页",
@@ -674,7 +674,7 @@ export const copy: Record<Lang, Copy> = {
     send: "Send",
     starterMessage: "Hi, this is Fujian ZhouPeng Industrial service. Share the project type, city, and floor area so we can prepare the quote path.",
     agentReply:
-      "Received. Please attach room photos, floor plan size, and target country in the quote form for a precise BOM. You can also call 0597-3992099, email cathy@shhf2008.com, or reach us on WhatsApp.",
+      "Received. Please attach room photos, floor plan size, and target country in the quote form for a precise BOM. You can also call 0597-3992099, email sales@zhoupengindustry.com, or reach us on WhatsApp.",
     quickVillaText: "I need a villa whole-home quote.",
     quickDealerText: "I want dealer pricing and catalogues.",
     brandHome: "Fujian ZhouPeng Industrial home",
@@ -879,7 +879,7 @@ export const copy: Record<Lang, Copy> = {
     chatPlaceholder: "نوع المشروع، المدينة، المساحة، أو الميزانية...",
     send: "إرسال",
     starterMessage: "مرحبا، هذه خدمة فوجيان تشو بنغ الصناعية. شارك نوع المشروع والمدينة والمساحة لنجهز مسار العرض.",
-    agentReply: "تم الاستلام. يرجى إضافة الصور والمخطط والمساحة والدولة في نموذج العرض لتجهيز قائمة المواد. يمكنك أيضا الاتصال على 0597-3992099 أو إرسال بريد إلى cathy@shhf2008.com أو التواصل عبر واتساب.",
+    agentReply: "تم الاستلام. يرجى إضافة الصور والمخطط والمساحة والدولة في نموذج العرض لتجهيز قائمة المواد. يمكنك أيضا الاتصال على 0597-3992099 أو إرسال بريد إلى sales@zhoupengindustry.com أو التواصل عبر واتساب.",
     quickVillaText: "أحتاج عرضا لمنزل فيلا كامل.",
     quickDealerText: "أريد أسعار الوكلاء والكتالوجات.",
     brandHome: "الصفحة الرئيسية لفوجيان تشو بنغ الصناعية",
@@ -1029,7 +1029,7 @@ export const getAgentReply = (text: string, language: Lang): string => {
     if (/经销|代理|dealer|catalog|目录/.test(lower)) return "可以。经销合作请留下公司名称、目标市场和预计展厅面积，客服会发送产品目录和经销报价。";
     if (/价格|报价|预算|quote|price|多少钱/.test(lower)) return "报价会按产品系统、尺寸、材料和目的地计算。你可以先加入产品到询价单，再提交电话或 WhatsApp。";
     if (/图纸|户型|尺寸|plan|drawing|size/.test(lower)) return "请准备户型图、现场照片和关键尺寸。客服会据此整理 BOM、初步方案和交付建议。";
-    if (/电话|邮箱|联系|whatsapp|contact/.test(lower)) return "可以直接电话 0597-3992099，或发送邮件到 cathy@shhf2008.com，也可以 WhatsApp 联系。";
+    if (/电话|邮箱|联系|whatsapp|contact/.test(lower)) return "可以直接电话 0597-3992099，或发送邮件到 sales@zhoupengindustry.com，也可以 WhatsApp 联系。";
     return "已收到。客服会根据你的描述整理产品清单、项目范围和下一步资料需求。";
   }
 
@@ -1038,7 +1038,7 @@ export const getAgentReply = (text: string, language: Lang): string => {
     if (/dealer|catalog|وكيل|كتالوج/.test(lower)) return "للتعاون مع الوكلاء، يرجى إرسال اسم الشركة والسوق المستهدف ومساحة المعرض لنوفر الكتالوج والسعر.";
     if (/quote|price|budget|سعر|عرض|ميزانية/.test(lower)) return "يعتمد العرض على الأنظمة والمقاسات والمواد ومدينة التسليم. أضف المنتجات ثم أرسل بيانات التواصل.";
     if (/plan|drawing|size|مخطط|مقاس/.test(lower)) return "يرجى تجهيز المخطط والصور والمقاسات الأساسية لنرتب قائمة المواد والتوصية الأولية.";
-    if (/contact|phone|email|whatsapp|تواصل|هاتف/.test(lower)) return "يمكنك الاتصال على 0597-3992099 أو إرسال بريد إلى cathy@shhf2008.com أو التواصل عبر واتساب.";
+    if (/contact|phone|email|whatsapp|تواصل|هاتف/.test(lower)) return "يمكنك الاتصال على 0597-3992099 أو إرسال بريد إلى sales@zhoupengindustry.com أو التواصل عبر واتساب.";
     return "تم الاستلام. سيقوم فريق الخدمة بتحديد نطاق المشروع والمواد المطلوبة والخطوة التالية.";
   }
 
@@ -1046,6 +1046,6 @@ export const getAgentReply = (text: string, language: Lang): string => {
   if (/dealer|catalog|distributor|partner/.test(lower)) return "For dealer cooperation, share your company name, target market, and showroom size. We can prepare catalogues and dealer pricing.";
   if (/quote|price|budget|cost/.test(lower)) return "Pricing depends on product systems, dimensions, materials, and destination. Add products to the quote and submit your contact details.";
   if (/plan|drawing|size|dimension|floor/.test(lower)) return "Please prepare floor plans, room photos, and key dimensions so the service team can build a BOM and first proposal.";
-  if (/contact|phone|email|whatsapp/.test(lower)) return "You can call 0597-3992099, email cathy@shhf2008.com, or reach us on WhatsApp.";
+  if (/contact|phone|email|whatsapp/.test(lower)) return "You can call 0597-3992099, email sales@zhoupengindustry.com, or reach us on WhatsApp.";
   return "Received. The service team will review your project scope and outline the next information needed.";
 };

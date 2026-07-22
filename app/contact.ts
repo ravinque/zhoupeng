@@ -1,8 +1,8 @@
 export const WHATSAPP_E164 = "865973992099";
-export const CONTACT_EMAIL = "cathy@shhf2008.com";
+export const CONTACT_EMAIL = "sales@zhoupengindustry.com";
 export const CONTACT_PHONE = "0597-3992099";
 export const CONTACT_PHONE_TEL = "05973992099";
-export const SITE_URL = "www.fjzpsy.com";
+export const SITE_URL = "www.zhoupengindustry.com";
 
 export const mailtoUrl = (subject: string, body: string) =>
   `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
