@@ -975,6 +975,7 @@ export default function Home() {
           {t.footerPoweredBy}
         </a>
       </div>
+      <div className="page-end-spacer" aria-hidden="true" />
 
       <div className="float-actions" dir="ltr">
         <button

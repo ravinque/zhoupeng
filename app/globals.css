@@ -30,10 +30,13 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
+  min-height: 100%;
+  overflow-x: clip;
   background: var(--paper);
   color: var(--text-body);
   font-family: var(--font-body);
@@ -77,7 +80,7 @@ h4 {
 
 .site-shell {
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow: visible;
 }
 
 .fade-up {
@@ -1269,15 +1272,16 @@ select:focus {
 .site-footer {
   background: var(--footer);
   color: rgba(255, 255, 255, 0.88);
-  padding: clamp(48px, 6vw, 72px) max(var(--side-pad), calc((100vw - var(--content-max)) / 2)) 32px;
+  padding: clamp(48px, 6vw, 72px) max(var(--side-pad), calc((100vw - var(--content-max)) / 2)) 28px;
 }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.2fr repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1.25fr repeat(3, minmax(0, 1fr));
   gap: clamp(28px, 4vw, 48px);
   max-width: var(--content-max);
   margin: 0 auto;
+  align-items: start;
 }
 
 .footer-brand-lockup {
@@ -1425,12 +1429,19 @@ html[lang="zh-CN"] .footer-contact-label::after {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: #fff;
+  background: #f3f3f3;
   color: #666;
-  padding: 12px 16px;
+  padding: 14px 16px;
   font-size: 0.78rem;
   line-height: 1.5;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Keep final footer content clear of fixed WhatsApp / service buttons */
+.page-end-spacer {
+  height: calc(96px + env(safe-area-inset-bottom, 0px));
+  background: #f3f3f3;
+  pointer-events: none;
 }
 
 .site-credit img {
@@ -1870,6 +1881,26 @@ html[lang="zh-CN"] .footer-contact-label::after {
 
   .footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      "nav products"
+      "contact contact";
+    gap: 32px 40px;
+  }
+
+  .footer-brand {
+    display: none;
+  }
+
+  .footer-nav-col {
+    grid-area: nav;
+  }
+
+  .footer-products-col {
+    grid-area: products;
+  }
+
+  .footer-contact-col {
+    grid-area: contact;
   }
 }
 
@@ -1973,19 +2004,30 @@ html[lang="zh-CN"] .footer-contact-label::after {
 
   .footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 28px 24px;
+    grid-template-areas:
+      "nav products"
+      "contact contact";
+    gap: 28px 20px;
   }
 
   .footer-brand {
     display: none;
   }
 
+  .footer-nav-col {
+    grid-area: nav;
+  }
+
+  .footer-products-col {
+    grid-area: products;
+  }
+
   .footer-contact-col {
-    grid-column: 1 / -1;
+    grid-area: contact;
   }
 
   .site-footer {
-    padding: 40px 20px 28px;
+    padding: 40px 20px 24px;
   }
 
   .footer-col h4 {
@@ -2012,7 +2054,7 @@ html[lang="zh-CN"] .footer-contact-label::after {
   }
 
   .footer-contact-list li {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: auto minmax(0, 1fr);
   }
 
   .footer-bottom {
@@ -2031,8 +2073,13 @@ html[lang="zh-CN"] .footer-contact-label::after {
   .site-credit {
     background: #ececec;
     color: #666;
-    padding: 14px 16px;
+    padding: 14px 16px 8px;
     font-size: 0.75rem;
+  }
+
+  .page-end-spacer {
+    height: calc(110px + env(safe-area-inset-bottom, 0px));
+    background: #ececec;
   }
 
   .contact-section {
