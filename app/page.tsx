@@ -7,6 +7,7 @@ import {
   CONTACT_PHONE,
   CONTACT_PHONE_TEL,
   mailtoUrl,
+  SITE_URL,
 } from "./contact";
 import {
   type Lang,
@@ -93,6 +94,7 @@ export default function Home() {
   const [isHydrated, setIsHydrated] = useState(false);
   const [advantageTab, setAdvantageTab] = useState<AdvantageTab>("equipment");
   const [heroNeedsTap, setHeroNeedsTap] = useState(false);
+  const [heroPlaying, setHeroPlaying] = useState(false);
   const heroVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const t = copy[language];
@@ -143,19 +145,39 @@ export default function Home() {
 
     video.defaultMuted = true;
     video.muted = true;
+    video.volume = 0;
     video.playsInline = true;
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
     video.setAttribute("webkit-playsinline", "true");
+    video.setAttribute("x5-playsinline", "true");
+    video.setAttribute("x5-video-player-type", "h5");
+    video.setAttribute("x5-video-player-fullscreen", "false");
 
     let cancelled = false;
+    let playing = false;
+
+    const markPlaying = () => {
+      if (cancelled || video.currentTime <= 0.2) return;
+      playing = true;
+      setHeroPlaying(true);
+      setHeroNeedsTap(false);
+    };
+
+    const onTimeUpdate = () => {
+      if (!video.paused && video.currentTime > 0.2) markPlaying();
+    };
 
     const tryPlay = async () => {
+      if (cancelled || !video) return;
       try {
-        await video.play();
-        if (!cancelled) setHeroNeedsTap(false);
+        video.muted = true;
+        video.volume = 0;
+        const result = video.play();
+        if (result !== undefined) await result;
+        if (!cancelled && !video.paused && video.currentTime > 0.2) markPlaying();
       } catch {
-        if (!cancelled) setHeroNeedsTap(true);
+        if (!cancelled && !playing) setHeroNeedsTap(true);
       }
     };
 
@@ -163,22 +185,42 @@ export default function Home() {
       void tryPlay();
     };
 
-    if (video.readyState >= 2) {
+    video.addEventListener("playing", markPlaying);
+    video.addEventListener("timeupdate", onTimeUpdate);
+    video.addEventListener("loadeddata", onReady);
+    video.addEventListener("canplay", onReady);
+    video.addEventListener("canplaythrough", onReady);
+
+    if (video.readyState >= 2) void tryPlay();
+    else video.load();
+
+    // Mobile browsers often block autoplay until a user gesture.
+    const unlock = () => {
       void tryPlay();
-    } else {
-      video.addEventListener("loadeddata", onReady);
-      video.addEventListener("canplay", onReady);
-    }
+    };
+    window.addEventListener("touchstart", unlock, { passive: true });
+    window.addEventListener("click", unlock);
 
     const onVisibility = () => {
       if (document.visibilityState === "visible") void tryPlay();
     };
     document.addEventListener("visibilitychange", onVisibility);
 
+    // If video never starts (slow network / blocked), show tap control.
+    const tapTimer = window.setTimeout(() => {
+      if (!cancelled && !playing) setHeroNeedsTap(true);
+    }, 1200);
+
     return () => {
       cancelled = true;
+      window.clearTimeout(tapTimer);
+      video.removeEventListener("playing", markPlaying);
+      video.removeEventListener("timeupdate", onTimeUpdate);
       video.removeEventListener("loadeddata", onReady);
       video.removeEventListener("canplay", onReady);
+      video.removeEventListener("canplaythrough", onReady);
+      window.removeEventListener("touchstart", unlock);
+      window.removeEventListener("click", unlock);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
@@ -187,7 +229,14 @@ export default function Home() {
     const video = heroVideoRef.current;
     if (!video) return;
     video.muted = true;
-    void video.play().then(() => setHeroNeedsTap(false)).catch(() => setHeroNeedsTap(true));
+    video.volume = 0;
+    void video
+      .play()
+      .then(() => {
+        setHeroPlaying(true);
+        setHeroNeedsTap(false);
+      })
+      .catch(() => setHeroNeedsTap(true));
   };
   const addToQuote = (product: Product) => {
     setQuote((current) =>
@@ -384,22 +433,48 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="hero-bleed fade-up" id="home">
+      <section className="hero-bleed" id="home">
         <div className="hero-media" aria-hidden={heroNeedsTap ? undefined : true}>
+          {/* Ken-burns poster keeps motion visible while video loads or when autoplay is blocked. */}
+          <img
+            className={`hero-fallback${heroPlaying ? " is-hidden" : ""}`}
+            src={asset("/zp/posters/factory-01.jpg")}
+            alt=""
+            decoding="async"
+          />
           <video
             ref={heroVideoRef}
+            className={heroPlaying ? "is-playing" : "is-pending"}
             autoPlay
             loop
             muted
             playsInline
             preload="auto"
             poster={asset("/zp/posters/factory-01.jpg")}
-            onPlaying={() => setHeroNeedsTap(false)}
+            onPlaying={() => {
+              const video = heroVideoRef.current;
+              if (video && video.currentTime > 0.2) {
+                setHeroPlaying(true);
+                setHeroNeedsTap(false);
+              }
+            }}
+            onTimeUpdate={() => {
+              const video = heroVideoRef.current;
+              if (video && !video.paused && video.currentTime > 0.2) {
+                setHeroPlaying(true);
+                setHeroNeedsTap(false);
+              }
+            }}
+            onPause={() => {
+              if (heroVideoRef.current && !heroVideoRef.current.ended) {
+                setHeroPlaying(false);
+              }
+            }}
           >
             <source src={asset("/zp/videos/factory-01.mp4")} type="video/mp4" />
           </video>
           <div className="hero-scrim" />
-          {heroNeedsTap ? (
+          {heroNeedsTap && !heroPlaying ? (
             <button className="hero-play" onClick={playHeroVideo} type="button">
               {t.playHeroVideo}
             </button>
@@ -834,43 +909,55 @@ export default function Home() {
             </div>
             <p>{t.footerIntro}</p>
           </div>
-          <div className="footer-col">
+          <div className="footer-col footer-nav-col">
             <h4>{t.footerNavTitle}</h4>
             <nav>
               <a href="#home">{t.home}</a>
-              <a href="#products">{t.nav[0]}</a>
               <a href="#company">{t.nav[1]}</a>
+              <a href="#products">{t.nav[0]}</a>
               <a href="#solutions">{t.nav[2]}</a>
               <a href="#quote">{t.nav[3]}</a>
               <a href="#contact">{t.nav[4]}</a>
             </nav>
           </div>
-          <div className="footer-col">
+          <div className="footer-col footer-products-col">
             <h4>{t.footerProductsTitle}</h4>
             <ul>
               {products.map((product) => (
                 <li key={`footer-${product.id}`}>
                   <a href="#products" onClick={() => openProductDetails(product)}>
-                    {product.title[language]}
+                    {product.shortName[language]}
                   </a>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="footer-col">
+          <div className="footer-col footer-contact-col">
             <h4>{t.footerContactTitle}</h4>
-            <nav>
-              <a href={`tel:${CONTACT_PHONE_TEL}`}>
-                <bdi dir="ltr">{CONTACT_PHONE}</bdi>
-              </a>
-              <a href={generalMailLink}>
-                <bdi dir="ltr">cathy@shhf2008.com</bdi>
-              </a>
-              <button className="footer-whatsapp-link" onClick={openWhatsAppChat} type="button">
-                {t.whatsApp}
-              </button>
-              <span>{t.address}</span>
-            </nav>
+            <ul className="footer-contact-list">
+              <li>
+                <span className="footer-contact-label">{t.phoneLabel}</span>
+                <a href={`tel:${CONTACT_PHONE_TEL}`}>
+                  <bdi dir="ltr">{CONTACT_PHONE}</bdi>
+                </a>
+              </li>
+              <li>
+                <span className="footer-contact-label">{t.emailLabel}</span>
+                <a href={generalMailLink}>
+                  <bdi dir="ltr">cathy@shhf2008.com</bdi>
+                </a>
+              </li>
+              <li>
+                <span className="footer-contact-label">{t.addressLabel}</span>
+                <span className="footer-contact-value">{t.addressValue}</span>
+              </li>
+              <li>
+                <span className="footer-contact-label">{t.websiteLabel}</span>
+                <a href={`https://${SITE_URL}`} rel="noopener noreferrer" target="_blank">
+                  <bdi dir="ltr">{SITE_URL}</bdi>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         <div className="footer-bottom">

@@ -73,6 +73,9 @@ export type Copy = {
   contactTitle: string;
   phoneLabel: string;
   emailLabel: string;
+  websiteLabel: string;
+  addressLabel: string;
+  addressValue: string;
   address: string;
   openDesk: string;
   footer: string;
@@ -385,7 +388,7 @@ export const copy: Record<Lang, Copy> = {
     account: "账户",
     serviceTop: "联系客服",
     heroEyebrow: "福建洲鹏实业定制家居制造商",
-    heroTitle: "整屋智能家居，服务别墅与高端项目。",
+    heroTitle: "整屋智能家居，\u200B服务别墅与高端项目。",
     heroText: "门墙柜橱、五金与整屋配套 — 在线浏览、询价、联系客服确认下单。",
     startOrder: "发起询价",
     contactService: "联系客服",
@@ -437,6 +440,9 @@ export const copy: Record<Lang, Copy> = {
     contactTitle: "项目确认前，先和客服对齐需求。",
     phoneLabel: "电话",
     emailLabel: "邮箱",
+    websiteLabel: "网址",
+    addressLabel: "地址",
+    addressValue: "福建省上杭县李家坪工业区",
     address: "地址：中国福建省上杭县李家坪工业区",
     openDesk: "打开在线客服",
     footer: "基于公开企业材料搭建的全球智能家居商城。",
@@ -640,6 +646,9 @@ export const copy: Record<Lang, Copy> = {
     contactTitle: "Align the project details with sales before ordering.",
     phoneLabel: "Phone",
     emailLabel: "Email",
+    websiteLabel: "Website",
+    addressLabel: "Address",
+    addressValue: "Lijiaping Industrial Zone, Shanghang County, Fujian Province, China",
     address: "Address: Lijiaping Industrial Zone, Shanghang County, Fujian Province, China",
     openDesk: "Open service desk",
     footer: "Global smart home mall concept based on public company materials.",
@@ -843,6 +852,9 @@ export const copy: Record<Lang, Copy> = {
     contactTitle: "نسق تفاصيل المشروع مع المبيعات قبل تأكيد الطلب.",
     phoneLabel: "الهاتف",
     emailLabel: "البريد",
+    websiteLabel: "الموقع",
+    addressLabel: "العنوان",
+    addressValue: "منطقة لي جيا بينغ الصناعية، شانغهانغ، فوجيان، الصين",
     address: "العنوان: منطقة لي جيا بينغ الصناعية، شانغهانغ، فوجيان، الصين",
     openDesk: "افتح خدمة العملاء",
     footer: "متجر منزل ذكي عالمي مبني على مواد الشركة العامة.",
