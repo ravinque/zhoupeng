@@ -90,7 +90,7 @@ const systems = [
   { name: ["配套系统", "Supporting System", "النظام المساند"] as Triple, sub: ["家具与整屋空间配套", "Furniture & whole-home coordination", "أثاث وتنسيق المنزل"] as Triple, image: "/zp/kitchen-detail-02.jpg" },
 ];
 
-const heroImages = ["/zp/banners/hero-02.jpg", "/zp/banners/hero-03.jpg", "/zp/banners/hero-anim.png"];
+const heroImages = ["/zp/banners/hero-02.jpg", "/zp/banners/hero-03.jpg", "/zp/hero.jpg"];
 const projectImages = ["/zp/banners/hero-02.jpg", "/zp/banners/hero-03.jpg", "/zp/hero.jpg", "/zp/banners/about-02.jpg", "/zp/kitchen-detail-02.jpg", "/zp/cabinet.jpg"];
 const projectNames = [
   ["现代餐厨空间", "Modern kitchen & dining", "مطبخ وطعام حديث"],
@@ -119,8 +119,11 @@ export default function Home() {
   const dir = language === "ar" ? "rtl" : "ltr";
 
   useEffect(() => {
-    const saved = window.localStorage.getItem("zp-language") as Lang | null;
-    if (saved && ["zh", "en", "ar"].includes(saved)) setLanguage(saved);
+    const timer = window.setTimeout(() => {
+      const saved = window.localStorage.getItem("zp-language") as Lang | null;
+      if (saved && ["zh", "en", "ar"].includes(saved)) setLanguage(saved);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   useEffect(() => {
@@ -163,7 +166,7 @@ export default function Home() {
       </header>
 
       <section className="hero" id="home">
-        <div className="slides">{heroImages.map((image, i) => <img className={slide === i ? "active" : ""} src={asset(image)} alt="" key={image} />)}</div>
+        <div className="slides">{heroImages.map((image, i) => <img className={slide === i ? "active" : ""} src={asset(image)} alt="" loading={i === 0 ? "eager" : "lazy"} key={image} />)}</div>
         <div className="hero-shade" />
         <div className="hero-copy">
           <p className="hero-kicker">{pick(ui.heroKicker, language)}</p>
