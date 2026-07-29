@@ -5,6 +5,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { certificateDocuments, certificatePick } from "./certificate-data";
 import { CONTACT_EMAIL, CONTACT_MOBILE, CONTACT_MOBILE_TEL, CONTACT_PHONE, CONTACT_PHONE_TEL, mailtoUrl } from "./contact";
+import { SiteFooter } from "./site-footer";
 
 type Lang = "zh" | "en" | "ar";
 type Triple = [string, string, string];
@@ -281,17 +282,7 @@ export default function Home() {
         </form>
       </section>
 
-      <footer>
-        <div className="footer-cta"><p>{pick(ui.footerCtaKicker, language)}</p><h2>{pick(ui.footerCtaTitle, language)}</h2><span>{pick(ui.footerCtaText, language)}</span><aside><a className="button light" href="#contact">{pick(ui.start, language)}</a><a className="button outline" href={mailtoUrl(pick(ui.catalog, language), "")}>{pick(ui.catalog, language)}</a></aside></div>
-        <div className="footer-main">
-          <div className="footer-brand"><a className="brand" href="#home"><img src={asset("/zp/logo.png")} alt="" /><span><strong>ZHOUPENG</strong><small>CUSTOM HOME</small></span></a><p>{pick(ui.aboutText, language)}</p></div>
-          <div><h3>{pick(ui.footerProducts, language)}</h3>{systems.slice(0, 4).map((system, i) => <a href="#products" key={i}>› {pick(system.name, language)}</a>)}</div>
-          <div><h3>{pick(ui.footerLinks, language)}</h3>{ui.nav.slice(1).map((item, i) => <a href={`#${ui.navIds[i + 1]}`} key={i}>› {pick(item, language)}</a>)}</div>
-          <div className="footer-contact"><h3>{pick(ui.footerContact, language)}</h3><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><span>{pick(ui.address, language)}</span></div>
-        </div>
-        <div className="footer-bottom">{language === "zh" ? "©ZHOUPENG 保留所有权利" : language === "en" ? "©ZHOUPENG. All rights reserved." : "©ZHOUPENG. جميع الحقوق محفوظة."} <span><a href={route("/privacy/")}>{language === "zh" ? "隐私说明" : language === "en" ? "Privacy Notice" : "إشعار الخصوصية"}</a><a href={route("/terms/")}>{language === "zh" ? "使用条款" : language === "en" ? "Terms of Use" : "شروط الاستخدام"}</a></span></div>
-        <div className="powered-strip"><span aria-hidden="true">L</span><strong>Powered by Lapus</strong></div>
-      </footer>
+      <SiteFooter language={language} />
       <aside className="contact-dock" aria-label={pick(ui.contact, language)}>
         <a className="contact-dock-phone" href={`tel:${CONTACT_MOBILE_TEL}`} aria-label={language === "zh" ? `电话或微信 ${CONTACT_MOBILE}` : language === "en" ? `Call or WeChat ${CONTACT_MOBILE}` : `اتصال أو ويتشات ${CONTACT_MOBILE}`}>
           <span>{language === "zh" ? "电话 / 微信" : language === "en" ? "Call / WeChat" : "اتصال / ويتشات"}</span>
