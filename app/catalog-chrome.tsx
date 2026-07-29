@@ -70,7 +70,7 @@ export function CatalogFooter({ language }: { language: Lang }) {
       <div><h3>{language === "zh" ? "公司" : language === "en" ? "Company" : "الشركة"}</h3><a href={`${route("/")}#about`}>{pick(common.about, language)}</a><a href={`${route("/")}#factory`}>{pick(common.manufacturing, language)}</a><a href={route("/certificates/")}>{pick(common.certificates, language)}</a><a href={route("/privacy/")}>{pick(common.privacy, language)}</a><a href={route("/terms/")}>{pick(common.terms, language)}</a></div>
       <div className="footer-contact"><h3>{pick(common.contact, language)}</h3><a href={`tel:+86${CONTACT_PHONE_TEL.slice(1)}`}>+86 597 399 2099</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><span>{language === "zh" ? "中国福建省上杭县李家坪工业区" : language === "en" ? "Lijiaping Industrial Zone, Shanghang, Fujian, China" : "منطقة ليجيا بينغ الصناعية، شانغهانغ، فوجيان، الصين"}</span></div>
     </div>
-    <div className="footer-bottom">© {new Date().getFullYear()} Fujian Zhoupeng Industrial Co., Ltd.</div>
+    <div className="footer-bottom">{language === "zh" ? "©ZHOUPENG 保留所有权利" : language === "en" ? "©ZHOUPENG. All rights reserved." : "©ZHOUPENG. جميع الحقوق محفوظة."}</div>
     <div className="powered-strip"><span aria-hidden="true">L</span><strong>{pick(common.powered, language)}</strong></div>
   </footer>;
 }

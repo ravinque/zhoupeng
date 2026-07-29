@@ -74,7 +74,7 @@ const ui = {
   ] as Triple,
   catalog: ["索取企业画册", "Request Catalogue", "اطلب الكتالوج"] as Triple,
   contactKicker: ["项目咨询", "GET IN TOUCH", "تواصل معنا"] as Triple,
-  contactTitle: ["告诉我们，你正在计划什么。", "Tell us what you are planning.", "أخبرنا بما تخطط له."] as Triple,
+  contactTitle: ["告诉我们，你的项目计划。", "Tell us about your project.", "أخبرنا عن مشروعك."] as Triple,
   contactText: [
     "填写基础项目资料，提交后将打开邮件，由你确认并发送给洲鹏团队。",
     "Complete the project brief. Your email app will open so you can review and send the information to Zhoupeng.",
@@ -282,7 +282,7 @@ export default function Home() {
           <div><h3>{pick(ui.footerLinks, language)}</h3>{ui.nav.slice(1).map((item, i) => <a href={`#${ui.navIds[i + 1]}`} key={i}>› {pick(item, language)}</a>)}</div>
           <div className="footer-contact"><h3>{pick(ui.footerContact, language)}</h3><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><span>{pick(ui.address, language)}</span></div>
         </div>
-        <div className="footer-bottom">© {new Date().getFullYear()} {pick(ui.copyright, language)} <span><a href={route("/privacy/")}>{language === "zh" ? "隐私说明" : language === "en" ? "Privacy Notice" : "إشعار الخصوصية"}</a><a href={route("/terms/")}>{language === "zh" ? "使用条款" : language === "en" ? "Terms of Use" : "شروط الاستخدام"}</a></span></div>
+        <div className="footer-bottom">{language === "zh" ? "©ZHOUPENG 保留所有权利" : language === "en" ? "©ZHOUPENG. All rights reserved." : "©ZHOUPENG. جميع الحقوق محفوظة."} <span><a href={route("/privacy/")}>{language === "zh" ? "隐私说明" : language === "en" ? "Privacy Notice" : "إشعار الخصوصية"}</a><a href={route("/terms/")}>{language === "zh" ? "使用条款" : language === "en" ? "Terms of Use" : "شروط الاستخدام"}</a></span></div>
         <div className="powered-strip"><span aria-hidden="true">L</span><strong>Powered by Lapus</strong></div>
       </footer>
       <a className="floating" href="#contact">+ <span>{pick(ui.contact, language)}</span></a>
