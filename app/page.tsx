@@ -10,6 +10,7 @@ type Triple = [string, string, string];
 const pick = (value: Triple, lang: Lang) => value[lang === "zh" ? 0 : lang === "en" ? 1 : 2];
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const asset = (path: string) => `${basePath}${path}`;
+const route = (path: string) => `${basePath}${path}`;
 
 const ui = {
   nav: [
@@ -93,8 +94,8 @@ const ui = {
   detailsLabel: ["项目详情", "Project details", "تفاصيل المشروع"] as Triple,
   detailsPlaceholder: ["项目城市、空间类型、面积、计划时间及其他需求", "Project city, space type, area, target date and other requirements", "مدينة المشروع ونوع المساحة والمساحة والموعد المستهدف والمتطلبات الأخرى"] as Triple,
   address: ["福建省上杭县李家坪工业区", "Lijiaping Industrial Zone, Shanghang, Fujian, China", "منطقة ليجيا بينغ الصناعية، شانغهانغ، فوجيان، الصين"] as Triple,
-  responseLabel: ["全球项目支持", "GLOBAL PROJECT SUPPORT", "دعم المشاريع العالمية"] as Triple,
-  responseValue: ["面向全球工程、渠道与设计合作伙伴", "For projects, dealers and design partners worldwide", "للمشاريع والوكلاء وشركاء التصميم حول العالم"] as Triple,
+  responseLabel: ["海外项目咨询", "INTERNATIONAL PROJECT ENQUIRIES", "استفسارات المشاريع الدولية"] as Triple,
+  responseValue: ["服务范围及交付可行性将在项目评估后确认", "Service scope and delivery availability are confirmed after project review", "يتم تأكيد نطاق الخدمة وإمكانية التسليم بعد مراجعة المشروع"] as Triple,
   footerCtaKicker: ["洲鹏定制家居", "ZHOUPENG CUSTOM HOME", "تشو بنغ للمنزل المخصص"] as Triple,
   footerCtaTitle: ["从一份项目资料，开始协同。", "Start with your project brief.", "ابدأ بملخص مشروعك."] as Triple,
   footerCtaText: ["提交空间信息或索取企业画册，与洲鹏团队讨论下一步。", "Share your space requirements or request the catalogue to discuss the next step with our team.", "شارك متطلبات المساحة أو اطلب الكتالوج لمناقشة الخطوة التالية مع فريقنا."] as Triple,
@@ -184,10 +185,10 @@ export default function Home() {
       <header className="header">
         <a className="brand" href="#home">
           <img src={asset("/zp/logo.png")} alt="" />
-          <span><strong>{language === "zh" ? "福建洲鹏实业" : "ZHOUPENG"}</strong><small>CUSTOM HOME</small></span>
+          <span><strong>{language === "zh" ? "福建洲鹏实业" : language === "en" ? "ZHOUPENG" : "تشو بنغ"}</strong><small>{language === "zh" ? "定制家居" : language === "en" ? "CUSTOM HOME" : "حلول منزلية حسب الطلب"}</small></span>
         </a>
         <nav className="desktop-nav">
-          {ui.nav.map((item, i) => <a href={`#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}
+          {ui.nav.map((item, i) => <a href={i === 0 ? route("/products/") : `#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}
         </nav>
         <div className="header-actions">
           <select value={language} onChange={(e) => changeLanguage(e.target.value as Lang)} aria-label={pick(ui.languageLabel, language)}>
@@ -196,7 +197,7 @@ export default function Home() {
           <a className="contact-link" href="#contact">{pick(ui.contact, language)}</a>
           <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} type="button">{menuOpen ? "×" : "☰"}</button>
         </div>
-        {menuOpen && <nav className="mobile-nav">{ui.nav.map((item, i) => <a onClick={() => setMenuOpen(false)} href={`#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}</nav>}
+        {menuOpen && <nav className="mobile-nav">{ui.nav.map((item, i) => <a onClick={() => setMenuOpen(false)} href={i === 0 ? route("/products/") : `#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}</nav>}
       </header>
 
       <section className="hero" id="home">
@@ -216,7 +217,7 @@ export default function Home() {
         <div className="product-grid">
           {systems.map((system, i) => <article className={`product product-${i}`} key={i}>
             <img src={asset(system.image)} alt={pick(system.name, language)} />
-            <div /><span><small>{pick(system.sub, language)}</small><h3>{pick(system.name, language)}</h3><a href="#contact">{pick(ui.explore, language)} ↗</a></span>
+            <div /><span><small>{pick(system.sub, language)}</small><h3>{pick(system.name, language)}</h3><a href={route("/products/")}>{pick(ui.explore, language)} <b aria-hidden="true">→</b></a></span>
           </article>)}
         </div>
       </section>
@@ -224,7 +225,7 @@ export default function Home() {
       <section className="about" id="about">
         <img src={asset("/zp/banners/about-01.jpg")} alt="Zhoupeng custom interior" />
         <div className="about-copy"><p className="eyebrow">{pick(ui.aboutKicker, language)}</p><h2>{pick(ui.aboutTitle, language)}</h2><p>{pick(ui.aboutText, language)}</p><a href="#factory">{pick(ui.factoryKicker, language)} →</a></div>
-        <div className="stats"><div><strong>2012</strong><span>FOUNDED</span></div><div><strong>70 亩</strong><span>PRODUCTION BASE</span></div><div><strong>20,000+ ㎡</strong><span>STANDARD FACTORY</span></div><div><strong>30</strong><span>TECH & SERVICE</span></div></div>
+        <div className="stats"><div><strong>2012</strong><span>{language === "zh" ? "成立年份" : language === "en" ? "FOUNDED" : "سنة التأسيس"}</span></div><div><strong>{language === "zh" ? "福建上杭" : language === "en" ? "Shanghang" : "شانغهانغ"}</strong><span>{language === "zh" ? "生产基地" : language === "en" ? "PRODUCTION BASE" : "قاعدة الإنتاج"}</span></div><div><strong>{language === "zh" ? "研发 · 设计" : language === "en" ? "R&D · DESIGN" : "البحث والتصميم"}</strong><span>{language === "zh" ? "项目深化" : language === "en" ? "PROJECT DETAILING" : "تطوير المشروع"}</span></div><div><strong>{language === "zh" ? "生产 · 服务" : language === "en" ? "PRODUCTION · SERVICE" : "الإنتاج والخدمة"}</strong><span>{language === "zh" ? "协同支持" : language === "en" ? "COORDINATED SUPPORT" : "دعم منسق"}</span></div></div>
       </section>
 
       <section className="solution" id="solutions">
@@ -250,6 +251,11 @@ export default function Home() {
         <span><p className="eyebrow light-text">{pick(ui.partnerKicker, language)}</p><h2>{pick(ui.partnerTitle, language)}</h2><p>{pick(ui.partnerText, language)}</p><aside><a className="button light" href="#contact">{pick(ui.start, language)}</a><a className="button outline" href={mailtoUrl(pick(ui.catalog, language), "")}>{pick(ui.catalog, language)}</a></aside></span>
       </section>
 
+      <section className="home-certificates">
+        <div><p className="eyebrow">{language === "zh" ? "企业资料" : language === "en" ? "COMPANY DOCUMENTS" : "وثائق الشركة"}</p><h2>{language === "zh" ? "证书与企业荣誉" : language === "en" ? "Certificates & company honours" : "الشهادات وتكريمات الشركة"}</h2><p>{language === "zh" ? "取自洲鹏企业画册的真实资料，为项目评估提供初步参考。证书范围与有效期以原件及签发机构记录为准。" : language === "en" ? "Authentic company-catalogue documents provide an initial reference for project review. Scope and validity are subject to originals and issuer records." : "توفر وثائق كتالوج الشركة مرجعاً أولياً لمراجعة المشروع، وتخضع النطاقات والصلاحية للوثائق الأصلية وسجلات جهات الإصدار."}</p><a className="button dark" href={route("/certificates/")}>{language === "zh" ? "查看资质证书" : language === "en" ? "View certificates" : "عرض الشهادات"}</a></div>
+        <a href={route("/certificates/")}><img src={asset("/zp/catalog/certificates.jpg")} alt={language === "zh" ? "洲鹏画册证书页" : "Zhoupeng catalogue certificates"} /></a>
+      </section>
+
       <section className="contact" id="contact">
         <div className="contact-intro">
           <img src={asset("/zp/banners/hero-03.jpg")} alt="" />
@@ -264,6 +270,7 @@ export default function Home() {
           <label><span>{pick(ui.countryLabel, language)} *</span><input name="country" autoComplete="country-name" required /></label><label><span>{pick(ui.interestLabel, language)}</span><select name="interest"><option value="">{pick(ui.interestPlaceholder, language)}</option>{systems.map((s) => <option key={pick(s.name, language)}>{pick(s.name, language)}</option>)}</select></label>
           <label className="wide"><span>{pick(ui.detailsLabel, language)} *</span><textarea name="details" placeholder={pick(ui.detailsPlaceholder, language)} rows={3} required /></label>
           <button className="button dark" type="submit">{pick(ui.start, language)} →</button>
+          <p className="privacy-note">{language === "zh" ? "发送邮件前，请阅读隐私说明。我们仅使用所提交的信息回复本次咨询。" : language === "en" ? "Please review our Privacy Notice before sending. We use the submitted information only to respond to this enquiry." : "يرجى مراجعة إشعار الخصوصية قبل الإرسال. نستخدم المعلومات المقدمة فقط للرد على هذا الاستفسار."}</p>
         </form>
       </section>
 
@@ -275,7 +282,8 @@ export default function Home() {
           <div><h3>{pick(ui.footerLinks, language)}</h3>{ui.nav.slice(1).map((item, i) => <a href={`#${ui.navIds[i + 1]}`} key={i}>› {pick(item, language)}</a>)}</div>
           <div className="footer-contact"><h3>{pick(ui.footerContact, language)}</h3><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><span>{pick(ui.address, language)}</span></div>
         </div>
-        <div className="footer-bottom">© {new Date().getFullYear()} {pick(ui.copyright, language)}</div>
+        <div className="footer-bottom">© {new Date().getFullYear()} {pick(ui.copyright, language)} <span><a href={route("/privacy/")}>{language === "zh" ? "隐私说明" : language === "en" ? "Privacy Notice" : "إشعار الخصوصية"}</a><a href={route("/terms/")}>{language === "zh" ? "使用条款" : language === "en" ? "Terms of Use" : "شروط الاستخدام"}</a></span></div>
+        <div className="powered-strip"><span aria-hidden="true">L</span><strong>Powered by Lapus</strong></div>
       </footer>
       <a className="floating" href="#contact">+ <span>{pick(ui.contact, language)}</span></a>
     </main>
