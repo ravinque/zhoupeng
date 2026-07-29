@@ -16,13 +16,14 @@ const route = (path: string) => `${basePath}${path}`;
 
 const ui = {
   nav: [
+    ["首页", "Home", "الرئيسية"],
     ["产品", "Products", "المنتجات"],
     ["整屋方案", "Whole-home", "حل المنزل"],
     ["项目案例", "Projects", "المشاريع"],
     ["制造实力", "Factory", "المصنع"],
     ["关于洲鹏", "About", "عن الشركة"],
   ] as Triple[],
-  navIds: ["products", "solutions", "projects", "factory", "about"],
+  navIds: ["home", "products", "solutions", "projects", "factory", "about"],
   contact: ["联系我们", "Contact", "تواصل معنا"] as Triple,
   heroKicker: ["福建洲鹏实业 · 始于 2012", "FUJIAN ZHOUPENG INDUSTRIAL · SINCE 2012", "فوجيان تشو بنغ · منذ 2012"] as Triple,
   heroTitle: ["现代 · 一体 · 定制家居", "Modern · Integrated · Custom Home", "حديث · متكامل · منزل مخصص"] as Triple,
@@ -190,16 +191,16 @@ export default function Home() {
           <span><strong>{language === "zh" ? "福建洲鹏实业" : language === "en" ? "ZHOUPENG" : "تشو بنغ"}</strong><small>{language === "zh" ? "定制家居" : language === "en" ? "CUSTOM HOME" : "حلول منزلية حسب الطلب"}</small></span>
         </a>
         <nav className="desktop-nav">
-          {ui.nav.map((item, i) => <a href={i === 0 ? route("/products/") : `#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}
+          {ui.nav.map((item, i) => <a className={i === 0 ? "active" : ""} href={i === 1 ? route("/products/") : `#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}
         </nav>
         <div className="header-actions">
           <select value={language} onChange={(e) => changeLanguage(e.target.value as Lang)} aria-label={pick(ui.languageLabel, language)}>
             <option value="zh">中文</option><option value="en">English</option><option value="ar">العربية</option>
           </select>
           <a className="contact-link" href="#contact">{pick(ui.contact, language)}</a>
-          <button className="menu-button" onClick={() => setMenuOpen(!menuOpen)} type="button">{menuOpen ? "×" : "☰"}</button>
+          <button className="menu-button" aria-controls="home-mobile-nav" aria-expanded={menuOpen} aria-label={menuOpen ? "Close menu" : "Open menu"} onClick={() => setMenuOpen(!menuOpen)} type="button">{menuOpen ? "×" : "☰"}</button>
         </div>
-        {menuOpen && <nav className="mobile-nav">{ui.nav.map((item, i) => <a onClick={() => setMenuOpen(false)} href={i === 0 ? route("/products/") : `#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}</nav>}
+        {menuOpen && <nav className="mobile-nav" id="home-mobile-nav">{ui.nav.map((item, i) => <a onClick={() => setMenuOpen(false)} href={i === 1 ? route("/products/") : `#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}</nav>}
       </header>
 
       <section className="hero" id="home">

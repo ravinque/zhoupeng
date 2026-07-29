@@ -29,6 +29,7 @@ export function useLanguage() {
 export function CatalogHeader({ language, onLanguage }: { language: Lang; onLanguage: (lang: Lang) => void }) {
   const [open, setOpen] = useState(false);
   const links: [Triple, string][] = [
+    [common.home, route("/")],
     [common.products, route("/products/")],
     [common.certificates, route("/certificates/")],
     [common.manufacturing, `${route("/") }#factory`],
