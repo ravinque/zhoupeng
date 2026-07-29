@@ -5,6 +5,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { certificateDocuments, certificatePick } from "./certificate-data";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, WHATSAPP_E164, mailtoUrl } from "./contact";
+import { detectPreferredLanguage } from "./language-preference";
 import { SiteFooter } from "./site-footer";
 
 type Lang = "zh" | "en" | "ar";
@@ -150,7 +151,7 @@ export default function Home() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const saved = window.localStorage.getItem("zp-language") as Lang | null;
-      if (saved && ["zh", "en", "ar"].includes(saved)) setLanguage(saved);
+      setLanguage(saved && ["zh", "en", "ar"].includes(saved) ? saved : detectPreferredLanguage());
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
@@ -159,6 +160,27 @@ export default function Home() {
     document.documentElement.lang = language === "zh" ? "zh-CN" : language;
     document.documentElement.dir = dir;
   }, [language, dir]);
+
+  useEffect(() => {
+    const elements = Array.from(document.querySelectorAll<HTMLElement>(
+      ".product, .about>img, .project-grid figure, .factory-grid article, .certificate-preview-card",
+    ));
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+      elements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    elements.forEach((element) => element.classList.add("motion-reveal"));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -7% 0px", threshold: 0.12 });
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, []);
 
   const changeLanguage = (lang: Lang) => {
     setLanguage(lang);

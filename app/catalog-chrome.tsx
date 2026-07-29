@@ -4,6 +4,7 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { asset, common, Lang, pick, route, Triple } from "./catalog-data";
+import { detectPreferredLanguage } from "./language-preference";
 import { SiteFooter } from "./site-footer";
 
 export function useLanguage() {
@@ -11,7 +12,7 @@ export function useLanguage() {
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const saved = window.localStorage.getItem("zp-language") as Lang | null;
-      if (saved && ["zh", "en", "ar"].includes(saved)) setLanguage(saved);
+      setLanguage(saved && ["zh", "en", "ar"].includes(saved) ? saved : detectPreferredLanguage());
     }, 0);
     return () => window.clearTimeout(timer);
   }, []);
