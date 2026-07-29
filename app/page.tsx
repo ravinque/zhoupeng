@@ -55,19 +55,19 @@ const ui = {
     "From spatial requirements and product selection to detailing, production and delivery, six systems reduce cross-supplier coordination.",
     "من متطلبات المساحة واختيار المنتجات إلى التفاصيل والإنتاج والتسليم، تقلل الأنظمة الستة تنسيق الموردين.",
   ] as Triple,
-  projectsKicker: ["空间精选", "SELECTED SPACES", "مساحات مختارة"] as Triple,
-  projectsTitle: ["来自洲鹏画册的空间灵感", "Spaces from the Zhoupeng Catalogue", "مساحات من كتالوج تشو بنغ"] as Triple,
+  projectsKicker: ["空间案例", "SELECTED INTERIORS", "مساحات مختارة"] as Triple,
+  projectsTitle: ["从六大系统，到完整空间。", "Six systems, composed as one interior.", "ستة أنظمة تتكامل في مساحة واحدة."] as Triple,
   projectsText: [
-    "全部素材取自洲鹏企业画册，呈现厨房、收纳、卧室与整体空间的产品组合。",
-    "All imagery is sourced from Zhoupeng's company catalogue, showing kitchens, storage, bedrooms and whole-home combinations.",
-    "جميع الصور من كتالوج الشركة وتعرض المطابخ والتخزين وغرف النوم.",
+    "以洲鹏真实项目与企业画册为基础，呈现厨房、收纳、卧室及整屋空间的搭配逻辑，为工程选型与方案沟通提供参考。实际材质、颜色、尺寸与配置以项目深化为准。",
+    "Drawing on Zhoupeng projects and company catalogues, these interiors show how kitchens, storage, bedrooms and whole-home systems work together. Materials, finishes, dimensions and configurations are confirmed during project detailing.",
+    "تعرض هذه المساحات، المستندة إلى مشاريع تشو بنغ وكتالوجات الشركة، كيفية تكامل المطابخ وحلول التخزين وغرف النوم وأنظمة المنزل بالكامل. وتُعتمد المواد والتشطيبات والأبعاد والتجهيزات خلال مرحلة تطوير المشروع.",
   ] as Triple,
   factoryKicker: ["走进工厂", "INSIDE THE FACTORY", "داخل المصنع"] as Triple,
-  factoryTitle: ["真实产线，真实工艺。", "Real production. Visible craft.", "إنتاج حقيقي. حرفة واضحة."] as Triple,
+  factoryTitle: ["把交付能力，落实到每一道工序。", "Delivery confidence, built into every process.", "موثوقية التسليم تبدأ من كل مرحلة إنتاج."] as Triple,
   factoryText: [
-    "以生产现场、设备与关键工序作为能力证明。官网公开信息显示，企业使用极东、南兴、灿高、磨克、百田等设备品牌，并设有技术研发与售后团队。",
-    "Factory footage, equipment and key processes provide the evidence. Public company information lists KDT, Nanxing, Cangao, Moke and Baitian equipment, supported by technical and service teams.",
-    "تعرض مشاهد المصنع والمعدات والعمليات الرئيسية كدليل على القدرة، بدعم فرق التقنية والخدمة.",
+    "从板件加工、封边与组装，到检验和包装，洲鹏以真实生产场景与关键工序呈现制造基础。针对工程及海外订单，产能、材质、交期与包装方案将在项目评估后确认。",
+    "From panel processing, edge banding and assembly to inspection and packing, Zhoupeng presents the production processes behind project delivery. Capacity, materials, lead times and packing solutions for contract and overseas orders are confirmed after project review.",
+    "من تجهيز الألواح وتلبيس الحواف والتجميع إلى الفحص والتعبئة، تعرض تشو بنغ مراحل الإنتاج الداعمة لتسليم المشاريع. وتُحدد الطاقة الإنتاجية والمواد ومدة التنفيذ وحلول التعبئة للطلبات التعاقدية والدولية بعد مراجعة المشروع.",
   ] as Triple,
   partnerTitle: ["为工程、渠道与设计合作伙伴提供定制支持", "Custom support for projects, dealers and design partners", "دعم مخصص للمشاريع والوكلاء وشركاء التصميم"] as Triple,
   partnerText: [
@@ -255,7 +255,7 @@ export default function Home() {
       </section>
 
       <section className="home-certificates">
-        <div className="home-certificates-copy"><p className="eyebrow">{language === "zh" ? "企业资质" : language === "en" ? "VERIFIED DOCUMENTS" : "وثائق موثقة"}</p><h2>{language === "zh" ? "独立证书，清晰可核验" : language === "en" ? "Credentials, individually presented" : "شهادات مستقلة وواضحة"}</h2><p>{language === "zh" ? "从企业资料中筛选与项目评估直接相关的认证与专利，逐项呈现名称及有效期，避免以整页拼图代替真实文件。" : language === "en" ? "Project-relevant certifications and a representative patent are presented individually with their status and validity." : "تُعرض الشهادات المرتبطة بتقييم المشاريع وبراءة ممثلة بشكل مستقل مع بيان الصلاحية."}</p><a className="button dark" href={route("/certificates/")}>{language === "zh" ? "查看全部资质" : language === "en" ? "View all credentials" : "عرض جميع الشهادات"}</a></div>
+        <div className="home-certificates-copy"><p className="eyebrow">{language === "zh" ? "企业资质" : language === "en" ? "CERTIFICATIONS" : "الشهادات والاعتمادات"}</p><h2>{language === "zh" ? "以体系认证，支撑稳定交付。" : language === "en" ? "Certified systems behind dependable delivery." : "أنظمة معتمدة تدعم موثوقية التسليم."}</h2><p>{language === "zh" ? "围绕质量、环境、职业健康安全与负责任采购，集中展示与供应商评估和项目合作相关的认证文件。证书范围、状态及有效期以签发机构文件为准。" : language === "en" ? "Credentials relevant to supplier assessment and project cooperation are presented across quality, environmental, occupational health and responsible sourcing systems. Scope, status and validity follow the issuing documents." : "تُعرض الشهادات المرتبطة بتقييم الموردين والتعاون في المشاريع ضمن أنظمة الجودة والبيئة والصحة والسلامة المهنية والتوريد المسؤول. ويُعتد بنطاق الشهادة وحالتها وصلاحيتها وفق مستندات الجهة المانحة."}</p><a className="button dark" href={route("/certificates/")}>{language === "zh" ? "查看全部资质" : language === "en" ? "View all credentials" : "عرض جميع الشهادات"}</a></div>
         <div className="certificate-preview-grid">
           {certificateDocuments.slice(0, 4).map((document) => <a className="certificate-preview-card" href={route("/certificates/")} key={document.code}>
             <span><img src={asset(document.image)} alt={certificatePick(document.title, language)} /></span>
