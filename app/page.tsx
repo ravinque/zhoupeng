@@ -79,6 +79,31 @@ const ui = {
     "Complete the project brief. Your email app will open so you can review and send the information to Zhoupeng.",
     "أكمل معلومات المشروع وسيفتح بريدك لمراجعة الرسالة وإرسالها.",
   ] as Triple,
+  partnerKicker: ["项目合作", "PROJECT PARTNERSHIP", "شراكة المشاريع"] as Triple,
+  formKicker: ["项目需求", "PROJECT BRIEF", "ملخص المشروع"] as Triple,
+  formTitle: ["获取专属项目方案", "Get a tailored project proposal", "احصل على مقترح مخصص لمشروعك"] as Triple,
+  formNote: ["请尽可能提供完整信息，我们通常会在 1–2 个工作日内回复。", "Share as much detail as possible. We normally reply within 1–2 business days.", "شارك أكبر قدر ممكن من التفاصيل. نرد عادة خلال يوم أو يومي عمل."] as Triple,
+  nameLabel: ["姓名", "Name", "الاسم"] as Triple,
+  companyLabel: ["公司 / 机构", "Company / Organization", "الشركة / المؤسسة"] as Triple,
+  emailLabel: ["工作邮箱", "Business email", "البريد الإلكتروني للعمل"] as Triple,
+  phoneLabel: ["电话 / WhatsApp", "Phone / WhatsApp", "الهاتف / واتساب"] as Triple,
+  countryLabel: ["国家 / 地区", "Country / Region", "الدولة / المنطقة"] as Triple,
+  interestLabel: ["意向产品", "Product interest", "المنتج المطلوب"] as Triple,
+  interestPlaceholder: ["请选择产品系统", "Select a product system", "اختر نظام المنتج"] as Triple,
+  detailsLabel: ["项目详情", "Project details", "تفاصيل المشروع"] as Triple,
+  detailsPlaceholder: ["项目城市、空间类型、面积、计划时间及其他需求", "Project city, space type, area, target date and other requirements", "مدينة المشروع ونوع المساحة والمساحة والموعد المستهدف والمتطلبات الأخرى"] as Triple,
+  address: ["福建省上杭县李家坪工业区", "Lijiaping Industrial Zone, Shanghang, Fujian, China", "منطقة ليجيا بينغ الصناعية، شانغهانغ، فوجيان، الصين"] as Triple,
+  responseLabel: ["全球项目支持", "GLOBAL PROJECT SUPPORT", "دعم المشاريع العالمية"] as Triple,
+  responseValue: ["面向全球工程、渠道与设计合作伙伴", "For projects, dealers and design partners worldwide", "للمشاريع والوكلاء وشركاء التصميم حول العالم"] as Triple,
+  footerCtaKicker: ["洲鹏定制家居", "ZHOUPENG CUSTOM HOME", "تشو بنغ للمنزل المخصص"] as Triple,
+  footerCtaTitle: ["从一份项目资料，开始协同。", "Start with your project brief.", "ابدأ بملخص مشروعك."] as Triple,
+  footerCtaText: ["提交空间信息或索取企业画册，与洲鹏团队讨论下一步。", "Share your space requirements or request the catalogue to discuss the next step with our team.", "شارك متطلبات المساحة أو اطلب الكتالوج لمناقشة الخطوة التالية مع فريقنا."] as Triple,
+  footerProducts: ["产品系统", "Products", "المنتجات"] as Triple,
+  footerLinks: ["快速导航", "Get Started", "ابدأ هنا"] as Triple,
+  footerContact: ["联系我们", "Contact", "اتصل بنا"] as Triple,
+  copyright: ["福建洲鹏实业有限公司。保留所有权利。", "Fujian Zhoupeng Industrial Co., Ltd. All rights reserved.", "شركة فوجيان تشو بنغ الصناعية المحدودة. جميع الحقوق محفوظة."] as Triple,
+  emailSubject: ["洲鹏项目咨询", "Zhoupeng project enquiry", "استفسار مشروع تشو بنغ"] as Triple,
+  languageLabel: ["语言", "Language", "اللغة"] as Triple,
 };
 
 const systems = [
@@ -141,8 +166,17 @@ export default function Home() {
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.currentTarget).entries());
-    const body = Object.entries(data).map(([key, value]) => `${key}: ${value}`).join("\n");
-    window.location.href = mailtoUrl(`Zhoupeng project enquiry | ${data.company || data.name}`, body);
+    const fieldLabels: Record<string, Triple> = {
+      name: ui.nameLabel,
+      company: ui.companyLabel,
+      email: ui.emailLabel,
+      phone: ui.phoneLabel,
+      country: ui.countryLabel,
+      interest: ui.interestLabel,
+      details: ui.detailsLabel,
+    };
+    const body = Object.entries(data).map(([key, value]) => `${pick(fieldLabels[key], language)}: ${value}`).join("\n");
+    window.location.href = mailtoUrl(`${pick(ui.emailSubject, language)} | ${data.company || data.name}`, body);
   };
 
   return (
@@ -156,7 +190,7 @@ export default function Home() {
           {ui.nav.map((item, i) => <a href={`#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}
         </nav>
         <div className="header-actions">
-          <select value={language} onChange={(e) => changeLanguage(e.target.value as Lang)} aria-label="Language">
+          <select value={language} onChange={(e) => changeLanguage(e.target.value as Lang)} aria-label={pick(ui.languageLabel, language)}>
             <option value="zh">中文</option><option value="en">English</option><option value="ar">العربية</option>
           </select>
           <a className="contact-link" href="#contact">{pick(ui.contact, language)}</a>
@@ -213,21 +247,36 @@ export default function Home() {
 
       <section className="partner">
         <img src={asset("/zp/banners/about-02.jpg")} alt="" /><div />
-        <span><p className="eyebrow light-text">PROJECT PARTNERSHIP</p><h2>{pick(ui.partnerTitle, language)}</h2><p>{pick(ui.partnerText, language)}</p><aside><a className="button light" href="#contact">{pick(ui.start, language)}</a><a className="button outline" href={mailtoUrl("Request Zhoupeng Catalogue", "")}>{pick(ui.catalog, language)}</a></aside></span>
+        <span><p className="eyebrow light-text">{pick(ui.partnerKicker, language)}</p><h2>{pick(ui.partnerTitle, language)}</h2><p>{pick(ui.partnerText, language)}</p><aside><a className="button light" href="#contact">{pick(ui.start, language)}</a><a className="button outline" href={mailtoUrl(pick(ui.catalog, language), "")}>{pick(ui.catalog, language)}</a></aside></span>
       </section>
 
       <section className="contact" id="contact">
-        <div className="contact-intro"><p className="eyebrow">{pick(ui.contactKicker, language)}</p><h2>{pick(ui.contactTitle, language)}</h2><p>{pick(ui.contactText, language)}</p><aside><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><span>{language === "zh" ? "福建省上杭县李家坪工业区" : "Lijiaping Industrial Zone, Shanghang, Fujian, China"}</span></aside></div>
+        <div className="contact-intro">
+          <img src={asset("/zp/banners/hero-03.jpg")} alt="" />
+          <div className="contact-intro-shade" />
+          <div className="contact-intro-copy"><p className="eyebrow light-text">{pick(ui.contactKicker, language)}</p><h2>{pick(ui.contactTitle, language)}</h2><p>{pick(ui.contactText, language)}</p></div>
+          <aside><small>{pick(ui.responseLabel, language)}</small><strong>{pick(ui.responseValue, language)}</strong><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><span>{pick(ui.address, language)}</span></aside>
+        </div>
         <form onSubmit={submit}>
-          <label><span>Name *</span><input name="name" required /></label><label><span>Company</span><input name="company" /></label>
-          <label><span>Email *</span><input name="email" type="email" required /></label><label><span>Phone / WhatsApp</span><input name="phone" /></label>
-          <label><span>Country / Region *</span><input name="country" required /></label><label><span>Product interest</span><select name="interest"><option value="">—</option>{systems.map((s) => <option key={pick(s.name, language)}>{pick(s.name, language)}</option>)}</select></label>
-          <label className="wide"><span>Project details *</span><textarea name="details" rows={5} required /></label>
+          <div className="form-head"><p className="eyebrow">{pick(ui.formKicker, language)}</p><h3>{pick(ui.formTitle, language)}</h3><p>{pick(ui.formNote, language)}</p></div>
+          <label><span>{pick(ui.nameLabel, language)} *</span><input name="name" autoComplete="name" required /></label><label><span>{pick(ui.companyLabel, language)}</span><input name="company" autoComplete="organization" /></label>
+          <label><span>{pick(ui.emailLabel, language)} *</span><input name="email" type="email" autoComplete="email" required /></label><label><span>{pick(ui.phoneLabel, language)}</span><input name="phone" autoComplete="tel" /></label>
+          <label><span>{pick(ui.countryLabel, language)} *</span><input name="country" autoComplete="country-name" required /></label><label><span>{pick(ui.interestLabel, language)}</span><select name="interest"><option value="">{pick(ui.interestPlaceholder, language)}</option>{systems.map((s) => <option key={pick(s.name, language)}>{pick(s.name, language)}</option>)}</select></label>
+          <label className="wide"><span>{pick(ui.detailsLabel, language)} *</span><textarea name="details" placeholder={pick(ui.detailsPlaceholder, language)} rows={3} required /></label>
           <button className="button dark" type="submit">{pick(ui.start, language)} →</button>
         </form>
       </section>
 
-      <footer><div className="footer-main"><div className="footer-brand"><a className="brand" href="#home"><img src={asset("/zp/logo.png")} alt="" /><span><strong>ZHOUPENG</strong><small>CUSTOM HOME</small></span></a><p>{pick(ui.aboutText, language)}</p></div><div><h3>QUICK LINKS</h3>{ui.nav.map((item, i) => <a href={`#${ui.navIds[i]}`} key={i}>{pick(item, language)}</a>)}</div><div><h3>CONTACT</h3><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></div></div><div className="footer-bottom">© {new Date().getFullYear()} Fujian Zhoupeng Industrial Co., Ltd.</div></footer>
+      <footer>
+        <div className="footer-cta"><p>{pick(ui.footerCtaKicker, language)}</p><h2>{pick(ui.footerCtaTitle, language)}</h2><span>{pick(ui.footerCtaText, language)}</span><aside><a className="button light" href="#contact">{pick(ui.start, language)}</a><a className="button outline" href={mailtoUrl(pick(ui.catalog, language), "")}>{pick(ui.catalog, language)}</a></aside></div>
+        <div className="footer-main">
+          <div className="footer-brand"><a className="brand" href="#home"><img src={asset("/zp/logo.png")} alt="" /><span><strong>ZHOUPENG</strong><small>CUSTOM HOME</small></span></a><p>{pick(ui.aboutText, language)}</p></div>
+          <div><h3>{pick(ui.footerProducts, language)}</h3>{systems.slice(0, 4).map((system, i) => <a href="#products" key={i}>› {pick(system.name, language)}</a>)}</div>
+          <div><h3>{pick(ui.footerLinks, language)}</h3>{ui.nav.slice(1).map((item, i) => <a href={`#${ui.navIds[i + 1]}`} key={i}>› {pick(item, language)}</a>)}</div>
+          <div className="footer-contact"><h3>{pick(ui.footerContact, language)}</h3><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a><span>{pick(ui.address, language)}</span></div>
+        </div>
+        <div className="footer-bottom">© {new Date().getFullYear()} {pick(ui.copyright, language)}</div>
+      </footer>
       <a className="floating" href="#contact">+ <span>{pick(ui.contact, language)}</span></a>
     </main>
   );
