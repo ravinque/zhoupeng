@@ -3,7 +3,8 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { FormEvent, useEffect, useState } from "react";
-import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, mailtoUrl } from "./contact";
+import { certificateDocuments, certificatePick } from "./certificate-data";
+import { CONTACT_EMAIL, CONTACT_MOBILE, CONTACT_MOBILE_TEL, CONTACT_PHONE, CONTACT_PHONE_TEL, mailtoUrl } from "./contact";
 
 type Lang = "zh" | "en" | "ar";
 type Triple = [string, string, string];
@@ -252,8 +253,14 @@ export default function Home() {
       </section>
 
       <section className="home-certificates">
-        <div><p className="eyebrow">{language === "zh" ? "企业资料" : language === "en" ? "COMPANY DOCUMENTS" : "وثائق الشركة"}</p><h2>{language === "zh" ? "证书与企业荣誉" : language === "en" ? "Certificates & company honours" : "الشهادات وتكريمات الشركة"}</h2><p>{language === "zh" ? "取自洲鹏企业画册的真实资料，为项目评估提供初步参考。证书范围与有效期以原件及签发机构记录为准。" : language === "en" ? "Authentic company-catalogue documents provide an initial reference for project review. Scope and validity are subject to originals and issuer records." : "توفر وثائق كتالوج الشركة مرجعاً أولياً لمراجعة المشروع، وتخضع النطاقات والصلاحية للوثائق الأصلية وسجلات جهات الإصدار."}</p><a className="button dark" href={route("/certificates/")}>{language === "zh" ? "查看资质证书" : language === "en" ? "View certificates" : "عرض الشهادات"}</a></div>
-        <a href={route("/certificates/")}><img src={asset("/zp/catalog/certificates.jpg")} alt={language === "zh" ? "洲鹏画册证书页" : "Zhoupeng catalogue certificates"} /></a>
+        <div className="home-certificates-copy"><p className="eyebrow">{language === "zh" ? "企业资质" : language === "en" ? "VERIFIED DOCUMENTS" : "وثائق موثقة"}</p><h2>{language === "zh" ? "独立证书，清晰可核验" : language === "en" ? "Credentials, individually presented" : "شهادات مستقلة وواضحة"}</h2><p>{language === "zh" ? "从企业资料中筛选与项目评估直接相关的认证与专利，逐项呈现名称及有效期，避免以整页拼图代替真实文件。" : language === "en" ? "Project-relevant certifications and a representative patent are presented individually with their status and validity." : "تُعرض الشهادات المرتبطة بتقييم المشاريع وبراءة ممثلة بشكل مستقل مع بيان الصلاحية."}</p><a className="button dark" href={route("/certificates/")}>{language === "zh" ? "查看全部资质" : language === "en" ? "View all credentials" : "عرض جميع الشهادات"}</a></div>
+        <div className="certificate-preview-grid">
+          {certificateDocuments.slice(0, 4).map((document) => <a className="certificate-preview-card" href={route("/certificates/")} key={document.code}>
+            <span><img src={asset(document.image)} alt={certificatePick(document.title, language)} /></span>
+            <small>{document.code}</small>
+            <strong>{certificatePick(document.title, language)}</strong>
+          </a>)}
+        </div>
       </section>
 
       <section className="contact" id="contact">
@@ -285,7 +292,16 @@ export default function Home() {
         <div className="footer-bottom">{language === "zh" ? "©ZHOUPENG 保留所有权利" : language === "en" ? "©ZHOUPENG. All rights reserved." : "©ZHOUPENG. جميع الحقوق محفوظة."} <span><a href={route("/privacy/")}>{language === "zh" ? "隐私说明" : language === "en" ? "Privacy Notice" : "إشعار الخصوصية"}</a><a href={route("/terms/")}>{language === "zh" ? "使用条款" : language === "en" ? "Terms of Use" : "شروط الاستخدام"}</a></span></div>
         <div className="powered-strip"><span aria-hidden="true">L</span><strong>Powered by Lapus</strong></div>
       </footer>
-      <a className="floating" href="#contact">+ <span>{pick(ui.contact, language)}</span></a>
+      <aside className="contact-dock" aria-label={pick(ui.contact, language)}>
+        <a className="contact-dock-phone" href={`tel:${CONTACT_MOBILE_TEL}`} aria-label={language === "zh" ? `电话或微信 ${CONTACT_MOBILE}` : language === "en" ? `Call or WeChat ${CONTACT_MOBILE}` : `اتصال أو ويتشات ${CONTACT_MOBILE}`}>
+          <span>{language === "zh" ? "电话 / 微信" : language === "en" ? "Call / WeChat" : "اتصال / ويتشات"}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.7c-1.2 0-2.4-.2-3.5-.6a1 1 0 0 0-1 .2l-2.2 1.7a15.4 15.4 0 0 1-6.9-6.9l1.7-2.2a1 1 0 0 0 .2-1A11.4 11.4 0 0 1 8.2 3 1 1 0 0 0 7.2 2H3.5A1.5 1.5 0 0 0 2 3.5C2 13.7 10.3 22 20.5 22a1.5 1.5 0 0 0 1.5-1.5v-3.8a1 1 0 0 0-1.5-1Z"/></svg>
+        </a>
+        <a className="contact-dock-mail" href={mailtoUrl(pick(ui.emailSubject, language), "")} aria-label={language === "zh" ? "邮件咨询" : language === "en" ? "Email enquiry" : "استفسار بالبريد"}>
+          <span>{language === "zh" ? "邮件咨询" : language === "en" ? "Email enquiry" : "استفسار بالبريد"}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.5 3 2 6.9 2 11.8c0 2.8 1.5 5.3 3.9 6.9L5 22l4-2a11.6 11.6 0 0 0 3 .4c5.5 0 10-3.9 10-8.8S17.5 3 12 3Zm-4.2 9.7a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Zm4.2 0a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Zm4.2 0a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Z"/></svg>
+        </a>
+      </aside>
     </main>
   );
 }
