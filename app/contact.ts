@@ -1,4 +1,4 @@
-export const WHATSAPP_E164 = "865973992099";
+export const WHATSAPP_E164 = "8615206030696";
 export const CONTACT_EMAIL = "sales@zhoupengindustry.com";
 export const CONTACT_PHONE = "0597-3992099";
 export const CONTACT_PHONE_TEL = "05973992099";

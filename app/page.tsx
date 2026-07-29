@@ -4,7 +4,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { certificateDocuments, certificatePick } from "./certificate-data";
-import { CONTACT_EMAIL, CONTACT_MOBILE, CONTACT_MOBILE_TEL, CONTACT_PHONE, CONTACT_PHONE_TEL, mailtoUrl } from "./contact";
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, WHATSAPP_E164, mailtoUrl } from "./contact";
 import { SiteFooter } from "./site-footer";
 
 type Lang = "zh" | "en" | "ar";
@@ -119,7 +119,7 @@ const systems = [
   { name: ["配套系统", "Supporting System", "النظام المساند"] as Triple, sub: ["家具与整屋空间配套", "Furniture & whole-home coordination", "أثاث وتنسيق المنزل"] as Triple, image: "/zp/kitchen-detail-02.jpg" },
 ];
 
-const heroImages = ["/zp/banners/hero-02.jpg", "/zp/banners/hero-03.jpg", "/zp/hero.jpg"];
+const heroPoster = "/zp/posters/factory-02.jpg";
 const projectImages = ["/zp/banners/hero-02.jpg", "/zp/banners/hero-03.jpg", "/zp/hero.jpg", "/zp/banners/about-02.jpg", "/zp/kitchen-detail-02.jpg", "/zp/cabinet.jpg"];
 const projectNames = [
   ["现代餐厨空间", "Modern kitchen & dining", "مطبخ وطعام حديث"],
@@ -144,7 +144,7 @@ const factoryNames = [
 export default function Home() {
   const [language, setLanguage] = useState<Lang>("zh");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [slide, setSlide] = useState(0);
+  const [serviceOpen, setServiceOpen] = useState(false);
   const dir = language === "ar" ? "rtl" : "ltr";
 
   useEffect(() => {
@@ -158,8 +158,6 @@ export default function Home() {
   useEffect(() => {
     document.documentElement.lang = language === "zh" ? "zh-CN" : language;
     document.documentElement.dir = dir;
-    const timer = window.setInterval(() => setSlide((value) => (value + 1) % 3), 6500);
-    return () => window.clearInterval(timer);
   }, [language, dir]);
 
   const changeLanguage = (lang: Lang) => {
@@ -183,6 +181,13 @@ export default function Home() {
     window.location.href = mailtoUrl(`${pick(ui.emailSubject, language)} | ${data.company || data.name}`, body);
   };
 
+  const whatsappText = language === "zh"
+    ? "您好，我想咨询洲鹏定制家居项目。项目所在国家/城市：；空间类型：；预计面积：。"
+    : language === "en"
+      ? "Hello, I would like to discuss a Zhoupeng custom interior project. Country/city: ; space type: ; approximate area: ."
+      : "مرحبًا، أود الاستفسار عن مشروع تصميم داخلي مخصص من تشو بنغ. الدولة/المدينة: ؛ نوع المساحة: ؛ المساحة التقريبية: .";
+  const whatsappHref = `https://wa.me/${WHATSAPP_E164}?text=${encodeURIComponent(whatsappText)}`;
+
   return (
     <main className="site" dir={dir}>
       <header className="header">
@@ -204,7 +209,10 @@ export default function Home() {
       </header>
 
       <section className="hero" id="home">
-        <div className="slides">{heroImages.map((image, i) => <img className={slide === i ? "active" : ""} src={asset(image)} alt="" loading={i === 0 ? "eager" : "lazy"} key={image} />)}</div>
+        <div className="hero-fallback"><img src={asset(heroPoster)} alt="" /></div>
+        <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={asset(heroPoster)} aria-hidden="true">
+          <source src={asset("/zp/videos/factory-02.mp4")} type="video/mp4" />
+        </video>
         <div className="hero-shade" />
         <div className="hero-copy">
           <p className="hero-kicker">{pick(ui.heroKicker, language)}</p>
@@ -212,7 +220,6 @@ export default function Home() {
           <p>{pick(ui.heroText, language)}</p>
           <div><a className="button light" href="#contact">{pick(ui.start, language)}</a><a className="button outline" href="#products">{pick(ui.explore, language)}</a></div>
         </div>
-        <div className="slide-dots">{heroImages.map((_, i) => <button className={slide === i ? "active" : ""} onClick={() => setSlide(i)} aria-label={`Slide ${i + 1}`} key={i} />)}</div>
       </section>
 
       <section className="section" id="products">
@@ -285,14 +292,21 @@ export default function Home() {
 
       <SiteFooter language={language} />
       <aside className="contact-dock" aria-label={pick(ui.contact, language)}>
-        <a className="contact-dock-phone" href={`tel:${CONTACT_MOBILE_TEL}`} aria-label={language === "zh" ? `电话或微信 ${CONTACT_MOBILE}` : language === "en" ? `Call or WeChat ${CONTACT_MOBILE}` : `اتصال أو ويتشات ${CONTACT_MOBILE}`}>
-          <span>{language === "zh" ? "电话 / 微信" : language === "en" ? "Call / WeChat" : "اتصال / ويتشات"}</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.7c-1.2 0-2.4-.2-3.5-.6a1 1 0 0 0-1 .2l-2.2 1.7a15.4 15.4 0 0 1-6.9-6.9l1.7-2.2a1 1 0 0 0 .2-1A11.4 11.4 0 0 1 8.2 3 1 1 0 0 0 7.2 2H3.5A1.5 1.5 0 0 0 2 3.5C2 13.7 10.3 22 20.5 22a1.5 1.5 0 0 0 1.5-1.5v-3.8a1 1 0 0 0-1.5-1Z"/></svg>
+        {serviceOpen && <section className="service-panel" id="online-service-panel" aria-live="polite">
+          <button className="service-close" type="button" onClick={() => setServiceOpen(false)} aria-label={language === "zh" ? "关闭在线客服" : language === "en" ? "Close online service" : "إغلاق خدمة العملاء"}>×</button>
+          <p className="eyebrow">{language === "zh" ? "在线项目顾问" : language === "en" ? "PROJECT SUPPORT" : "دعم المشاريع"}</p>
+          <h2>{language === "zh" ? "告诉我们你的项目需求" : language === "en" ? "How can we support your project?" : "كيف يمكننا دعم مشروعك؟"}</h2>
+          <p>{language === "zh" ? "通过 WhatsApp 即时留言，或填写项目资料，由洲鹏团队在 1–2 个工作日内跟进。" : language === "en" ? "Message us on WhatsApp or submit a project brief. Our team normally follows up within 1–2 business days." : "راسلنا عبر واتساب أو أرسل ملخص المشروع. يتابع فريقنا عادة خلال يوم أو يومي عمل."}</p>
+          <div><a href={whatsappHref} target="_blank" rel="noreferrer">{language === "zh" ? "WhatsApp 咨询" : language === "en" ? "Chat on WhatsApp" : "تواصل عبر واتساب"}</a><a href="#contact" onClick={() => setServiceOpen(false)}>{language === "zh" ? "提交项目资料" : language === "en" ? "Submit project brief" : "إرسال ملخص المشروع"}</a></div>
+        </section>}
+        <a className="contact-dock-whatsapp" href={whatsappHref} target="_blank" rel="noreferrer" aria-label={language === "zh" ? "WhatsApp 咨询" : language === "en" ? "WhatsApp enquiry" : "استفسار عبر واتساب"}>
+          <span>WhatsApp</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11.5" r="8.2"/><path d="m6.2 20.4 1-3.1"/><path className="whatsapp-phone" d="M9.1 7.4c.3-.4.6-.4.9-.1l1 1.7c.2.3.1.6-.1.9l-.7.8c.8 1.5 1.9 2.6 3.4 3.4l.8-.7c.3-.2.6-.3.9-.1l1.7 1c.3.2.4.6.1.9-.7 1-1.7 1.5-2.9 1.2-3.6-.9-6.5-3.8-7.4-7.4-.2-1.1.3-2.1 1.3-2.8Z"/></svg>
         </a>
-        <a className="contact-dock-mail" href={mailtoUrl(pick(ui.emailSubject, language), "")} aria-label={language === "zh" ? "邮件咨询" : language === "en" ? "Email enquiry" : "استفسار بالبريد"}>
-          <span>{language === "zh" ? "邮件咨询" : language === "en" ? "Email enquiry" : "استفسار بالبريد"}</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3C6.5 3 2 6.9 2 11.8c0 2.8 1.5 5.3 3.9 6.9L5 22l4-2a11.6 11.6 0 0 0 3 .4c5.5 0 10-3.9 10-8.8S17.5 3 12 3Zm-4.2 9.7a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Zm4.2 0a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Zm4.2 0a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Z"/></svg>
-        </a>
+        <button className="contact-dock-service" type="button" aria-controls="online-service-panel" aria-expanded={serviceOpen} onClick={() => setServiceOpen((open) => !open)} aria-label={language === "zh" ? "在线客服" : language === "en" ? "Online service" : "خدمة العملاء"}>
+          <span>{language === "zh" ? "在线客服" : language === "en" ? "Online service" : "خدمة العملاء"}</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-2a8 8 0 0 1 16 0v2"/><rect x="2.7" y="12" width="4" height="6" rx="2"/><rect x="17.3" y="12" width="4" height="6" rx="2"/><path d="M18 18c-.8 2-2.5 3-5 3h-1"/></svg>
+        </button>
       </aside>
     </main>
   );
