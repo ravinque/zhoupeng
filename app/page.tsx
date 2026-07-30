@@ -233,6 +233,11 @@ export default function Home() {
       <section className="hero" id="home">
         <div className="hero-fallback"><img src={asset(heroPoster)} alt="" /></div>
         <video className="hero-video" autoPlay muted loop playsInline preload="metadata" poster={asset(heroPoster)} aria-hidden="true">
+          <source
+            src={asset("/zp/videos/factory-02-mobile.mp4")}
+            type="video/mp4"
+            media="(max-width: 1024px)"
+          />
           <source src={asset("/zp/videos/factory-02.mp4")} type="video/mp4" />
         </video>
         <div className="hero-shade" />
