@@ -73,9 +73,7 @@ img,video { display:block; max-width:100%; }
   position:relative;
 }
 #products .heading::before {
-  background:
-    linear-gradient(90deg,rgba(78,73,69,.86),rgba(95,89,84,.79)),
-    var(--heading-image) center 56%/cover;
+  background:#716a65;
   content:"";
   inset:0 50%;
   position:absolute;
@@ -86,7 +84,8 @@ img,video { display:block; max-width:100%; }
 #products .heading>* { position:relative; z-index:1; }
 #products .heading .eyebrow { color:#fff; margin-bottom:10px; opacity:.82; }
 #products .heading>p { color:rgba(255,255,255,.86); margin:14px auto 0; max-width:880px; }
-#projects { padding-bottom:24px; padding-top:48px; }
+#projects { padding-bottom:20px; padding-top:28px; }
+#projects .heading { margin-bottom:30px; }
 .heading { margin:0 auto 44px; max-width:800px; text-align:center; }
 .heading h2,.about h2,.solution h2,.partner h2,.contact h2 { font-size:clamp(34px,2.8vw,44px); font-weight:600; letter-spacing:.025em; line-height:1.24; margin:0; text-wrap:balance; }
 .heading>p,.about-copy>p:not(.eyebrow),.solution-inner>div>p:not(.eyebrow),.partner>span>p:not(.eyebrow),.contact-intro>p:not(.eyebrow) { color:var(--muted); font-size:16px; line-height:1.75; margin:20px 0 0; }
@@ -118,12 +117,12 @@ img,video { display:block; max-width:100%; }
 .stats strong { color:var(--accent); font-size:clamp(24px,2vw,32px); font-weight:600; }
 .stats span { color:var(--muted); font-size:10px; letter-spacing:.08em; }
 
-.solution { background:#5f5750; color:#fff; min-height:0; overflow:hidden; padding:72px 0 56px; position:relative; }
+.solution { background:#5f5750; color:#fff; min-height:0; overflow:hidden; padding:42px 0 32px; position:relative; }
 .solution-shade { background:linear-gradient(105deg,rgba(78,70,63,.97),rgba(95,87,80,.91) 55%,rgba(95,87,80,.82)),url("/zp/banners/hero-03.jpg") center/cover; inset:0; position:absolute; }
 .solution-inner { align-items:center; display:grid; gap:clamp(60px,10vw,170px); grid-template-columns:.85fr 1.15fr; margin:auto; max-width:var(--max); padding:0 clamp(24px,7vw,100px); position:relative; z-index:2; }
 .solution-inner>div>p:not(.eyebrow) { color:rgba(255,255,255,.7); }
-.solution-inner .button { margin-top:32px; }
-.steps article { align-items:start; border-top:1px solid rgba(255,255,255,.24); display:grid; gap:28px; grid-template-columns:46px 1fr; padding:24px 0 27px; }
+.solution-inner .button { margin-top:26px; }
+.steps article { align-items:start; border-top:1px solid rgba(255,255,255,.24); display:grid; gap:28px; grid-template-columns:46px 1fr; padding:18px 0 20px; }
 .steps article>span { color:var(--accent); font-size:12px; padding-top:5px; }
 .steps h3 { font-size:19px; font-weight:500; margin:0 0 8px; }
 .steps p { color:rgba(255,255,255,.62); font-size:12px; line-height:1.7; margin:0; }
@@ -138,8 +137,10 @@ img,video { display:block; max-width:100%; }
 .project-grid figcaption small { color:var(--accent); }
 .project-grid figcaption strong { font-size:14px; font-weight:500; }
 
-.factory { background:var(--stone); padding:40px max(24px,calc((100% - 1290px)/2)) 56px; }
-.factory .heading { max-width:790px; }
+.factory { background:var(--stone); padding:24px max(24px,calc((100% - 1290px)/2)) 44px; }
+.factory .heading { margin-bottom:30px; max-width:790px; }
+.factory .heading .eyebrow { margin-bottom:10px; }
+.factory .heading>p { margin-top:14px; }
 .factory-grid { display:grid; gap:22px; grid-template-columns:repeat(3,1fr); }
 .factory-grid video { aspect-ratio:16/10; background:#181817; object-fit:cover; width:100%; }
 .factory-grid small { color:#8e6046; display:block; font-size:10px; margin-top:22px; }
@@ -279,7 +280,7 @@ img,video { display:block; max-width:100%; }
   .section { padding:58px 20px; }
   #products { padding-bottom:38px; padding-top:0; }
   #products .heading { margin-bottom:30px; padding:40px 16px 38px; }
-  #projects { padding-bottom:20px; padding-top:42px; }
+  #projects { padding-bottom:18px; padding-top:28px; }
   .heading { margin-bottom:36px; }
   .heading h2,.about h2,.solution h2,.partner h2,.contact h2 { font-size:clamp(32px,7vw,38px); }
   .heading.split { display:block; text-align:center; }
@@ -292,12 +293,12 @@ img,video { display:block; max-width:100%; }
   .about-copy { padding:58px 24px 24px; }
   .stats { grid-template-columns:1fr 1fr; margin:0; padding:0 24px 46px; }
   .stats div { border-bottom:0; margin:0!important; padding:18px 8px 12px 0; }
-  .solution { min-height:auto; padding:54px 0 48px; }
+  .solution { min-height:auto; padding:40px 0 34px; }
   .solution-inner { display:block; padding:0 24px; }
-  .steps { margin-top:60px; }
+  .steps { margin-top:40px; }
   .project-grid { gap:8px; grid-auto-rows:clamp(290px,84vw,350px); }
   .project-grid figure,.project-grid figure:nth-child(1),.project-grid figure:nth-child(4),.project-grid figure:nth-child(n+4) { grid-column:1/-1; height:100%; }
-  .factory { padding:34px 18px 48px; }
+  .factory { padding:24px 18px 42px; }
   .factory-grid { grid-template-columns:1fr; }
   .factory-grid article+article { margin-top:24px; }
   .partner { height:clamp(470px,122vw,530px); }
@@ -344,16 +345,16 @@ img,video { display:block; max-width:100%; }
   .section { padding:52px 18px; }
   #products { padding-bottom:34px; padding-top:0; }
   #products .heading { margin-bottom:28px; padding:36px 8px 34px; }
-  #projects { padding-bottom:18px; padding-top:38px; }
+  #projects { padding-bottom:16px; padding-top:24px; }
   .heading h2,.about h2,.solution h2,.partner h2,.contact h2 { font-size:clamp(30px,8.5vw,34px); }
   .heading>p,.about-copy>p:not(.eyebrow),.solution-inner>div>p:not(.eyebrow),.partner>span>p:not(.eyebrow),.contact-intro>p:not(.eyebrow) { font-size:15px; }
   .product h3 { font-size:24px; }
   .about-copy { padding:52px 20px 20px; }
   .stats { padding:0 20px 40px; }
   .solution-inner { padding:0 20px; }
-  .steps { margin-top:48px; }
+  .steps { margin-top:36px; }
   .steps article { gap:18px; grid-template-columns:34px 1fr; }
-  .factory { padding:30px 18px 44px; }
+  .factory { padding:22px 18px 38px; }
   .partner>span { padding:0 20px; }
   .partner aside { align-items:stretch; flex-direction:column; margin-left:auto; margin-right:auto; max-width:320px; }
   .partner .button { min-width:0; width:100%; }
