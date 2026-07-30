@@ -2,7 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import { FormEvent, useEffect, useState } from "react";
+import { CSSProperties, FormEvent, useEffect, useState } from "react";
 import { certificateDocuments, certificatePick } from "./certificate-data";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, WHATSAPP_E164, mailtoUrl } from "./contact";
 import { detectPreferredLanguage } from "./language-preference";
@@ -250,7 +250,7 @@ export default function Home() {
       </section>
 
       <section className="section" id="products">
-        <Heading kicker={pick(ui.productsKicker, language)} title={pick(ui.productsTitle, language)} text={pick(ui.productsIntro, language)} />
+        <Heading background={asset("/zp/banners/hero-03.jpg")} kicker={pick(ui.productsKicker, language)} title={pick(ui.productsTitle, language)} text={pick(ui.productsIntro, language)} />
         <div className="product-grid">
           {systems.map((system, i) => <article className={`product product-${i}`} key={i}>
             <img src={asset(system.image)} alt={pick(system.name, language)} />
@@ -339,6 +339,7 @@ export default function Home() {
   );
 }
 
-function Heading({ kicker, title, text, split = false }: { kicker: string; title: string; text: string; split?: boolean }) {
-  return <div className={`heading${split ? " split" : ""}`}><div><p className="eyebrow">{kicker}</p><h2>{title}</h2></div><p>{text}</p></div>;
+function Heading({ kicker, title, text, split = false, background }: { kicker: string; title: string; text: string; split?: boolean; background?: string }) {
+  const style = background ? ({ "--heading-image": `url("${background}")` } as CSSProperties) : undefined;
+  return <div className={`heading${split ? " split" : ""}`} style={style}><div><p className="eyebrow">{kicker}</p><h2>{title}</h2></div><p>{text}</p></div>;
 }
