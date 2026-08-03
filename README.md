@@ -34,6 +34,9 @@ npm run build:pages
 `npm run build` validates the vinext/Sites build. `npm run build:pages` exports
 the static site to `out/` with `/zhoupeng` as the production base path.
 
+`npm run build:aliyun` exports the production site to `out/` for deployment at
+the root of `https://www.zhoupengindustry.com` without a subpath prefix.
+
 ## GitHub Pages
 
 The repository includes `.github/workflows/deploy-pages.yml`. On every push to
@@ -45,3 +48,14 @@ Expected public URL:
 ```text
 https://ravinque.github.io/zhoupeng/
 ```
+
+## Alibaba Cloud one-click deployment
+
+On the production server, run as `root`:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ravinque/zhoupeng/main/deploy/aliyun-deploy.sh | bash
+```
+
+See [`deploy/README.md`](deploy/README.md) for DNS, firewall, rollback, and
+release-retention details.

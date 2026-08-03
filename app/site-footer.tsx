@@ -31,7 +31,7 @@ export function SiteFooter({ language }: { language: Lang }) {
         <p><span>{pick(t("手机 / WhatsApp", "Mobile / WhatsApp", "الجوال / واتساب"), language)}{separator}</span><a href={`tel:${CONTACT_MOBILE_TEL}`}>{CONTACT_MOBILE}</a></p>
         <p><span>{pick(t("邮箱", "Email", "البريد"), language)}{separator}</span><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
         <p><span>{pick(t("地址", "Address", "العنوان"), language)}{separator}</span>{pick(t("福建省上杭县李家坪工业区", "Lijiaping Industrial Zone, Shanghang, Fujian, China", "منطقة ليجيا بينغ الصناعية، شانغهانغ، فوجيان، الصين"), language)}</p>
-        <p><span>{pick(t("网址", "Website", "الموقع"), language)}{separator}</span><a href="https://fjzpsy.com/" rel="noreferrer" target="_blank">www.fjzpsy.com</a></p>
+        <p><span>{pick(t("网址", "Website", "الموقع"), language)}{separator}</span><a href="https://www.zhoupengindustry.com/">www.zhoupengindustry.com</a></p>
       </div>
     </div>
 
