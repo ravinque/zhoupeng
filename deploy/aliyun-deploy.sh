@@ -134,6 +134,8 @@ build_release() {
   log "Installing locked dependencies."
   cd "${SOURCE_DIR}"
   npm ci --no-audit --no-fund
+  log "Running the production lint gate."
+  npm run lint
   log "Building the root-domain static export."
   NODE_OPTIONS="${NODE_OPTIONS:---max-old-space-size=768}" npm run build:aliyun
   [[ -f out/index.html ]] || die "Static export did not produce out/index.html."
@@ -155,6 +157,11 @@ server {
     listen [::]:80;
     server_name ${DOMAIN} ${WWW_DOMAIN};
     location ^~ /.well-known/acme-challenge/ { root ${CURRENT_LINK}; }
+    location = /healthz {
+        access_log off;
+        add_header Content-Type text/plain;
+        return 200 "ok\n";
+    }
     location / { return 301 https://www.zhoupengindustry.com\$request_uri; }
 }
 
@@ -170,6 +177,11 @@ server {
     root ${CURRENT_LINK};
     index index.html;
     charset utf-8;
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_comp_level 5;
+    gzip_types text/plain text/css application/javascript application/json application/xml image/svg+xml;
 
     location / { try_files \$uri \$uri/ \$uri/index.html =404; }
     location ^~ /_next/static/ {
@@ -203,6 +215,11 @@ server {
     root ${CURRENT_LINK};
     index index.html;
     charset utf-8;
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_comp_level 5;
+    gzip_types text/plain text/css application/javascript application/json application/xml image/svg+xml;
 
     location / { try_files \$uri \$uri/ \$uri/index.html =404; }
     location ^~ /_next/static/ {
@@ -249,6 +266,26 @@ activate_release() {
     systemctl reload nginx 2>/dev/null || \
     systemctl enable --now nginx 2>/dev/null || \
     "${NGINX_BIN}"
+  local health_attempt health_passed=0
+  for health_attempt in {1..10}; do
+    if curl --noproxy '*' -fsS -H "Host: ${WWW_DOMAIN}" http://127.0.0.1/healthz | grep -qx 'ok'; then
+      health_passed=1
+      break
+    fi
+    sleep 1
+  done
+  if ((health_passed == 0)); then
+    log "Post-deployment health check failed; restoring the previous version."
+    if [[ -n "${PREVIOUS_RELEASE}" && -d "${PREVIOUS_RELEASE}" ]]; then
+      ln -sfn "${PREVIOUS_RELEASE}" "${CURRENT_LINK}"
+    fi
+    if [[ -n "${VHOST_BACKUP}" && -f "${VHOST_BACKUP}" ]]; then
+      cp -a "${VHOST_BACKUP}" "${VHOST_FILE}"
+    fi
+    "${NGINX_BIN}" -t && ("${NGINX_BIN}" -s reload 2>/dev/null || systemctl reload nginx)
+    die "Deployment rolled back because the health check failed."
+  fi
+  log "Post-deployment health check passed."
   find "${RELEASES_DIR}" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
     | sort -nr | awk 'NR>3 {sub(/^[^ ]+ /, ""); print}' \
     | xargs -r rm -rf --
