@@ -247,7 +247,8 @@ activate_release() {
   fi
   "${NGINX_BIN}" -s reload 2>/dev/null || \
     systemctl reload nginx 2>/dev/null || \
-    /etc/init.d/nginx reload
+    systemctl enable --now nginx 2>/dev/null || \
+    "${NGINX_BIN}"
   find "${RELEASES_DIR}" -mindepth 1 -maxdepth 1 -type d -printf '%T@ %p\n' \
     | sort -nr | awk 'NR>3 {sub(/^[^ ]+ /, ""); print}' \
     | xargs -r rm -rf --
