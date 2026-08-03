@@ -12,6 +12,9 @@ SOURCE_DIR="${SOURCE_DIR:-/opt/zhoupeng-src}"
 SITE_DIR="${SITE_DIR:-/www/wwwroot/zhoupengindustry.com}"
 RELEASES_DIR="${SITE_DIR}/releases"
 CURRENT_LINK="${SITE_DIR}/current"
+CERT_DIR="${CERT_DIR:-/etc/ssl/zhoupengindustry.com}"
+CERT_FULLCHAIN="${CERT_DIR}/fullchain.pem"
+CERT_KEY="${CERT_DIR}/privkey.pem"
 RELEASE_ID="$(date -u +%Y%m%d%H%M%S)"
 NEW_RELEASE="${RELEASES_DIR}/${RELEASE_ID}"
 PREVIOUS_RELEASE="$(readlink -f "${CURRENT_LINK}" 2>/dev/null || true)"
@@ -142,7 +145,54 @@ write_nginx_config() {
     VHOST_BACKUP="${VHOST_FILE}.bak.${RELEASE_ID}"
     cp -a "${VHOST_FILE}" "${VHOST_BACKUP}"
   fi
-  cat > "${VHOST_FILE}" <<EOF
+  if [[ -s "${CERT_FULLCHAIN}" && -s "${CERT_KEY}" ]]; then
+    cat > "${VHOST_FILE}" <<EOF
+server {
+    listen 80;
+    listen [::]:80;
+    server_name ${DOMAIN} ${WWW_DOMAIN};
+    location ^~ /.well-known/acme-challenge/ { root ${CURRENT_LINK}; }
+    location / { return 301 https://www.zhoupengindustry.com\$request_uri; }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name ${DOMAIN} ${WWW_DOMAIN};
+    ssl_certificate ${CERT_FULLCHAIN};
+    ssl_certificate_key ${CERT_KEY};
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    root ${CURRENT_LINK};
+    index index.html;
+    charset utf-8;
+
+    location / { try_files \$uri \$uri/ \$uri/index.html =404; }
+    location ^~ /_next/static/ {
+        try_files \$uri =404;
+        access_log off;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+    location ~* \.(?:avif|webp|jpg|jpeg|png|gif|svg|ico|woff2|mp4|webm)\$ {
+        try_files \$uri =404;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public";
+    }
+    location = /healthz {
+        access_log off;
+        add_header Content-Type text/plain;
+        return 200 "ok\n";
+    }
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+}
+EOF
+  else
+    cat > "${VHOST_FILE}" <<EOF
 server {
     listen 80;
     listen [::]:80;
@@ -173,6 +223,7 @@ server {
     add_header Referrer-Policy strict-origin-when-cross-origin always;
 }
 EOF
+  fi
 }
 
 activate_release() {
@@ -212,7 +263,11 @@ main() {
   activate_release
   log "Deployment complete: ${NEW_RELEASE}"
   log "Health check: http://47.254.66.200/healthz"
-  log "Domain: http://${WWW_DOMAIN} (after DNS propagation)"
+  if [[ -s "${CERT_FULLCHAIN}" && -s "${CERT_KEY}" ]]; then
+    log "Domain: https://${WWW_DOMAIN}"
+  else
+    log "Domain: http://${WWW_DOMAIN} (run deploy/aliyun-enable-https.sh after DNS propagation)"
+  fi
 }
 
 main "$@"
