@@ -30,9 +30,12 @@ install_packages() {
     apt-get update -y
     DEBIAN_FRONTEND=noninteractive apt-get install -y "${packages[@]}"
   elif command -v dnf >/dev/null 2>&1; then
-    dnf install -y "${packages[@]}"
+    # Alibaba's Baota image may exclude Nginx packages even when Nginx is not
+    # installed. Disabling repository excludes for this explicit package list
+    # keeps first-run provisioning deterministic.
+    dnf --disableexcludes=all install -y "${packages[@]}"
   elif command -v yum >/dev/null 2>&1; then
-    yum install -y "${packages[@]}"
+    yum --disableexcludes=all install -y "${packages[@]}"
   else
     die "No supported package manager was found."
   fi
