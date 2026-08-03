@@ -48,7 +48,7 @@ mkdir -p "${CERT_DIR}"
 /root/.acme.sh/acme.sh --install-cert --ecc -d "${DOMAIN}" \
   --key-file "${CERT_DIR}/privkey.pem" \
   --fullchain-file "${CERT_DIR}/fullchain.pem" \
-  --reloadcmd "${DEPLOY_SCRIPT}"
+  --reloadcmd "bash ${DEPLOY_SCRIPT}"
 
 chmod 600 "${CERT_DIR}/privkey.pem"
 log "HTTPS enabled: https://${WWW_DOMAIN}"
