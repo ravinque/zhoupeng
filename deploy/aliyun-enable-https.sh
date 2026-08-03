@@ -35,8 +35,14 @@ if [[ ! -x /root/.acme.sh/acme.sh ]]; then
 fi
 
 log "Requesting a Let's Encrypt certificate."
+set +e
 /root/.acme.sh/acme.sh --issue --server letsencrypt --ecc \
   -d "${DOMAIN}" -d "${WWW_DOMAIN}" -w "${SITE_ROOT}"
+issue_status=$?
+set -e
+if ((issue_status != 0 && issue_status != 2)); then
+  die "Certificate issuance failed with status ${issue_status}."
+fi
 
 mkdir -p "${CERT_DIR}"
 /root/.acme.sh/acme.sh --install-cert --ecc -d "${DOMAIN}" \
