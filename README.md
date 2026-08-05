@@ -194,6 +194,14 @@ curl -fsS https://www.zhoupengindustry.com/api/whatsapp/health
 
 健康接口返回 `{"ok":true,"configured":true}` 后，站内输入框才会启用。顾问收到类似 `Website chat #A1B2C3D4` 的提醒后，需要以 `#A1B2C3D4 回复内容` 的格式回复，系统才能把回复准确路由到对应网页会话。
 
+只需补装或修复客服网关、且不希望重新构建静态站点时，可执行：
+
+```bash
+bash /opt/zhoupeng-src/deploy/aliyun-install-chat-gateway.sh
+```
+
+该脚本会安装 systemd 服务和独立 Nginx vhost，修改前保留备份，并在 `nginx -t` 失败时自动恢复。
+
 ### 本地网关测试
 
 无需 Meta 凭据即可使用 dry-run 验证存储和前端协议：
