@@ -176,6 +176,8 @@ chmod 600 /etc/zhoupeng-whatsapp.env
 vi /etc/zhoupeng-whatsapp.env
 ```
 
+一键部署脚本会在该文件不存在时自动创建权限为 `600` 的离线配置并启动网关。因此即使尚未填入 Meta 凭据，健康接口也会返回 `configured: false`，前端能够准确显示配置中状态；填入凭据后重启服务即可启用站内收发。
+
 `WHATSAPP_GRAPH_VERSION` 必须填写 Meta 当前支持的 Graph API 版本，不要沿用过期示例值。填写完成后执行正常的一键部署，脚本会安装并启动 `zhoupeng-whatsapp.service`。Webhook 回调地址配置为：
 
 ```text

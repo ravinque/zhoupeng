@@ -150,14 +150,14 @@ install_whatsapp_gateway() {
   install -m 644 "${SOURCE_DIR}/services/whatsapp-chat-gateway.mjs" /opt/zhoupeng-whatsapp/whatsapp-chat-gateway.mjs
   install -d -o nobody -m 700 /var/lib/zhoupeng-chat
   install -m 644 "${SOURCE_DIR}/deploy/zhoupeng-whatsapp.service" /etc/systemd/system/zhoupeng-whatsapp.service
-  systemctl daemon-reload
-  if [[ -s /etc/zhoupeng-whatsapp.env ]]; then
-    chmod 600 /etc/zhoupeng-whatsapp.env
-    systemctl enable --now zhoupeng-whatsapp
-    systemctl restart zhoupeng-whatsapp
-  else
-    log "WhatsApp gateway credentials are absent; the site will show its explicit fallback instead."
+  if [[ ! -e /etc/zhoupeng-whatsapp.env ]]; then
+    install -m 600 "${SOURCE_DIR}/deploy/zhoupeng-whatsapp.env.example" /etc/zhoupeng-whatsapp.env
+    log "Created an offline-ready WhatsApp configuration at /etc/zhoupeng-whatsapp.env."
   fi
+  chmod 600 /etc/zhoupeng-whatsapp.env
+  systemctl daemon-reload
+  systemctl enable --now zhoupeng-whatsapp
+  systemctl restart zhoupeng-whatsapp
 }
 
 write_nginx_config() {
