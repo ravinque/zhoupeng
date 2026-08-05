@@ -1,4 +1,4 @@
-import { CONTACT_EMAIL, CONTACT_MOBILE, CONTACT_MOBILE_TEL, CONTACT_PHONE, CONTACT_PHONE_TEL } from "./contact";
+import { CONTACT_EMAIL, CONTACT_MOBILE, CONTACT_PHONE, CONTACT_PHONE_TEL, WHATSAPP_E164 } from "./contact";
 import { Lang, pick, productSystems, route, Triple } from "./catalog-data";
 
 const t = (zh: string, en: string, ar: string): Triple => [zh, en, ar];
@@ -28,7 +28,7 @@ export function SiteFooter({ language }: { language: Lang }) {
       <div className="footer-column footer-enterprise-contact">
         <h3>{pick(t("联系我们", "Contact us", "اتصل بنا"), language)}</h3>
         <p><span>{pick(t("电话", "Tel", "الهاتف"), language)}{separator}</span><a href={`tel:${CONTACT_PHONE_TEL}`}>{CONTACT_PHONE}</a></p>
-        <p><span>{pick(t("手机 / WhatsApp", "Mobile / WhatsApp", "الجوال / واتساب"), language)}{separator}</span><a href={`tel:${CONTACT_MOBILE_TEL}`}>{CONTACT_MOBILE}</a></p>
+        <p><span>{pick(t("手机 / WhatsApp", "Mobile / WhatsApp", "الجوال / واتساب"), language)}{separator}</span><a href={`https://wa.me/${WHATSAPP_E164}`} target="_blank" rel="noreferrer">{CONTACT_MOBILE}</a></p>
         <p><span>{pick(t("邮箱", "Email", "البريد"), language)}{separator}</span><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></p>
         <p><span>{pick(t("地址", "Address", "العنوان"), language)}{separator}</span>{pick(t("福建省上杭县李家坪工业区", "Lijiaping Industrial Zone, Shanghang, Fujian, China", "منطقة ليجيا بينغ الصناعية، شانغهانغ، فوجيان، الصين"), language)}</p>
         <p><span>{pick(t("网址", "Website", "الموقع"), language)}{separator}</span><a href="https://www.zhoupengindustry.com/">www.zhoupengindustry.com</a></p>

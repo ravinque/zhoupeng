@@ -1,9 +1,9 @@
-export const WHATSAPP_E164 = "8615206030696";
+export const WHATSAPP_E164 = "8615880666798";
 export const CONTACT_EMAIL = "sales@zhoupengindustry.com";
 export const CONTACT_PHONE = "0597-3992099";
 export const CONTACT_PHONE_TEL = "05973992099";
-export const CONTACT_MOBILE = "+86 152 0603 0696";
-export const CONTACT_MOBILE_TEL = "+8615206030696";
+export const CONTACT_MOBILE = "+86 158 8066 6798";
+export const CONTACT_MOBILE_TEL = "+8615880666798";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.zhoupengindustry.com";
 
 export const mailtoUrl = (subject: string, body: string) =>
