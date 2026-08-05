@@ -7,6 +7,7 @@ import { certificateDocuments, certificatePick } from "./certificate-data";
 import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_PHONE_TEL, WHATSAPP_E164, mailtoUrl } from "./contact";
 import { detectPreferredLanguage } from "./language-preference";
 import { SiteFooter } from "./site-footer";
+import { WhatsAppChat } from "./whatsapp-chat";
 
 type Lang = "zh" | "en" | "ar";
 type Triple = [string, string, string];
@@ -145,7 +146,6 @@ const factoryNames = [
 export default function Home() {
   const [language, setLanguage] = useState<Lang>("zh");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [serviceOpen, setServiceOpen] = useState(false);
   const dir = language === "ar" ? "rtl" : "ltr";
 
   useEffect(() => {
@@ -318,23 +318,7 @@ export default function Home() {
       </section>
 
       <SiteFooter language={language} />
-      <aside className="contact-dock" aria-label={pick(ui.contact, language)}>
-        {serviceOpen && <section className="service-panel" id="online-service-panel" aria-live="polite">
-          <button className="service-close" type="button" onClick={() => setServiceOpen(false)} aria-label={language === "zh" ? "关闭在线客服" : language === "en" ? "Close online service" : "إغلاق خدمة العملاء"}>×</button>
-          <p className="eyebrow">{language === "zh" ? "在线项目顾问" : language === "en" ? "PROJECT SUPPORT" : "دعم المشاريع"}</p>
-          <h2>{language === "zh" ? "告诉我们你的项目需求" : language === "en" ? "How can we support your project?" : "كيف يمكننا دعم مشروعك؟"}</h2>
-          <p>{language === "zh" ? "通过 WhatsApp 即时留言，或填写项目资料，由洲鹏团队在 1–2 个工作日内跟进。" : language === "en" ? "Message us on WhatsApp or submit a project brief. Our team normally follows up within 1–2 business days." : "راسلنا عبر واتساب أو أرسل ملخص المشروع. يتابع فريقنا عادة خلال يوم أو يومي عمل."}</p>
-          <div><a href={whatsappHref} target="_blank" rel="noreferrer">{language === "zh" ? "WhatsApp 咨询" : language === "en" ? "Chat on WhatsApp" : "تواصل عبر واتساب"}</a><a href="#contact" onClick={() => setServiceOpen(false)}>{language === "zh" ? "提交项目资料" : language === "en" ? "Submit project brief" : "إرسال ملخص المشروع"}</a></div>
-        </section>}
-        <a className="contact-dock-whatsapp" href={whatsappHref} target="_blank" rel="noreferrer" aria-label={language === "zh" ? "WhatsApp 咨询" : language === "en" ? "WhatsApp enquiry" : "استفسار عبر واتساب"}>
-          <span>WhatsApp</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="11.5" r="8.2"/><path d="m6.2 20.4 1-3.1"/><path className="whatsapp-phone" d="M9.1 7.4c.3-.4.6-.4.9-.1l1 1.7c.2.3.1.6-.1.9l-.7.8c.8 1.5 1.9 2.6 3.4 3.4l.8-.7c.3-.2.6-.3.9-.1l1.7 1c.3.2.4.6.1.9-.7 1-1.7 1.5-2.9 1.2-3.6-.9-6.5-3.8-7.4-7.4-.2-1.1.3-2.1 1.3-2.8Z"/></svg>
-        </a>
-        <button className="contact-dock-service" type="button" aria-controls="online-service-panel" aria-expanded={serviceOpen} onClick={() => setServiceOpen((open) => !open)} aria-label={language === "zh" ? "在线客服" : language === "en" ? "Online service" : "خدمة العملاء"}>
-          <span>{language === "zh" ? "在线客服" : language === "en" ? "Online service" : "خدمة العملاء"}</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13v-2a8 8 0 0 1 16 0v2"/><rect x="2.7" y="12" width="4" height="6" rx="2"/><rect x="17.3" y="12" width="4" height="6" rx="2"/><path d="M18 18c-.8 2-2.5 3-5 3h-1"/></svg>
-        </button>
-      </aside>
+      <WhatsAppChat language={language} fallbackHref={whatsappHref} />
     </main>
   );
 }

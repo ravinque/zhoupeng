@@ -149,3 +149,55 @@ curl -fsS -H 'Host: www.zhoupengindustry.com' http://127.0.0.1/healthz
 [https://ravinque.github.io/zhoupeng/](https://ravinque.github.io/zhoupeng/)
 
 阿里云细节也可查看 [`deploy/README.md`](deploy/README.md)。
+
+## 站内 WhatsApp 客服
+
+网站的两个浮动客服按钮会先打开站内会话面板，不会直接跳转浏览器。该功能采用“网页会话 + 阿里云网关 + WhatsApp Business Cloud API”的方式实现：访客消息由同域名的 `/api/whatsapp/` 接口接收，Meta 访问令牌只保存在服务器；项目顾问在 WhatsApp 中按 `#会话编号 回复内容` 回复后，网页会自动拉取并显示回复。
+
+这不是把 WhatsApp Web 嵌入网页。WhatsApp 官方没有提供可直接嵌入的完整聊天窗口，真实收发必须完成 Meta Business、WhatsApp Business Account 和 Cloud API 的开通。未配置时，面板会如实显示“正在配置”，并提供外部 WhatsApp 与项目表单作为降级入口，不会伪装发送成功。
+
+### Meta 侧准备
+
+需要准备以下资料，敏感值不得提交到 Git：
+
+- WhatsApp Business Account（WABA）和已接入 Cloud API 的发送号码。
+- Phone Number ID。
+- 长期有效的系统用户访问令牌。
+- Meta App Secret。
+- 自定义 Webhook Verify Token。
+- 接收网站提醒的顾问 WhatsApp 号码。它不能与 Cloud API 的发送号码相同。
+- 如需在顾问与 Cloud API 号码之间不存在 24 小时会话窗口时主动发送提醒，还需创建并获批一个包含“会话编号、访客消息”两个正文变量的消息模板，并填写 `WHATSAPP_ALERT_TEMPLATE`。模板语言填写在 `WHATSAPP_TEMPLATE_LANGUAGE`。
+
+在服务器创建仅 root 可读的配置：
+
+```bash
+cp /opt/zhoupeng-src/deploy/zhoupeng-whatsapp.env.example /etc/zhoupeng-whatsapp.env
+chmod 600 /etc/zhoupeng-whatsapp.env
+vi /etc/zhoupeng-whatsapp.env
+```
+
+`WHATSAPP_GRAPH_VERSION` 必须填写 Meta 当前支持的 Graph API 版本，不要沿用过期示例值。填写完成后执行正常的一键部署，脚本会安装并启动 `zhoupeng-whatsapp.service`。Webhook 回调地址配置为：
+
+```text
+https://www.zhoupengindustry.com/api/whatsapp/webhook
+```
+
+验证状态与日志：
+
+```bash
+systemctl status zhoupeng-whatsapp --no-pager
+journalctl -u zhoupeng-whatsapp -n 100 --no-pager
+curl -fsS https://www.zhoupengindustry.com/api/whatsapp/health
+```
+
+健康接口返回 `{"ok":true,"configured":true}` 后，站内输入框才会启用。顾问收到类似 `Website chat #A1B2C3D4` 的提醒后，需要以 `#A1B2C3D4 回复内容` 的格式回复，系统才能把回复准确路由到对应网页会话。
+
+### 本地网关测试
+
+无需 Meta 凭据即可使用 dry-run 验证存储和前端协议：
+
+```bash
+WHATSAPP_DRY_RUN=1 CHAT_STORE_DIR=./tmp/chat PORT=8787 node services/whatsapp-chat-gateway.mjs
+```
+
+生产环境禁止设置 `WHATSAPP_DRY_RUN=1`。

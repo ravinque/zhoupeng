@@ -144,6 +144,22 @@ build_release() {
   printf '%s\n' "${RELEASE_ID}" > "${NEW_RELEASE}/.release"
 }
 
+install_whatsapp_gateway() {
+  log "Installing the optional WhatsApp chat gateway."
+  install -d -m 755 /opt/zhoupeng-whatsapp
+  install -m 644 "${SOURCE_DIR}/services/whatsapp-chat-gateway.mjs" /opt/zhoupeng-whatsapp/whatsapp-chat-gateway.mjs
+  install -d -o nobody -m 700 /var/lib/zhoupeng-chat
+  install -m 644 "${SOURCE_DIR}/deploy/zhoupeng-whatsapp.service" /etc/systemd/system/zhoupeng-whatsapp.service
+  systemctl daemon-reload
+  if [[ -s /etc/zhoupeng-whatsapp.env ]]; then
+    chmod 600 /etc/zhoupeng-whatsapp.env
+    systemctl enable --now zhoupeng-whatsapp
+    systemctl restart zhoupeng-whatsapp
+  else
+    log "WhatsApp gateway credentials are absent; the site will show its explicit fallback instead."
+  fi
+}
+
 write_nginx_config() {
   VHOST_BACKUP=""
   if [[ -f "${VHOST_FILE}" ]]; then
@@ -183,6 +199,16 @@ server {
     gzip_comp_level 5;
     gzip_types text/plain text/css application/javascript application/json application/xml image/svg+xml;
 
+    location ^~ /api/whatsapp/ {
+        proxy_pass http://127.0.0.1:8787/;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 15s;
+    }
     location / { try_files \$uri \$uri/ \$uri/index.html =404; }
     location ^~ /_next/static/ {
         try_files \$uri =404;
@@ -221,6 +247,16 @@ server {
     gzip_comp_level 5;
     gzip_types text/plain text/css application/javascript application/json application/xml image/svg+xml;
 
+    location ^~ /api/whatsapp/ {
+        proxy_pass http://127.0.0.1:8787/;
+        proxy_http_version 1.1;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto http;
+        proxy_connect_timeout 3s;
+        proxy_read_timeout 15s;
+    }
     location / { try_files \$uri \$uri/ \$uri/index.html =404; }
     location ^~ /_next/static/ {
         try_files \$uri =404;
@@ -299,6 +335,7 @@ main() {
   find_nginx
   checkout_source
   build_release
+  install_whatsapp_gateway
   mkdir -p "${RELEASES_DIR}"
   write_nginx_config
   activate_release

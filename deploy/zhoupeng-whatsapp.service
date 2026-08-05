@@ -1,0 +1,22 @@
+[Unit]
+Description=Zhoupeng in-site WhatsApp chat gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=nobody
+WorkingDirectory=/opt/zhoupeng-whatsapp
+EnvironmentFile=/etc/zhoupeng-whatsapp.env
+ExecStart=/usr/bin/node /opt/zhoupeng-whatsapp/whatsapp-chat-gateway.mjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/zhoupeng-chat
+
+[Install]
+WantedBy=multi-user.target
+
