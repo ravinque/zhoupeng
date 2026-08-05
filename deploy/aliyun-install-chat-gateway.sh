@@ -40,5 +40,6 @@ fi
 "${NGINX_BIN}" -s reload
 
 curl -fsS http://127.0.0.1:8787/health | grep -F '"ok":true'
-curl -fsS -H 'Host: www.zhoupengindustry.com' http://127.0.0.1/api/whatsapp/health | grep -F '"ok":true'
+curl --resolve www.zhoupengindustry.com:443:127.0.0.1 -fsS \
+  https://www.zhoupengindustry.com/api/whatsapp/health | grep -F '"ok":true'
 printf 'WhatsApp gateway and Nginx proxy are healthy.\n'
